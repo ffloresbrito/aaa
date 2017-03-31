@@ -11,5 +11,4 @@
 # This file contains functions defining a transducer, be it synchronous or
 # asynchronous and operations related to transducers.
 
-DeclareOperation("Transducer",
-                 [IsPosInt, IsPosInt, IsDenseList, IsDenseList]);
+DeclareOperation("Transducer", [IsPosInt, IsPosInt, IsDenseList, IsDenseList]);

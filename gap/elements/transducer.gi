@@ -8,10 +8,26 @@
 #############################################################################
 ##
 
+DeclareRepresentation("IsTransducer", IsComponentObjectRep and
+                      IsAttributeStoringRep, ["InputAlphabet", 
+                                              "OutputAlphabet",
+                                              "States",
+                                              "TransitionFunction",
+                                              "OutputFunction",
+                                              "TransducerFunction"]);
+
+InstallMethod(ViewObj, "for a transducer",
+[IsTransducer],
+function(T)
+  Print("<Transducer with input alphabet on ", T!.InputAlphabet, " symbols, ",
+        "output alphabet on ", T!.OutputAlphabet, " symbols and ", T!.States,
+        " states.>");
+end);
+
 InstallMethod(Transducer, "for two positive integers and two dense lists",
 [IsPosInt, IsPosInt, IsDenseList, IsDenseList],
 function(inalph, outalph, tranfunc, outfunc)
-  local transducer;
+  local transducer, T;
 
   if IsEmpty(tranfunc) or IsEmpty(outfunc) then
     ErrorNoReturn("aaa: Transducer: usage,\n",
@@ -68,5 +84,13 @@ function(inalph, outalph, tranfunc, outfunc)
                   return [output, state];
                 end;
 
-  return transducer;
+  T := Objectify(NewType(NewFamily("Transducer"), IsTransducer and
+                 IsAttributeStoringRep), rec(InputAlphabet := inalph,
+                                             OutputAlphabet := outalph,
+                                             States := Size(tranfunc),
+                                             TransitionFunction := tranfunc,
+                                             OutputFunction := outfunc,
+                                             TransducerFunction := transducer));
+
+  return T;
 end);

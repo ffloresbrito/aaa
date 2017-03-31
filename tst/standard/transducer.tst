@@ -10,10 +10,7 @@
 gap> START_TEST("aaa package: standard/transducer.tst");
 gap> LoadPackage("aaa", false);;
 
-#T# Transducer build
-gap> f := Transducer(2, 2, [[3, 2], [1, 2], [3, 2]], [[[1], [0]], [[1, 1],
->                    [1, 0]], [[1], []]]);
-function( input, state ) ... end
+#T# Transducer
 gap> f := Transducer(2, 2, [[3, 2], [1, 2], [3, 2]], [[[1], [0]], [[1, 1],
 >                     [1, 0]], [1, []]]);
 Error, aaa: Transducer: usage,
