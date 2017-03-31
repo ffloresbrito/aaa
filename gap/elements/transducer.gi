@@ -8,14 +8,6 @@
 #############################################################################
 ##
 
-DeclareRepresentation("IsTransducer", IsComponentObjectRep and
-                      IsAttributeStoringRep, ["InputAlphabet", 
-                                              "OutputAlphabet",
-                                              "States",
-                                              "TransitionFunction",
-                                              "OutputFunction",
-                                              "TransducerFunction"]);
-
 InstallMethod(ViewObj, "for a transducer",
 [IsTransducer],
 function(T)
