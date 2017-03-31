@@ -9,3 +9,4 @@
 ##
 
 ReadPackage("aaa", "gap/elements/transducer.gd");
+ReadPackage("aaa", "gap/elements/woperations.gd");

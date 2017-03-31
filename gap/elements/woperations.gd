@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W  read.g
+#W  woperations.gd
 #Y  Copyright (C) 2017                               Fernando Flores Brito
 ##
 ##  Licensing information can be found in the README file of this package.
@@ -8,5 +8,9 @@
 #############################################################################
 ##
 
-ReadPackage("aaa", "gap/elements/transducer.gi");
-ReadPackage("aaa", "gap/elements/woperations.gi");
+# This file contains operations that relate to words accepted by transducers
+
+DeclareOperation("IsPrefix",
+                 [IsDenseList, IsDenseList]);
+DeclareOperation("Minus",
+                 [IsDenseList, IsDenseList]);
