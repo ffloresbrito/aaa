@@ -18,8 +18,8 @@ the fourth argument contains invalid output,
 gap> f := Transducer(2, 2, [[3, 2], [1, 2], [3, 2]], [[[1], [0]], [[1, 1],
 >                     [1, 0]], [[1]]]);
 Error, aaa: Transducer: usage,
-the size of the elements of the third or fourth argument does not coincide wit\
-h the first argument,
+the size of the elements of the third or fourth argument does not coincide
+with the first argument,
 gap> f := Transducer(2, 2, [[3, 2], [1, 0], [3, 2]], [[[1], [0]], [[1, 1],
 >                     [1, 0]], [[1], []]]);
 Error, aaa: Transducer: usage,
@@ -27,8 +27,8 @@ the third argument contains invalid states,
 gap> f := Transducer(3, 2, [[3, 2], [1, 2], [3, 2]], [[[1], [0]], [[1, 1],
 >                     [1, 0]], [[1], []]]);
 Error, aaa: Transducer: usage,
-the size of the elements of the third or fourth argument does not coincide wit\
-h the first argument,
+the size of the elements of the third or fourth argument does not coincide
+with the first argument,
 gap> f := Transducer(2, 2, [[3, 2], [3, 2]], [[[1], [0]], [[1, 1],
 >                     [1, 0]], [[1], []]]);
 Error, aaa: Transducer: usage,

@@ -40,7 +40,7 @@ function(inalph, outalph, tranfunc, outfunc)
        ForAny(outfunc, x -> Size(x) <> inalph) then
     ErrorNoReturn("aaa: Transducer: usage,\n",
                   "the size of the elements of the third or fourth argument ",
-                  "does not coincide with the first argument,");
+                  "does not coincide\nwith the first argument,");
   fi;
 
   transducer := function(input, state)
