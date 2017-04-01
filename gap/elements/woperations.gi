@@ -54,8 +54,7 @@ end);
 InstallMethod(Preimage, "for a dense lists a positive integer and a transducer",
 [IsDenseList, IsPosInt, IsTransducer],
 function(word, state, tducer)
-  local preimage, i, input, word2, options, preimages, option, x, im,
-        emptypositions, emptyimage;
+  local preimage, word2, options, preimages, option, x, im;
   preimage := [];
   word2 := word;
 
@@ -104,20 +103,18 @@ function(word, state, tducer)
     elif not [word[1]] in tducer!.OutputFunction[state] and [] in
         tducer!.OutputFunction[state] then
 
-      emptypositions := Positions(tducer!.OutputFunction[state], []);
+      options := Positions(tducer!.OutputFunction[state], []);
+      preimages :=[];
 
-      for input in emptypositions do
-        if IsEmpty(preimage) then
-          emptyimage := Preimage(word,
-                                 tducer!.TransitionFunction[state][input],
-                                 tducer);
-        fi;
+      for option in options do
+        Add(preimages, Preimage(word, tducer!.TransitionFunction[state][option],
+                                tducer));
       od;
 
-      for x in [1 .. Size(emptypositions)] do
-        for im in emptypositions - 1 do
+      for x in [1 .. Size(preimages)] do
+        for im in options - 1 do
           preimage := [im];
-          Append(preimage, emptyimage);
+          Append(preimage, preimages[x]);
 
           if tducer!.TransducerFunction(preimage, state)[1] = word then
             return preimage;
