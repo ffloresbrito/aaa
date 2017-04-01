@@ -12,7 +12,7 @@ InstallMethod(ViewObj, "for a transducer",
 [IsTransducer],
 function(T)
   Print("<Transducer with input alphabet on ", T!.InputAlphabet, " symbols, ",
-        "output alphabet on ", T!.OutputAlphabet, " symbols and ", T!.States,
+        "output alphabet on ", T!.OutputAlphabet, " symbols, and ", T!.States,
         " states.>");
 end);
 

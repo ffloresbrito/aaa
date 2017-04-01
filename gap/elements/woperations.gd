@@ -10,7 +10,6 @@
 
 # This file contains operations that relate to words accepted by transducers
 
-DeclareOperation("IsPrefix",
-                 [IsDenseList, IsDenseList]);
-DeclareOperation("Minus",
-                 [IsDenseList, IsDenseList]);
+DeclareOperation("IsPrefix", [IsDenseList, IsDenseList]);
+DeclareOperation("Minus", [IsDenseList, IsDenseList]);
+DeclareOperation("Preimage", [IsDenseList, IsPosInt, IsTransducer]);
