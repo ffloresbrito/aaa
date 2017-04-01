@@ -78,9 +78,17 @@ function(word, state, tducer)
         tducer!.OutputFunction[state] then
       return [];
 
-    elif [word[1]] in tducer!.OutputFunction[state] then
-      Remove(word2, 1);
-      options := Positions(tducer!.OutputFunction[state], [word[1]]);
+    elif [word[1]] in tducer!.OutputFunction[state] or
+         (not [word[1]] in tducer!.OutputFunction[state] and [] in
+          tducer!.OutputFunction[state]) then
+
+      if [word[1]] in tducer!.OutputFunction[state] then
+        Remove(word2, 1);
+        options := Positions(tducer!.OutputFunction[state], [word[1]]);
+      else
+        options := Positions(tducer!.OutputFunction[state], []);
+      fi;
+
       preimages := [];
 
       for option in options do
@@ -100,27 +108,6 @@ function(word, state, tducer)
         od;
       od;
 
-    elif not [word[1]] in tducer!.OutputFunction[state] and [] in
-        tducer!.OutputFunction[state] then
-
-      options := Positions(tducer!.OutputFunction[state], []);
-      preimages :=[];
-
-      for option in options do
-        Add(preimages, Preimage(word, tducer!.TransitionFunction[state][option],
-                                tducer));
-      od;
-
-      for x in [1 .. Size(preimages)] do
-        for im in options - 1 do
-          preimage := [im];
-          Append(preimage, preimages[x]);
-
-          if tducer!.TransducerFunction(preimage, state)[1] = word then
-            return preimage;
-          fi;
-        od;
-      od;
     fi;
 
   fi;
