@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W  init.g
+#W  toperations.gi
 #Y  Copyright (C) 2017                               Fernando Flores Brito
 ##
 ##  Licensing information can be found in the README file of this package.
@@ -8,7 +8,4 @@
 #############################################################################
 ##
 
-ReadPackage("aaa", "gap/elements/transducer.gd");
-
-ReadPackage("aaa", "gap/elements/toperations.gd");
-ReadPackage("aaa", "gap/elements/woperations.gd");
+# This file contains operations that relate to transducers
