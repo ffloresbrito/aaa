@@ -13,7 +13,7 @@
 InstallMethod(InverseTransducer, "for a transducer",
 [IsTransducer],
 function(T)
-  local newstates, ntfunc, nofunc, n, x, q, word, preimage;
+  local newstates, ntfunc, nofunc, n, x, q, word, preimage, pnstate;
   newstates := [];
   ntfunc := [];
   nofunc := [];
@@ -29,6 +29,7 @@ function(T)
       fi;
     od;
   od;
+  Add(newstates, [[0, 0], 3]);
 
   for n in [1 .. Size(newstates)] do
     Add(ntfunc, []);
@@ -43,16 +44,18 @@ function(T)
       Append(word, q[1]);
       Append(word, [x]);
       preimage := Preimage(word, q[2], T);
+      pnstate := Position(newstates, [Minus(word,
+                          T!.TransducerFunction(preimage, q[2])[1]),
+                          T!.TransducerFunction(preimage, q[2])[2]]);
 
+      if pnstate = fail then
+        pnstate := n;
+      fi;
+
+      ntfunc[n][x + 1] := pnstate;
       nofunc[n][x + 1] := preimage;
-      ntfunc[n][x + 1] := Position(newstates, [Minus(word,
-                           T!.TransducerFunction(preimage, q[2])[1]),
-                           T!.TransducerFunction(preimage, q[2])[2]]);
     od;
   od;
-
-  Print(ntfunc, "\n");
-  Print(nofunc, "\n");
 
   return Transducer(T!.OutputAlphabet, T!.InputAlphabet, ntfunc, nofunc);
 end);

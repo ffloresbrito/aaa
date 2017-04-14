@@ -61,7 +61,7 @@ function(word, state, tducer)
   if state > tducer!.States then
     ErrorNoReturn("aaa: Preimage: usage,\n",
                   "the second argument is not a state of the third argument,");
-  elif ForAny(word, x -> x not in [0 .. tducer!.OutputAlphabet - 1]) then
+  elif ForAny(word, x -> not x in [0 .. tducer!.OutputAlphabet - 1]) then
     ErrorNoReturn("aaa: Preimage: usage,\n",
                   "the first argument contains symbols not in the output ",
                   "alphabet of the\nthird argument,");
