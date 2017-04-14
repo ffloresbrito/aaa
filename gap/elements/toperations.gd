@@ -8,6 +8,6 @@
 #############################################################################
 ##
 
-# This file contains operations that relate to transducers
+# This file contains the declaration of operations that relate to transducers.
 
 DeclareOperation("InverseTransducer", [IsTransducer]);

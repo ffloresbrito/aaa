@@ -8,7 +8,7 @@
 #############################################################################
 ##
 
-# This file contains operations that relate to transducers
+# This file contains methods for operations that relate to transducers.
 
 InstallMethod(InverseTransducer, "for a transducer",
 [IsTransducer],

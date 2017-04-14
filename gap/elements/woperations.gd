@@ -8,7 +8,8 @@
 #############################################################################
 ##
 
-# This file contains operations that relate to words accepted by transducers
+# This file contains the declaration of operations that relate to words accepted
+# by transducers.
 
 DeclareOperation("IsPrefix", [IsDenseList, IsDenseList]);
 DeclareOperation("Minus", [IsDenseList, IsDenseList]);

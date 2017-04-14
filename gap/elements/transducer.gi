@@ -8,6 +8,9 @@
 #############################################################################
 ##
 
+# This file contains methods that relate to the objects in this package,
+# including appropiate ViewObj functions.
+
 InstallMethod(ViewObj, "for a transducer",
 [IsTransducer],
 function(T)

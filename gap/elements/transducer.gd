@@ -8,8 +8,9 @@
 #############################################################################
 ##
 
-# This file contains functions defining a transducer, be it synchronous or
-# asynchronous and operations related to transducers.
+# This file contains the declarations of the representation of a transducer and
+# that of objects that relate to this package. The appropiate ViewObj functions
+# are defined in the transducer.gi file.
 
 DeclareRepresentation("IsTransducer", IsComponentObjectRep and
                       IsAttributeStoringRep, ["InputAlphabet",

@@ -8,6 +8,9 @@
 #############################################################################
 ##
 
+# This file contains methods for operations that relate to the words that are
+# accepted by transducers.
+
 InstallMethod(IsPrefix, "for two dense lists",
 [IsDenseList, IsDenseList],
 function (word1, word2)
@@ -117,7 +120,6 @@ function(word, state, tducer)
 
   return [];
 end);
-
 
 InstallMethod(PreimageConePrefixes, "for a den. list a pos. int. and a transd.",
 [IsDenseList, IsPosInt, IsTransducer],
