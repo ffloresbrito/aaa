@@ -17,7 +17,7 @@ function (word1, word2)
     return true;
   elif IsEmpty(word1) then
     return false;
-  elif Size(word2) > Size(word2) then
+  elif Size(word2) > Size(word1) then
     return false;
   elif word1 = word2 then
     return true;
@@ -36,7 +36,7 @@ InstallMethod(Minus, "for two dense lists",
 [IsDenseList, IsDenseList],
 function(word1, word2)
   local word3, i;
-  word3 := word1;
+  word3 := ShallowCopy(word1);
 
   if not IsPrefix(word1, word2) then
     return fail;
@@ -51,12 +51,12 @@ function(word1, word2)
   return word3;
 end);
 
-InstallMethod(Preimage, "for a dense lists a positive integer and a transducer",
+InstallMethod(Preimage, "for a dense list a positive integer and a transducer",
 [IsDenseList, IsPosInt, IsTransducer],
 function(word, state, tducer)
   local preimage, word2, options, preimages, option, x, im;
   preimage := [];
-  word2 := word;
+  word2 := ShallowCopy(word);
 
   if state > tducer!.States then
     ErrorNoReturn("aaa: Preimage: usage,\n",
@@ -114,6 +114,121 @@ function(word, state, tducer)
     fi;
 
   fi;
+
+  return [];
+end);
+
+
+InstallMethod(PreimageConePrefixes, "for a den. list a pos. int. and a transd.",
+[IsDenseList, IsPosInt, IsTransducer],
+function(word, state, tducer)
+  local preimage, word2, x, wordset, pos, words, y, omit, n, newword, m, j;
+  wordset := [];
+  pos := [];
+  words := [];
+  if state > tducer!.States then
+    ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
+                  "the second argument is not a state of the third argument,");
+  elif ForAny(word, x -> not x in [0 .. tducer!.OutputAlphabet - 1]) then
+    ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
+                  "the first argument contains symbols not in the output ",
+                  "alphabet of the\nthird argument,");
+  elif IsEmpty(word) and not [] in tducer!.OutputFunction[state] then
+    return [[]];
+  fi;
+
+  if IsEmpty(word) then
+    pos := Positions(tducer!.OutputFunction[state], []) - 1;
+    for x in [1 .. Size(pos)] do
+      Add(wordset, [pos[x]]);
+    od;
+    Add(wordset, []);
+    return wordset;
+  else
+    for x in [1 .. Size(word)] do
+      for y in [0 .. tducer!.InputAlphabet - 1] do
+        if Size(tducer!.OutputFunction[state][y + 1]) >= x then
+          if word{[1 .. x]} = tducer!.OutputFunction[state][y + 1]{[1 .. x]}
+              then
+            if not [y] in wordset then
+              Add(wordset, [y]);
+            fi;
+          else
+            if [y] in wordset then
+              Remove(wordset, Position(wordset, [y]));
+            fi;
+          fi;
+        fi;
+      od;
+    od;
+  fi;
+  if [] in tducer!.OutputFunction[state] and
+      not word in tducer!.OutputFunction[state]  then
+    pos := Positions(tducer!.OutputFunction[state], []) - 1;
+    for x in [1 .. Size(pos)] do
+      Add(wordset, [pos[x]]);
+    od;
+  fi;
+  n := 0;
+  pos := [];
+  for x in wordset do
+    n := n + 1;
+    omit := Size(tducer!.OutputFunction[state][x[1] + 1]);
+    if omit < Size(word) then
+      if omit = 0 then
+        word2 := ShallowCopy(word);
+      else
+        word2 := Minus(word, word{[1 .. omit]});
+      fi;
+      Add(pos, [PIC(word2, tducer!.TransitionFunction[state][x[1] + 1], tducer),
+                n]);
+    fi;
+  od;
+  for x in pos do
+    for y in x[1] do
+      newword := ShallowCopy(wordset[x[2]]);
+      Append(newword, y);
+      Add(wordset, newword);
+    od;
+  od;
+  for x in wordset do
+    if IsPrefix(tducer!.TransducerFunction(x, state)[1], word) then
+      Add(words, x);
+    fi;
+  od;
+  if IsEmpty(words) then
+    return [[]];
+  fi;
+  return words;
+end);
+
+InstallMethod(GreatestCommonPrefix, "for a dense list",
+[IsDenseList],
+function(L)
+  local minword, sizeword, n, x, notomit;
+
+  if IsEmpty(L) then
+    return [];
+  elif ForAny(L, x -> not IsDenseList(x)) then
+    ErrorNoReturn("aaa: GreatestCommonPrefix: usage,\n",
+                  "the elements of the argument must be dense lists,");
+  fi;
+
+  if [] in L then
+    return [];
+  fi;
+
+  Sort(L, function(x, y) return Size(x) < Size(y); end);
+  minword := ShallowCopy(L[1]);
+  sizeword := Size(minword);
+  n := 0;
+  for x in [1 .. Size(minword)] do
+    notomit := sizeword - n;
+    if ForAll(L, x -> IsPrefix(x, minword{[1 .. notomit]})) then
+      return minword{[1 .. notomit]};
+    fi;
+    n := n + 1;
+  od;
 
   return [];
 end);
