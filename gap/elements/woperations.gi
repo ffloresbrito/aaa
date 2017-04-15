@@ -185,9 +185,11 @@ function(word, state, tducer)
   od;
   for x in pos do
     for y in x[1] do
-      newword := ShallowCopy(wordset[x[2]]);
-      Append(newword, y);
-      Add(wordset, newword);
+      if not IsEmpty(y) then
+        newword := ShallowCopy(wordset[x[2]]);
+        Append(newword, y);
+        Add(wordset, newword);
+      fi;
     od;
   od;
   if IsEmpty(word) then
