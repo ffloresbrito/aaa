@@ -144,8 +144,6 @@ function(word, state, tducer)
     for x in [1 .. Size(pos)] do
       Add(wordset, [pos[x]]);
     od;
-    Add(wordset, []);
-    return wordset;
   else
     for x in [1 .. Size(word)] do
       for y in [0 .. tducer!.InputAlphabet - 1] do
@@ -164,8 +162,7 @@ function(word, state, tducer)
       od;
     od;
   fi;
-  if [] in tducer!.OutputFunction[state] and
-      not word in tducer!.OutputFunction[state]  then
+  if [] in tducer!.OutputFunction[state] then
     pos := Positions(tducer!.OutputFunction[state], []) - 1;
     for x in [1 .. Size(pos)] do
       Add(wordset, [pos[x]]);
@@ -176,14 +173,14 @@ function(word, state, tducer)
   for x in wordset do
     n := n + 1;
     omit := Size(tducer!.OutputFunction[state][x[1] + 1]);
-    if omit < Size(word) then
+    if omit <= Size(word) then
       if omit = 0 then
         word2 := ShallowCopy(word);
       else
         word2 := Minus(word, word{[1 .. omit]});
       fi;
-      Add(pos, [PreimageConePrefixes(word2, tducer!.TransitionFunction
-                                     [state][x[1] + 1], tducer), n]);
+        Add(pos, [PreimageConePrefixes(word2, tducer!.TransitionFunction
+                                       [state][x[1] + 1], tducer), n]);
     fi;
   od;
   for x in pos do
@@ -193,6 +190,9 @@ function(word, state, tducer)
       Add(wordset, newword);
     od;
   od;
+  if IsEmpty(word) then
+    Add(wordset, []);
+  fi;
   for x in wordset do
     if IsPrefix(tducer!.TransducerFunction(x, state)[1], word) then
       Add(words, x);
@@ -201,6 +201,7 @@ function(word, state, tducer)
   if IsEmpty(words) then
     return [[]];
   fi;
+  words := SSortedList(words);
   return words;
 end);
 
