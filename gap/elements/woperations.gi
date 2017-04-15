@@ -182,8 +182,8 @@ function(word, state, tducer)
       else
         word2 := Minus(word, word{[1 .. omit]});
       fi;
-      Add(pos, [PIC(word2, tducer!.TransitionFunction[state][x[1] + 1], tducer),
-                n]);
+      Add(pos, [PreimageConePrefixes(word2, tducer!.TransitionFunction
+                                     [state][x[1] + 1], tducer), n]);
     fi;
   od;
   for x in pos do
