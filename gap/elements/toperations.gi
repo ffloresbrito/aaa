@@ -13,7 +13,7 @@
 InstallMethod(InverseTransducer, "for a transducer",
 [IsTransducer],
 function(T)
-  local newstates, ntfunc, nofunc, n, x, q, word, preimage, newstate;
+  local newstates, ntfunc, nofunc, n, x, q, word, preimage, newstate, tdcrf;
   newstates := [];
   ntfunc := [[]];
   nofunc := [[]];
@@ -23,18 +23,19 @@ function(T)
   for q in newstates do
     n:= n + 1;
     for x in [0 .. T!.OutputAlphabet - 1] do
-    word := [];
-    Append(word, q[1]);
-    Append(word, [x]);
-    preimage := GreatestCommonPrefix(PreimageConePrefixes(word, q[2], T));
-    newstate := [Minus(word, T!.TransducerFunction(preimage, q[2])[1]),
-                 T!.TransducerFunction(preimage, q[2])[2]];
+      word := [];
+      Append(word, q[1]);
+      Append(word, [x]);
+      preimage := GreatestCommonPrefix(PreimageConePrefixes(word, q[2], T));
+      tdcrf := T!.TransducerFunction(preimage, q[2]);
 
-    if not newstate in newstates then
-      Add(newstates, newstate);
-      Add(ntfunc, []);
-      Add(nofunc, []);
-    fi;
+      newstate := [Minus(word, tdcrf[1]), tdcrf[2]];
+
+      if not newstate in newstates then
+        Add(newstates, newstate);
+        Add(ntfunc, []);
+        Add(nofunc, []);
+      fi;
 
       ntfunc[n][x + 1] := Position(newstates, newstate);
       nofunc[n][x + 1] := preimage;
@@ -42,4 +43,41 @@ function(T)
   od;
 
   return Transducer(T!.OutputAlphabet, T!.InputAlphabet, ntfunc, nofunc);
+end);
+
+InstallMethod(TransducerProduct, "for two transducers",
+[IsTransducer, IsTransducer],
+function(tdcr1, tdcr2)
+  local newstates, newstate, ntfun, nofun, tducerf, word, x, y, q, n;
+  newstates := [];
+  ntfun := [];
+  nofun := [];
+
+  if tdcr1!.OutputAlphabet <> tdcr2!.InputAlphabet then
+    ErrorNoReturn("aaa: TransducerProduct: usage,\n",
+                  "the output alphabet of the first argument must be the ",
+                  "input alphabet\nof the second argument,");
+  fi;
+
+  for x in [1 .. tdcr1!.States] do
+    for y in [1 .. tdcr2!.States] do 
+      Add(newstates, [x, y]);
+      Add(ntfun, []);
+      Add(nofun, []);
+    od;
+  od;
+
+  n := 0;
+  for q in newstates do
+    n := n + 1;
+    for x in [0 .. tdcr1!.InputAlphabet - 1] do
+      word := tdcr1!.OutputFunction[q[1]][x + 1];
+      tducerf := tdcr2!.TransducerFunction(word, q[2]);
+      newstate := [tdcr1!.TransitionFunction[q[1]][x + 1], tducerf[2]];
+      ntfun[n][x + 1] := Position(newstates, newstate);
+      nofun[n][x + 1] := tducerf[1];
+    od;
+  od;
+
+  return Transducer(tdcr1!.InputAlphabet, tdcr2!.OutputAlphabet, ntfun, nofun);
 end);

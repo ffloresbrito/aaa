@@ -11,3 +11,4 @@
 # This file contains the declaration of operations that relate to transducers.
 
 DeclareOperation("InverseTransducer", [IsTransducer]);
+DeclareOperation("TransducerProduct", [IsTransducer, IsTransducer]);

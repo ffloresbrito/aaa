@@ -173,7 +173,7 @@ function(word, state, tducer)
   for x in wordset do
     n := n + 1;
     omit := Size(tducer!.OutputFunction[state][x[1] + 1]);
-    if omit <= Size(word) then
+    if omit < Size(word) then
       if omit = 0 then
         word2 := ShallowCopy(word);
       else
