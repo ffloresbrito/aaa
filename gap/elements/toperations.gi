@@ -81,3 +81,29 @@ function(tdcr1, tdcr2)
 
   return Transducer(tdcr1!.InputAlphabet, tdcr2!.OutputAlphabet, ntfun, nofun);
 end);
+
+InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
+[IsTransducer],
+function(T)
+  local ntfunc, nofunc, n, x, new1;
+  ntfunc := [];
+  nofunc := [];
+  for x in [1 .. T!.States + 1] do
+    Add(ntfunc, []);
+    Add(nofunc, []);
+  od;
+  for x in [0 .. T!.InputAlphabet - 1] do
+    new1 := T!.TransducerFunction([x], 1);
+    ntfunc[1][x + 1] := new1[2];
+    nofunc[1][x + 1] := new1[1];
+  od;
+  for n in [2 .. T!.States + 1 ] do
+    for x in [0 .. T!.InputAlphabet - 1] do
+      nofunc[n][x + 1] := Minus(ImageConeLongestPrefix([x], n - 1, T),
+                                ImageConeLongestPrefix([], n - 1, T));
+      ntfunc[n][x + 1] := T!.TransducerFunction([x], n - 1)[2];
+      od;
+    od;
+
+  return Transducer(T!.InputAlphabet, T!.OutputAlphabet, ntfunc, nofunc);
+end);

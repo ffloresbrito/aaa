@@ -237,3 +237,88 @@ function(L)
 
   return [];
 end);
+
+InstallMethod(ImageConeLongestPrefix, "for a dens. list a pos. int and a tdcr.",
+[IsDenseList, IsPosInt, IsTransducer],
+function(w, q, T)
+  local tducerf, flag, active, tactive, outputs, retired, v, b, k, y, x, word,
+        common, common1;
+
+  if ForAny(w, x -> not x in [0 .. T!.InputAlphabet - 1]) then
+    ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
+                  "the first argument contains symbols not in the input ",
+                  "alphabet of the third\n argument,");
+  elif not q in [1 .. T!.States] then
+    ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
+                  "the second argument is not a state of the third argument,");
+  fi;
+
+  tducerf := T!.TransducerFunction(w, q);
+  v := tducerf[1];
+  b := tducerf[2];
+  flag := false;
+  retired := [];
+  k := 0;
+
+  while not flag do
+    k := k + 1;
+    outputs := [];
+    active := Tuples([0 .. T!.InputAlphabet - 1], k);
+
+    for x in active do
+      word := T!.TransducerFunction(x, b)[1];
+      if not word in outputs then
+        Add(outputs, word);
+      fi;
+    od;
+
+    for x in outputs do
+      for y in outputs do
+        if not IsPrefix(x, y) and not IsPrefix(y, x) then
+          common := GreatestCommonPrefix([x, y]);
+          common1 := ShallowCopy(common);
+          flag := true;
+        fi;
+      od;
+    od;
+  od;
+
+  while Size(active) <> 0 do
+    while Size(common1) < Size(common) or flag do
+      common := ShallowCopy(common1);
+      for x in active do
+        word := T!.TransducerFunction(x, b)[1];
+        if Size(word) > Size(common) or (not IsPrefix(word, common) and
+                                         not IsPrefix(common, word)) then
+          Remove(active, Position(active, x));
+          Add(retired, x);
+        fi;
+      od;
+      outputs := [];
+      for x in retired do
+        word := T!.TransducerFunction(x, b)[1];
+        if not word in outputs then
+          Add(outputs, word);
+        fi;
+      od;
+      common1 := GreatestCommonPrefix(outputs);
+      flag := false;
+    od;
+    tactive := [];
+    for x in active do
+      word := [];
+      Append(word, x);
+      for y in [0 .. T!.InputAlphabet - 1] do
+        Append(word, [y]);
+        if not word in tactive then
+          Add(tactive, word);
+        fi;
+      od;
+    od;
+    active := ShallowCopy(tactive);
+    flag := true;
+  od;
+  Append(v, common1);
+
+  return v;
+end);

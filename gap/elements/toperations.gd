@@ -12,3 +12,4 @@
 
 DeclareOperation("InverseTransducer", [IsTransducer]);
 DeclareOperation("TransducerProduct", [IsTransducer, IsTransducer]);
+DeclareOperation("RemoveStatesWithIncompleteResponse", [IsTransducer]);
