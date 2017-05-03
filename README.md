@@ -1,5 +1,5 @@
 ### aaa package for GAP
-#### Copyright (C) 2017 Fernando Flores Brio et al.
+#### Copyright (C) 2017 Fernando Flores Brito et al.
 #### Licencing information is available in the LICENSE file.
 
 This is a GAP package that introduces algorithms for asynchronous automata.
