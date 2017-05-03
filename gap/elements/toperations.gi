@@ -94,14 +94,14 @@ function(T)
   od;
   for x in [0 .. T!.InputAlphabet - 1] do
     new1 := T!.TransducerFunction([x], 1);
-    ntfunc[1][x + 1] := new1[2];
+    ntfunc[1][x + 1] := new1[2] + 1;
     nofunc[1][x + 1] := new1[1];
   od;
-  for n in [2 .. T!.States + 1 ] do
+  for n in [2 .. T!.States + 1] do
     for x in [0 .. T!.InputAlphabet - 1] do
       nofunc[n][x + 1] := Minus(ImageConeLongestPrefix([x], n - 1, T),
                                 ImageConeLongestPrefix([], n - 1, T));
-      ntfunc[n][x + 1] := T!.TransducerFunction([x], n - 1)[2];
+      ntfunc[n][x + 1] := T!.TransducerFunction([x], n - 1)[2] + 1;
       od;
     od;
 
