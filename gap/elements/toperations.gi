@@ -15,8 +15,8 @@ InstallMethod(InverseTransducer, "for a transducer",
 function(T)
   local newstates, ntfunc, nofunc, n, x, q, word, preimage, newstate, tdcrf;
   newstates := [];
-  ntfunc := [[]];
-  nofunc := [[]];
+  ntfunc := [];
+  nofunc := [];
   newstates := [[[], 1]];
 
   n := 0;
@@ -106,4 +106,32 @@ function(T)
     od;
 
   return Transducer(T!.InputAlphabet, T!.OutputAlphabet, ntfunc, nofunc);
+end);
+
+InstallMethod(RemoveInaccessibleStates, "for a transducer",
+[IsTransducer],
+function(T)
+  local states, newq, newl, new, q, n, x;
+
+  states := [1];
+  newq := [];
+  newl := [];
+  n := 0;
+
+  for q in states do
+    n := n + 1;
+    for x in [0 .. T!.InputAlphabet - 1] do
+      new := T!.TransducerFunction([x], q);
+      newq[n][x + 1] := new[2];
+      newl[n][x + 1] := new[1];
+
+      if not new[2] in states then
+        Add(states, new[2]);
+        Add(newq, []);
+        Add(newl, []);
+      fi;
+    od;
+  od;
+
+  return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
 end);
