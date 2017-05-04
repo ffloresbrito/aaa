@@ -122,14 +122,15 @@ function(T)
     n := n + 1;
     for x in [0 .. T!.InputAlphabet - 1] do
       new := T!.TransducerFunction([x], q);
-      newq[n][x + 1] := new[2];
-      newl[n][x + 1] := new[1];
 
       if not new[2] in states then
         Add(states, new[2]);
         Add(newq, []);
         Add(newl, []);
       fi;
+
+      newq[n][x + 1] := Position(states, new[2]);
+      newl[n][x + 1] := new[1];
     od;
   od;
 
