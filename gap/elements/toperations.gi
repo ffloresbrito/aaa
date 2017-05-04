@@ -135,3 +135,39 @@ function(T)
 
   return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
 end);
+
+InstallMethod(ChangeInitialState, "for a transducer and a positive integer",
+[IsTransducer, IsPosInt],
+function(T, i)
+  local new, newq, newl, states, q, x, n;
+  states := [1 .. T!.States];
+
+  if not i in states then
+    ErrorNoReturn("aaa: ChangeInitialState: usage,\n",
+                  "the second argument is not a state of the first argument,");
+  elif i = 1 then
+    return T;
+  fi;
+
+  newq := [];
+  newl := [];
+  n := 0;
+
+  for x in states do
+    Add(newq, []);
+    Add(newl, []);
+  od;
+
+  Sort(states, function(x, y) return x = i; end);
+
+  for q in states do
+    n := n + 1;
+    for x in [0 .. T!.InputAlphabet - 1] do
+      new := T!.TransducerFunction([x], q);
+      newq[n][x + 1] := new[2];
+      newl[n][x + 1] := new[1];
+    od;
+  od;
+
+  return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
+end);
