@@ -114,8 +114,8 @@ function(T)
   local states, newq, newl, new, q, n, x;
 
   states := [1];
-  newq := [];
-  newl := [];
+  newq := [[]];
+  newl := [[]];
   n := 0;
 
   for q in states do
@@ -164,7 +164,7 @@ function(T, i)
     n := n + 1;
     for x in [0 .. T!.InputAlphabet - 1] do
       new := T!.TransducerFunction([x], q);
-      newq[n][x + 1] := new[2];
+      newq[n][x + 1] := Position(states, new[2]);
       newl[n][x + 1] := new[1];
     od;
   od;
