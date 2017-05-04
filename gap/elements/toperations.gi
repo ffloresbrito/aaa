@@ -145,8 +145,6 @@ function(T, i)
   if not i in states then
     ErrorNoReturn("aaa: ChangeInitialState: usage,\n",
                   "the second argument is not a state of the first argument,");
-  elif i = 1 then
-    return T;
   fi;
 
   newq := [];
