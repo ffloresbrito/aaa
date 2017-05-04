@@ -15,8 +15,8 @@ InstallMethod(InverseTransducer, "for a transducer",
 function(T)
   local newstates, ntfunc, nofunc, n, x, q, word, preimage, newstate, tdcrf;
   newstates := [];
-  ntfunc := [];
-  nofunc := [];
+  ntfunc := [[]];
+  nofunc := [[]];
   newstates := [[[], 1]];
 
   n := 0;
