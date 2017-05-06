@@ -171,35 +171,14 @@ function(T, i)
   return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
 end);
 
-InstallMethod(ReduceTransducer, "for a transducer",
+InstallMethod(ReducedTransducer, "for a transducer",
 [IsTransducer],
 function(T)
-  local states, n, Eq, Reps, q, p, Eqclass, new, newq, newl, x, seen;
-  states := [1 .. T!.States];
-  n := 0;
-  Eq := [];
-  Reps := [];
-  newq := [];
-  newl := [];
-  seen := [];
-
-  for q in states do
-    n := n + 1;
-    Add(Eq, []);
-    if not q in seen then
-      Add(Reps, q);
-      for p in states do
-        if not p in seen then
-          if T!.TransitionFunction[q] = T!.TransitionFunction[p] and
-              T!.OutputFunction[q] = T!.OutputFunction[p] then
-            Add(Eq[n], p);
-            Add(seen, p);
-          fi;
-        fi;
-      od;
-    fi;
-  od;
-
+  local states, n, Eq, Reps, q, p, Eqclass, new, newq, newl, x, seen, dmy, nsr,
+        ns;
+  ns := T!.States;
+  nsr := 0;
+  dmy := ChangeInitialState(T, 1);
   Eqclass := function(y)
                local class;
                  for class in Eq do
@@ -209,19 +188,45 @@ function(T)
                  od;
              end;
 
-  n := 0;
-
-  for q in Reps do
-    n := n + 1;
-    Add(newq, []);
-    Add(newl, []);
-
-    for x in [0 .. T!.InputAlphabet - 1] do
-      new := T!.TransducerFunction([x], q);
-      newl[n][x + 1] := new[1];
-      newq[n][x + 1] := Position(Reps, Eqclass(new[2]));
+  while nsr < ns do
+    ns := dmy!.States;
+    states := [1 .. ns];
+    n := 0;
+    Eq := [];
+    Reps := [];
+    newq := [];
+    newl := [];
+    seen := [];
+    for q in states do
+      if not q in seen then
+        n := n + 1;
+        Add(Eq, []);
+        Add(Reps, q);
+        for p in states do
+          if not p in seen then
+            if dmy!.TransitionFunction[q] = dmy!.TransitionFunction[p] and
+                dmy!.OutputFunction[q] = dmy!.OutputFunction[p] then
+              Add(Eq[n], p);
+              Add(seen, p);
+            fi;
+          fi;
+        od;
+      fi;
     od;
-  od;
+    n := 0;
+    for q in Reps do
+      n := n + 1;
+      Add(newq, []);
+      Add(newl, []);
 
-  return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
+      for x in [0 .. dmy!.InputAlphabet - 1] do
+        new := dmy!.TransducerFunction([x], q);
+        newl[n][x + 1] := new[1];
+        newq[n][x + 1] := Position(Reps, Eqclass(new[2]));
+      od;
+    od;
+    dmy := Transducer(dmy!.InputAlphabet, dmy!.OutputAlphabet, newq, newl);
+    nsr := dmy!.States;
+  od;
+  return dmy;
 end);
