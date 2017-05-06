@@ -15,3 +15,4 @@ DeclareOperation("TransducerProduct", [IsTransducer, IsTransducer]);
 DeclareOperation("RemoveStatesWithIncompleteResponse", [IsTransducer]);
 DeclareOperation("RemoveInaccessibleStates", [IsTransducer]);
 DeclareOperation("ChangeInitialState", [IsTransducer, IsPosInt]);
+DeclareOperation("ReduceTransducer", [IsTransducer]);
