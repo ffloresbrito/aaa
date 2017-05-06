@@ -14,9 +14,26 @@
 InstallMethod(ViewObj, "for a transducer",
 [IsTransducer],
 function(T)
-  Print("<Transducer with input alphabet on ", T!.InputAlphabet, " symbols, ",
-        "output alphabet on ", T!.OutputAlphabet, " symbols, and ", T!.States,
-        " states.>");
+  local state, sym1, sym2;
+  if T!.States = 1 then
+    state := "state";
+  else
+    state := "states";
+  fi;
+  if T!.InputAlphabet = 1 then
+    sym1 := "symbol";
+  else
+    sym1 := "symbols";
+  fi;
+  if T!.OutputAlphabet = 1 then
+    sym2 := "symbol";
+  else
+    sym2 := "symbols";
+  fi;
+
+  Print("<transducer with input alphabet on ", T!.InputAlphabet, " ", sym1, " ",
+        "output alphabet on ", T!.OutputAlphabet, " ", sym2, " ","and ",
+        T!.States, " ", state, ".>");
 end);
 
 InstallMethod(Transducer, "for two positive integers and two dense lists",
