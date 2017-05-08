@@ -137,7 +137,8 @@ function(T)
   return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
 end);
 
-InstallMethod(ChangeInitialState, "for a transducer and a positive integer",
+InstallMethod(CopyTransducerWithInitialState,
+"for a transducer and a positive integer",
 [IsTransducer, IsPosInt],
 function(T, i)
   local new, newq, newl, states, q, x, n;
@@ -171,14 +172,14 @@ function(T, i)
   return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
 end);
 
-InstallMethod(ReducedTransducer, "for a transducer",
+InstallMethod(RemoveEquivalentStates, "for a transducer",
 [IsTransducer],
 function(T)
   local states, n, Eq, Reps, q, p, Eqclass, new, newq, newl, x, seen, dmy, nsr,
         ns;
   ns := T!.States;
   nsr := 0;
-  dmy := ChangeInitialState(T, 1);
+  dmy := CopyTransducerWithInitialState(T, 1);
   Eqclass := function(y)
                local class;
                  for class in Eq do
