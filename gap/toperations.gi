@@ -21,7 +21,7 @@ function(T)
 
   n := 0;
   for q in newstates do
-    n:= n + 1;
+    n := n + 1;
     for x in [0 .. T!.OutputAlphabet - 1] do
       word := [];
       Append(word, q[1]);
@@ -158,7 +158,9 @@ function(T, i)
     Add(newl, []);
   od;
 
-  Sort(states, function(x, y) return x = i; end);
+  Sort(states, function(x, y)
+                 return x = i;
+               end);
 
   for q in states do
     n := n + 1;

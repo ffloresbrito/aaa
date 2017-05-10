@@ -13,7 +13,7 @@
 
 InstallMethod(IsPrefix, "for two dense lists",
 [IsDenseList, IsDenseList],
-function (word1, word2)
+function(word1, word2)
   local i;
 
   if IsEmpty(word2) then
@@ -223,7 +223,9 @@ function(L)
     return [];
   fi;
 
-  Sort(L, function(x, y) return Size(x) < Size(y); end);
+  Sort(L, function(x, y)
+            return Size(x) < Size(y);
+          end);
   minword := ShallowCopy(L[1]);
   sizeword := Size(minword);
   n := 0;
