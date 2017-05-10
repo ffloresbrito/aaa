@@ -8,7 +8,7 @@
 #############################################################################
 ##
 
-ReadPackage("aaa", "gap/elements/transducer.gd");
+ReadPackage("aaa", "gap/transducer.gd");
 
-ReadPackage("aaa", "gap/elements/toperations.gd");
-ReadPackage("aaa", "gap/elements/woperations.gd");
+ReadPackage("aaa", "gap/toperations.gd");
+ReadPackage("aaa", "gap/woperations.gd");
