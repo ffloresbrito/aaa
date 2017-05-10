@@ -31,8 +31,8 @@ function(T)
     sym2 := "symbols";
   fi;
 
-  Print("<transducer with input alphabet on ", T!.InputAlphabet, " ", sym1, " ",
-        "output alphabet on ", T!.OutputAlphabet, " ", sym2, " ","and ",
+  Print("<transducer with input alphabet on ", T!.InputAlphabet, " ", sym1,
+        ", output alphabet on ", T!.OutputAlphabet, " ", sym2, ", ",
         T!.States, " ", state, ".>");
 end);
 
