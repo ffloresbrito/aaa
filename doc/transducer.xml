@@ -1,0 +1,40 @@
+#############################################################################
+##
+#W  transducer.xml
+#Y  Copyright (C) 2017                                Fernando Flores Brito
+##
+##  Licensing information can be found in the README file of this package.
+##
+#############################################################################
+##
+
+<#GAPDoc Label="Transducer">
+<ManSection>
+  <Oper Name = "Transducer" Arg = "m, n, P, L"/>
+  <Returns>A transducer.</Returns>
+  <Description>
+    For two positive integers <A>m</A>, and <A>n</A>, a dense list of dense
+    lists of integers <A>P</A>, and a dense list of dense lists of dense lists
+    of integers <A>L</A>, such that <A>P</A> and <A>L</A>, and each of their
+    elements have the same size, the operation
+    <C>Transducer(<A>m, n, P, L</A>)</C> returns a transducer with input
+    alphabet <C>[0 .. m - 1]</C>, output alphabet <C>[0 .. n - 1]</C>,
+    transition function <A>P</A>, and output function <A>L</A>. If <C>p</C>
+    abstractly represents the transition function of the transducer, then
+    <A>P</A> has the property that <C>p(currentstate, inputletter) =
+    <A>P<A>[currentstate][inputletter]</C>, where <C>currentstate</C> is an
+    integer from <C>[1 .. Size(<A>P</A>)]</C>, and <C>inputletter</C> is a
+    positive integer representing the word <C>[inputletter - 1]</C>. Similarly,
+    if <C>l</C> abstractly represents the output function of the transducer,
+    then <A>L</A> has the property that <C>l(currentstate, inputletter) =
+    <A>L</A>[currentstate][inputletter]</C>, where <C>currentstate</C>, and
+    <C>inputletter</C> are as before.
+
+    <Example><![CDATA[
+gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);
+<transducer with input alphabet on 2 symbols, output alphabet on 2 symbols, 2 states.>
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
+

@@ -1,0 +1,33 @@
+<Chapter Label = "Word operations">
+
+  <Heading>
+    Words and word operations
+  </Heading>
+
+  In this chapter we decribe the words that are accepted by an &aaa; transducer,
+  as well as operations that can be performed to them.
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+  <Section Label = "Transducers">
+
+    <Heading>
+      Words and operations
+    </Heading>
+
+    An &aaa; word is a dense list of integers.
+
+    <#Include Label = "IsPrefix">
+    <#Include Label = "Minus">
+    <#Include Label = "PreimageConePrefixes">
+    <#Include Label = "GreatestCommonPrefix">
+    <#Include Label = "ImageConeLongestPrefix">
+
+
+  </Section>
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+</Chapter>

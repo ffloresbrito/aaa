@@ -1,0 +1,34 @@
+<Chapter Label = "Transducer operations">
+
+  <Heading>
+    Transducer operations
+  </Heading>
+
+  In this chapter we decribe the methods that are available in the &aaa; package
+  to perform operations on &aaa; transducers.
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+  <Section Label = "Transducer operations">
+
+    <Heading>
+      Transducer operations
+    </Heading>
+
+    The following are the methods that can be used to analyze &aaa; transducers.
+
+    <#Include Label = "InverseTransducer">
+    <#Include Label = "TransducerProduct">
+    <#Include Label = "RemoveStatesWithIncompleteResponse">
+    <#Include Label = "RemoveInaccessibleStates">
+    <#Include Label = "RemoveStatesWithIncompleteResponse">
+    <#Include Label = "CopyTransducerWithInitialState">
+    <#Include Label = "RemoveEquivalentStates">
+
+  </Section>
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+</Chapter>
