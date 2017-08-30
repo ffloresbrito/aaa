@@ -1,0 +1,30 @@
+#############################################################################
+##
+#W  woperations.xml
+#Y  Copyright (C) 2017                                Fernando Flores Brito
+##
+##  Licensing information can be found in the README file of this package.
+##
+#############################################################################
+##
+
+<#GAPDoc Label="IsPrefix">
+<ManSection>
+  <Oper Name = "IsPrefix" Arg = "u, v"/>
+  <Returns><C>true</C> or <C>false</C>.</Returns>
+  <Description>
+    A word <C>w</C> is a prefix of the word <C>w2</C> if for all <C>x</C> in
+    <C>[1 .. Size(w)]</C>, we have that <C>w[x] = w2[x]</C>. The operation
+    <C>IsPrefix(<A>u, v</A>)</C> returns <C>true</C> if the word <A>v</A> is a
+    prefix of the word <A>u</A>, and <C>false</C> otherwise.
+
+    <Example><![CDATA[
+gap> u := [0, 1];; v := [0, 1, 0];; empty := [];;
+gap> IsPrefix(u, v); IsPrefix(v, u); IsPrefix(u, empty);
+false
+true
+true
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
