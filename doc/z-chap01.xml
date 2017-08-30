@@ -1,0 +1,30 @@
+<Chapter Label = "Transducers and word operations">
+
+  <Heading>
+    Transducers
+  </Heading>
+
+  In this chapter we decribe the methods that are available in &aaa; that are
+  relevant for $aaa; transducers.
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+  <Section Label = "Transducers">
+
+    <Heading>
+      Transducer operations
+    </Heading>
+
+    The &aaa; package provides methods to represent transducers in $GAP; as well
+    as methods for some operations that one can perform to them.
+
+    <#Include Label = "VerifyIdentity">
+    <#Include Label = "RandomAssociativityTest">
+
+  </Section>
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+</Chapter>
