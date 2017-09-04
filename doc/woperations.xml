@@ -28,3 +28,44 @@ true
   </Description>
 </ManSection>
 <#/GAPDoc>
+
+<#GAPDoc Label="Minus">
+<ManSection>
+  <Oper Name = "Minus" Arg = "u, v"/>
+  <Returns>A dense list or <C>fail</C>.</Returns>
+  <Description>
+    If <A>v</A> is a prefix of <A>u</A>, then <C><A>u</A> = <A>v</A>m</C> for
+    some word <C>m</C>, and the operation <C>Minus(<A>u, v</A>)</C>
+    returns <C>m</C>. Otherwise, it returns <C>fail</C>.
+    <Example><![CDATA[
+gap> u := [0, 1];; v := [0, 1, 1];;
+gap> Minus(v, u);
+[ 1 ]
+gap> Minus(u, v);
+fail
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="GreatestCommonPrefix">
+<ManSection>
+  <Oper Name = "GreatestCommonPrefix" Arg = "list"/>
+  <Returns>A dense list.</Returns>
+  <Description>
+    If <A>list</A> is a list of words, the operation
+    <C>GreatestCommonPrefix(<A>list</A>)</C> returns the greatest common prefix
+    of all the words in <A>list</A>.
+    <Example><![CDATA[
+gap> u := [0, 0];; v := [0, 0, 1, 2];; w := [0, 1, 2];;
+gap> GreatestCommonPrefix([u, v, w]);
+[ 0 ]
+gap> empty := [];; z := [1];;
+gap> GreatestCommonPrefix([u, v, w, empty]);
+[  ]
+gap> GreatestCommonPrefix([u, v, w, z]);
+[  ]
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>

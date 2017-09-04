@@ -9,9 +9,9 @@
 ##
 
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "1.0.0">
-##  <!ENTITY GAPVERS "4.9.0">
-##  <!ENTITY ARCHIVENAME "aaa-1.0.0">
+##  <!ENTITY VERSION "0.0.1">
+##  <!ENTITY GAPVERS "4.8.0">
+##  <!ENTITY ARCHIVENAME "aaa-0.0.1">
 ##  <!ENTITY COPYRIGHTYEARS "2017">
 ##  <#/GAPDoc>
 
@@ -94,15 +94,15 @@ invertible and if it is to invert the transducer.</p>""",
 PackageDoc := rec(
   BookName  := "aaa",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap01.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Semigroups",
+  LongTitle := "aaa",
   Autoload  := true
 ),
 
 Dependencies := rec(
-  GAP := ">=4.9.0",
+  GAP := ">=4.8.0",
   NeededOtherPackages := [],
   SuggestedOtherPackages := [],
   ExternalConditions := []),

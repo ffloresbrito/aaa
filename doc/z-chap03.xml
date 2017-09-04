@@ -18,14 +18,6 @@
 
     The following are the methods that can be used to analyze &aaa; transducers.
 
-    <#Include Label = "InverseTransducer">
-    <#Include Label = "TransducerProduct">
-    <#Include Label = "RemoveStatesWithIncompleteResponse">
-    <#Include Label = "RemoveInaccessibleStates">
-    <#Include Label = "RemoveStatesWithIncompleteResponse">
-    <#Include Label = "CopyTransducerWithInitialState">
-    <#Include Label = "RemoveEquivalentStates">
-
   </Section>
 
   <!--**********************************************************************-->

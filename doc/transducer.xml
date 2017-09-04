@@ -22,7 +22,7 @@
     transition function <A>P</A>, and output function <A>L</A>. If <C>p</C>
     abstractly represents the transition function of the transducer, then
     <A>P</A> has the property that <C>p(currentstate, inputletter) =
-    <A>P<A>[currentstate][inputletter]</C>, where <C>currentstate</C> is an
+    <A>P</A>[currentstate][inputletter]</C>, where <C>currentstate</C> is an
     integer from <C>[1 .. Size(<A>P</A>)]</C>, and <C>inputletter</C> is a
     positive integer representing the word <C>[inputletter - 1]</C>. Similarly,
     if <C>l</C> abstractly represents the output function of the transducer,

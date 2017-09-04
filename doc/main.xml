@@ -1,5 +1,5 @@
 <!DOCTYPE Book SYSTEM "gapdoc.dtd"
-   [ <!ENTITY Semigroups "<Package>Semigroups</Package>">
+   [ <!ENTITY aaa "<Package>aaa</Package>">
      <!ENTITY vspace "<Alt Only='LaTeX'>\vspace{\baselineskip}</Alt>">
      <!ENTITY noindent "<Alt Only='LaTeX'>\noindent</Alt>">
      <!ENTITY H "<Alt Only='HTML'>\(\mathscr{H}\)</Alt><Alt
@@ -10,7 +10,6 @@
      Only='Text'><E>L</E></Alt><Alt Only='LaTeX'><M>\mathcal{L}</M></Alt>">
      <!ENTITY D "<Alt Only='HTML'>\(\mathscr{D}\)</Alt><Alt
      Only='Text'><E>D</E></Alt><Alt Only='LaTeX'><M>\mathcal{D}</M></Alt>">
-     <#Include Label="PKGVERSIONDATA">
      <!ENTITY noindent "<Alt Only='LaTeX'>\noindent</Alt>">
      <!ENTITY setX "<Alt Not='Text'><M>X</M></Alt><Alt Only='Text'><C>X</C></Alt>">
      <!ENTITY bfn "<Alt Not='Text'><M>\mathbf{n}</M></Alt><Alt Only='Text'><E>n</E></Alt>">
@@ -29,15 +28,17 @@
    ]>
 
 <Book Name="aaa">
-<#Include SYSTEM "title.xml">
 
 <TableOfContents/>
 
 <Body>
-  <#Include SYSTEM "z-chap23.xml">  <!-- identity checking and operations with identities -->
+  <#Include SYSTEM "z-chap01.xml">  <!-- transducers -->
+  <#Include SYSTEM "z-chap02.xml">  <!-- word operations -->
+  <#Include SYSTEM "z-chap03.xml">  <!-- transducer operations -->
+
 </Body>
 
-<Bibliography Databases="semigroups" />
+<Bibliography Databases="aaa" />
 <TheIndex/>
 
 </Book>

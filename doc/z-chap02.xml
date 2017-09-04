@@ -20,9 +20,7 @@
 
     <#Include Label = "IsPrefix">
     <#Include Label = "Minus">
-    <#Include Label = "PreimageConePrefixes">
     <#Include Label = "GreatestCommonPrefix">
-    <#Include Label = "ImageConeLongestPrefix">
 
 
   </Section>

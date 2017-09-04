@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W  read.g
+#W  utils.gi
 #Y  Copyright (C) 2017                               Fernando Flores Brito
 ##
 ##  Licensing information can be found in the README file of this package.
@@ -8,8 +8,6 @@
 #############################################################################
 ##
 
-ReadPackage("aaa", "gap/transducer.gi");
+# This file contains the declaration of the utility functions.
 
-ReadPackage("aaa", "gap/toperations.gi");
-ReadPackage("aaa", "gap/utils.gi");
-ReadPackage("aaa", "gap/woperations.gi");
+DeclareGlobalFunction("AaaMakeDoc");
