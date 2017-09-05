@@ -1,0 +1,32 @@
+#############################################################################
+##
+#W  toperations.xml
+#Y  Copyright (C) 2017                                Fernando Flores Brito
+##
+##  Licensing information can be found in the README file of this package.
+##
+#############################################################################
+##
+
+<#GAPDoc Label="InverseTransducer">
+<ManSection>
+  <Oper Name = "InverseTransducer" Arg = "T"/>
+  <Returns>A transducer.</Returns>
+  <Description>
+    For an invertible transducer <A>T</A> whose first state is a homeomorphism
+    state, the operation <C>InverseTransducer(<A>T</A>)</C> returns the inverse
+    of <A>T</A>. Please note that it is the user's responsibility to ensure that
+    the transducer <A>T</A> is both invertible and that its first state is a
+    homeomorphism state.
+    <Example><![CDATA[
+gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+>                      [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);;
+gap> g := InverseTransducer(f);;
+gap> w := TransducerFunction(f, [0, 1], 1)[1];
+[ 2, 0 ]
+gap> TransducerFunction(g, w, 1)[1];
+[ 0, 1 ]
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
