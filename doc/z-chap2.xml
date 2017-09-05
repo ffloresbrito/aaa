@@ -1,7 +1,7 @@
-<Chapter Label = "Word operations">
+<Chapter Label = "Words">
 
   <Heading>
-    Words and word operations
+    Words accepted by transducers and word operations
   </Heading>
 
   In this chapter we decribe the words that are accepted by an &aaa; transducer,
@@ -10,7 +10,7 @@
   <!--**********************************************************************-->
   <!--**********************************************************************-->
 
-  <Section Label = "Transducers">
+  <Section Label = "Word Operations">
 
     <Heading>
       Words and operations

@@ -18,6 +18,10 @@
     The &aaa; package provides a method to represent transducers in &GAP;.
 
     <#Include Label = "Transducer">
+    <#Include Label = "TransducerFunction">
+    <#Include Label = "XFunction">
+    <#Include Label = "XAlphabet">
+    <#Include Label = "States">
 
   </Section>
 

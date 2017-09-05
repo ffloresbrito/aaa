@@ -5,7 +5,8 @@
   </Heading>
 
   In this chapter we decribe the methods that are available in the &aaa; package
-  to perform operations on &aaa; transducers.
+  to perform operations on &aaa; transducers. These methods are implementations
+  of the algorithms introduced in <Cite Key="GNS"/>.
 
   <!--**********************************************************************-->
   <!--**********************************************************************-->
@@ -17,6 +18,12 @@
     </Heading>
 
     The following are the methods that can be used to analyze &aaa; transducers.
+
+    <#Include Label = "InverseTransducer">
+    <#Include Label = "TransducerProduct">
+    <#Include Label = "RemoveStatesWithIncompleteResponse">
+    <#Include Label = "RemoveInaccessibleStates">
+    <#Include Label = "CopyTransducerWithInitialState">
 
   </Section>
 
