@@ -15,8 +15,8 @@
   <Description>
     For two positive integers <A>m</A>, and <A>n</A>, a dense list of dense
     lists of integers <A>P</A>, and a dense list of dense lists of dense lists
-    of integers <A>L</A>, such that <A>P</A> and <A>L</A>, and each of their
-    elements have the same size, the operation
+    of integers <A>L</A>, such that <A>P</A> and <A>L</A> have the same size,
+    and each of their elements have size equal to <A>m</A>, the operation
     <C>Transducer(<A>m, n, P, L</A>)</C> returns a transducer with input
     alphabet <C>[0 .. m - 1]</C>, output alphabet <C>[0 .. n - 1]</C>,
     transition function <A>P</A>, and output function <A>L</A>. If <C>p</C>
@@ -32,8 +32,88 @@
 
     <Example><![CDATA[
 gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);
-<transducer with input alphabet on 2 symbols, output alphabet on 2 symbols, 2 states.>
+<transducer with input alphabet on 2 symbols, output alphabet on 2 symbols,
+  and 2 states.>
 ]]></Example>
   </Description>
 </ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="TransducerFunction">
+<ManSection>
+  <Oper Name = "TransducerFunction" Arg = "T, word, m"/>
+  <Returns>A list.</Returns>
+  <Description>
+    For a transducer <A>T</A>, a dense list <A>word</A>, and a positive integer
+    <A>m</A> such that it is a state of the transducer, the operation
+    <C>TransducerFunction(<A>T, word, m</A>)</C> returns a list containing the
+    word obtained when <A>word</A> is read by <A>T</A> from state <A>m</A>, and
+    the state that is reached after reading <A>word</A> from state <A>m</A>.
+    <Example><![CDATA[
+gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
+gap> TransducerFunction(T, [0, 1, 0], 1);
+[ [ 0, 1 ], 2 ]
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="XFunction">
+  <ManSection><Heading>XFunction</Heading>
+    <Oper Name = "TransitionFunction" Arg = "T"/>
+    <Oper Name = "OutputFunction" Arg = "T"/>
+    <Returns>A list.</Returns>
+    <Description>
+      For a transducer <A>T</A>, the operation
+      <C>TransitionFunction(<A>T</A>)</C> displays the list representing the
+      transition function of <A>T</A>, and the operation
+      <C>OutputFunction(<A>T</A>)</C> displays the list representing the output
+      function of <A>T</A>.
+      <Example><![CDATA[
+gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
+gap> TransitionFunction(T);
+[ [ 1, 2 ], [ 2, 1 ] ]
+gap> OutputFunction(T);
+[ [ [ 0 ], [  ] ], [ [ 1 ], [ 0, 1 ] ] ]
+]]></Example>
+    </Description>
+  </ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="XAlphabet">
+  <ManSection><Heading>XAlphabet</Heading>
+    <Oper Name = "InputAlphabet" Arg = "T"/>
+    <Oper Name = "OutputAlphabet" Arg = "T"/>
+    <Returns>A list.</Returns>
+    <Description>
+      For a transducer <A>T</A>, the operation
+      <C>InputAlphabet(<A>T</A>)</C> returns the list representing the
+      input alphabet of <A>T</A>, and the operation
+      <C>OutputAlphabet(<A>T</A>)</C> returns the list representing the output
+      alphabet of <A>T</A>.
+      <Example><![CDATA[
+gap> P := Transducer(2, 3, [[1, 2], [2, 1]], [[[0], [2]], [[1], [0, 1]]]);;
+gap> InputAlphabet(P);
+[ 0, 1 ]
+gap> OutputAlphabet(P);
+[ 0 .. 2 ]
+]]></Example>
+    </Description>
+  </ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="States">
+  <ManSection>
+    <Oper Name = "States" Arg = "T"/>
+    <Returns>A positive integer.</Returns>
+    <Description>
+      For a transducer <A>T</A>, the operation <C>States(<A>T</A>)</C> returns
+      number of states of the transducer <A>T</A>.
+      <Example><![CDATA[
+gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
+gap> States(T);
+2
+]]></Example>
+    </Description>
+  </ManSection>
 <#/GAPDoc>
