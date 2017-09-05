@@ -30,3 +30,98 @@ gap> TransducerFunction(g, w, 1)[1];
   </Description>
 </ManSection>
 <#/GAPDoc>
+
+<#GAPDoc Label="TransducerProduct">
+<ManSection>
+  <Oper Name = "TransducerProduct" Arg = "T, P"/>
+  <Returns>A transducer.</Returns>
+  <Description>
+    For two transducers <A>T</A> and <A>P</A>, the operation
+    <C>TransducerProduct(<A>T, P</A>)</C> returns the product of the transducers
+    <A>T</A> and <A>P</A>.
+    <Example><![CDATA[
+gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+>                      [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);
+<transducer with input alphabet on 3 symbols, output alphabet on 3 symbols,
+  and 3 states.>
+gap> ff := TransducerProduct(f, f);
+<transducer with input alphabet on 3 symbols, output alphabet on 3 symbols,
+  and 9 states.>
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="RemoveStatesWithIncompleteResponse">
+<ManSection>
+  <Oper Name = "RemoveStatesWithIncompleteResponse" Arg = "T"/>
+  <Returns>A transducer.</Returns>
+  <Description>
+    For a transducer <A>T</A> that has states with incomplete response, the
+    operation <C>RemoveStatesWithIncompleteResponse(<A>T</A>)</C> returns a
+    transducer <C>P</C> that has one more state than <A>T</A> but has no states
+    with incomplete response. State <C>s</C> of the transducer <A>T</A> is state
+    <C>s + 1</C> of the transducer <C>P</C>.
+    <Example><![CDATA[
+gap> t := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], []],
+>                           [[1, 0, 0], [1], [1]], [[0, 2], [2], [0]]]);;
+<transducer with input alphabet on 3 symbols, output alphabet on 3 symbols,
+  and 3 states.>
+gap> p := RemoveStatesWithIncompleteResponse(t);
+<transducer with input alphabet on 3 symbols, output alphabet on 3 symbols,
+  and 4 states.>
+gap> TransducerFunction(t, [2], 1)[1]; TransducerFunction(t, [1], 2)[1];
+[  ]
+[ 1 ]
+gap> TransducerFunction(p, [2], 2)[1];
+[ 1 ]
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="RemoveInaccessibleStates">
+<ManSection>
+  <Oper Name = "RemoveInaccessibleStates" Arg = "T"/>
+  <Returns>A transducer.</Returns>
+  <Description>
+    For a transducer <A>T</A>, the operation
+    <C>RemoveInaccessibleStates(<A>T</A>)</C> returns the transducer that is
+    obtained by removing the states that are not accesssible from state 1.
+    <Example><![CDATA[
+gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+>                      [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);
+<transducer with input alphabet on 3 symbols, output alphabet on 3 symbols,
+  and 3 states.>
+gap> ff := TransducerProduct(f, f);
+<transducer with input alphabet on 3 symbols, output alphabet on 3 symbols,
+  and 9 states.>
+gap> m := RemoveInaccessibleStates(ff);
+<transducer with input alphabet on 3 symbols, output alphabet on 3 symbols,
+  and 6 states.>
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="CopyTransducerWithInitialState">
+<ManSection>
+  <Oper Name = "CopyTransducerWithInitialState" Arg = "T, m"/>
+  <Returns>A transducer.</Returns>
+  <Description>
+    For a transducer <A>T</A> and a positive integer <A>m</A>, the operation
+    <C>CopyTransducerWithInitialState(<A>T, m</A>)</C> returns the transducer
+    that is obtained by relabeling the states of <A>T</A> such that state
+    <A>m</A> becomes state 1, but is otherwise equivalent to <A>T</A>.
+    <Example><![CDATA[
+gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+>                      [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);;
+gap> p := CopyTransducerWithInitialState(f, 3);;
+gap> TransducerFunction(f, [0, 1, 0], 3);
+[ [ 0, 2, 0, 2 ], 1 ]
+gap> TransducerFunction(p, [0, 1, 0], 1);
+[ [ 0, 2, 0, 2 ], 2 ]
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
