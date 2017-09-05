@@ -94,7 +94,7 @@ invertible and if it is to invert the transducer.</p>""",
 PackageDoc := rec(
   BookName  := "aaa",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap01.html",
+  HTMLStart := "doc/chap0.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "aaa",
