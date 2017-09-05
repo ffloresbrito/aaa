@@ -1,0 +1,24 @@
+<Chapter Label = "Installing aaa">
+  <Heading>Installing aaa</Heading>
+
+  <Section Label = "Installation">
+    <Heading>Installation</Heading>
+    All you need to do is place the &aaa; package in the <C>pkg</C> directory of
+    your &GAP; installation and load the package by typing
+    <C>LoadPackage("aaa")</C> in your &GAP; session.
+
+  </Section>
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+  <Section Label = "Rebuilding the documentation">
+    <Heading>Rebuilding the documentation</Heading>
+
+    Should you need to rebuild the documentation, use the <Ref Func =
+    "AaaMakeDoc"/> function.
+
+    <#Include Label = "AaaMakeDoc">
+  </Section>
+
+</Chapter>
