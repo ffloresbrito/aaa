@@ -32,7 +32,7 @@ function(T)
   fi;
 
   Print("<transducer with input alphabet on ", T!.InputAlphabet, " ", sym1,
-        ", output alphabet on ", T!.OutputAlphabet, " ", sym2, ", ",
+        ", output alphabet on ", T!.OutputAlphabet, " ", sym2, ", and ",
         T!.States, " ", state, ".>");
 end);
 
@@ -105,4 +105,40 @@ function(inalph, outalph, tranfunc, outfunc)
                                              TransducerFunction := transducer));
 
   return T;
+end);
+
+InstallMethod(TransducerFunction, "for a transducer, a dense list and a posint",
+[IsTransducer, IsDenseList, IsPosInt],
+function(T, input, state)
+  return T!.TransducerFunction(input, state);
+end);
+
+InstallMethod(TransitionFunction, "for a transducer",
+[IsTransducer],
+function(T)
+  return T!.TransitionFunction;
+end);
+
+InstallMethod(OutputFunction, "for a transducer",
+[IsTransducer],
+function(T)
+  return T!.OutputFunction;
+end);
+
+InstallMethod(States, "for a transducer",
+[IsTransducer],
+function(T)
+  return T!.States;
+end);
+
+InstallMethod(InputAlphabet, "for a transducer",
+[IsTransducer],
+function(T)
+  return [0 .. T!.InputAlphabet - 1];
+end);
+
+InstallMethod(OutputAlphabet, "for a transducer",
+[IsTransducer],
+function(T)
+  return [0 .. T!.OutputAlphabet - 1];
 end);

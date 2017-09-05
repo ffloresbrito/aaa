@@ -20,3 +20,9 @@ DeclareRepresentation("IsTransducer", IsComponentObjectRep and
                                               "OutputFunction",
                                               "TransducerFunction"]);
 DeclareOperation("Transducer", [IsPosInt, IsPosInt, IsDenseList, IsDenseList]);
+DeclareOperation("TransducerFunction", [IsTransducer, IsDenseList, IsPosInt]);
+DeclareOperation("OutputFunction", [IsTransducer]);
+DeclareOperation("TransitionFunction", [IsTransducer]);
+DeclareOperation("InputAlphabet", [IsTransducer]);
+DeclareOperation("OutputAlphabet", [IsTransducer]);
+DeclareOperation("States", [IsTransducer]);
