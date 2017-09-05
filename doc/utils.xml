@@ -1,0 +1,20 @@
+#############################################################################
+##
+#W  utils.xml
+#Y  Copyright (C) 2017                                 Fernando Flores Brito 
+##
+##  Licensing information can be found in the README file of this package.
+##
+#############################################################################
+##
+
+<#GAPDoc Label="AaaMakeDoc">
+  <ManSection>
+    <Func Name = "AaaMakeDoc" Arg = ""/>
+    <Returns>Nothing.</Returns>
+    <Description>
+      This function should be called with no argument to compile the &aaa;
+      documentation.
+    </Description>
+  </ManSection>
+<#/GAPDoc>
