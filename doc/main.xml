@@ -32,13 +32,14 @@
 <TableOfContents/>
 
 <Body>
-  <#Include SYSTEM "z-chap01.xml">  <!-- transducers -->
-  <#Include SYSTEM "z-chap02.xml">  <!-- word operations -->
-  <#Include SYSTEM "z-chap03.xml">  <!-- transducer operations -->
+  <#Include SYSTEM "z-chap0.xml">  <!-- installation -->
+  <#Include SYSTEM "z-chap1.xml">  <!-- transducers -->
+  <#Include SYSTEM "z-chap2.xml">  <!-- word operations -->
+  <#Include SYSTEM "z-chap3.xml">  <!-- transducer operations -->
 
 </Body>
 
-<Bibliography Databases="aaa" />
+<Bibliography Databases="z-aaabib.xml" />
 <TheIndex/>
 
 </Book>
