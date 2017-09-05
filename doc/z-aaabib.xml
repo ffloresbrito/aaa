@@ -1,0 +1,22 @@
+# <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE file SYSTEM "bibxmlext.dtd" >                
+
+<file>
+
+<string key="psteklov" value="Proceedings of the Steklov Institute of
+    Mathematics"/>
+
+<entry id="GNS"><article>
+  <author>
+    <name><first>R. I.</first><last>Grigorchuk</last></name>
+    <name><first>V. V.</first><last>Nekrashevich</last></name>
+    <name><first>V. I.</first><last>Sushchanskii</last></name>
+  </author>  
+  <title>Automata, <C>D</C>ynamical <C>S</C>ystems, and <C>G</C>roups</title>
+  <journal><value key="psteklov"/></journal>
+  <year>2000</year>
+  <volume>231</volume>
+  <pages>128&ndash;203</pages>
+</article></entry>
+
+</file>
