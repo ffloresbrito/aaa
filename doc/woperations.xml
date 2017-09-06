@@ -69,3 +69,31 @@ gap> GreatestCommonPrefix([u, v, w, z]);
   </Description>
 </ManSection>
 <#/GAPDoc>
+
+<#GAPDoc Label="PreimageConePrefixes">
+<ManSection>
+  <Oper Name = "PreimageConePrefixes" Arg = "u, s, T"/>
+  <Returns>A list.</Returns>
+  <Description>
+    If <A>u</A> is a word with letters from the output alphabet of the
+    transducer <A>T</A>, and <A>s</A> is a positive integer, the operation
+    <C>PreimageConePrefixes(<A>u, s, T</A>)</C> returns the list <C>P</C>
+    of prefixes such that if <C>w = pq</C> for some <C>p</C> in <C>P</C>, and
+    some other word <C>q</C>, then the image of <C>w</C> when read by <A>T</A>
+    from state <A>s</A> is <C><A>u</A>v</C> for some word <C>v</C>. This
+    operation is meant to emulate the inverses of the functions <C>f_q</C>
+    discussed in the last two paragraphs of p.142 in <Cite Key="GNS"/>.
+    <Example><![CDATA[
+gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+>                      [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);;
+gap> PreimageConePrefixes([0], 2, f);
+[ [ 0 ], [ 1, 0 ], [ 1, 2 ] ]
+gap> TransducerFunction(f, [0], 2); TransducerFunction(f, [1, 0], 2);
+[ [ 0, 0 ], 1 ]
+[ [ 0, 2 ], 1 ]
+gap> TransducerFunction(f, [1, 2], 2);
+[ [ 0, 1 ], 2 ]
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
