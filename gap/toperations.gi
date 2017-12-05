@@ -60,7 +60,7 @@ function(tdcr1, tdcr2)
   fi;
 
   for x in [1 .. tdcr1!.States] do
-    for y in [1 .. tdcr2!.States] do 
+    for y in [1 .. tdcr2!.States] do
       Add(newstates, [x, y]);
       Add(ntfun, []);
       Add(nofun, []);

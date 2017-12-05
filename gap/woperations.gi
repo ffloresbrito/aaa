@@ -124,7 +124,7 @@ end);
 InstallMethod(PreimageConePrefixes, "for a den. list a pos. int. and a transd.",
 [IsDenseList, IsPosInt, IsTransducer],
 function(word, state, tducer)
-  local preimage, word2, x, wordset, pos, words, y, omit, n, newword, m, j;
+  local word2, x, wordset, pos, words, y, omit, n, newword;
   wordset := [];
   pos := [];
   words := [];
