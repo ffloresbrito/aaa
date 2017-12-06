@@ -102,17 +102,33 @@ gap> OutputAlphabet(P);
   </ManSection>
 <#/GAPDoc>
 
+<#GAPDoc Label="NrStates">
+  <ManSection>
+    <Oper Name = "NrStates" Arg = "T"/>
+    <Returns>A positive integer.</Returns>
+    <Description>
+      For a transducer <A>T</A>, the operation <C>NrStates(<A>T</A>)</C> returns
+      the number of states of the transducer <A>T</A>.
+      <Example><![CDATA[
+gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
+gap> NrStates(T);
+2
+]]></Example>
+    </Description>
+  </ManSection>
+<#/GAPDoc>
+
 <#GAPDoc Label="States">
   <ManSection>
     <Oper Name = "States" Arg = "T"/>
-    <Returns>A positive integer.</Returns>
+    <Returns>A list of integers.</Returns>
     <Description>
       For a transducer <A>T</A>, the operation <C>States(<A>T</A>)</C> returns
-      number of states of the transducer <A>T</A>.
+      a list representing the set of states of the transducer <A>T</A>.
       <Example><![CDATA[
 gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
 gap> States(T);
-2
+[ 1, 2 ]
 ]]></Example>
     </Description>
   </ManSection>
