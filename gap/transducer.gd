@@ -26,3 +26,4 @@ DeclareOperation("TransitionFunction", [IsTransducer]);
 DeclareOperation("InputAlphabet", [IsTransducer]);
 DeclareOperation("OutputAlphabet", [IsTransducer]);
 DeclareOperation("States", [IsTransducer]);
+DeclareOperation("NrStates", [IsTransducer]);

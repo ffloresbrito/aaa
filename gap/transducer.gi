@@ -128,6 +128,12 @@ end);
 InstallMethod(States, "for a transducer",
 [IsTransducer],
 function(T)
+  return [1 .. T!.States];
+end);
+
+InstallMethod(NrStates, "for a transducer",
+[IsTransducer],
+function(T)
   return T!.States;
 end);
 
