@@ -43,7 +43,7 @@ function(transducer)
     for j in out[i] do
       n := n + 1;
       st := String(OutputFunction(transducer)[i][n]);
-      RemoveCharacters(st, "[,]");
+      RemoveCharacters(st, " [,]");
       Append(str, Concatenation(String(i), " -> ", String(j)));
       Append(str, Concatenation(" [label=\"", String(n - 1), "|", st, "\"]"));
       Append(str, "\n");
