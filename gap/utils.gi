@@ -24,11 +24,11 @@ end);
 InstallMethod(DotTransducer, "for a transducer",
 [IsTransducer],
 function(transducer)
-  local verts, out, m, n, str, i, j, st;
+  local i, j, m, n, out, st, str, verts;
 
-  verts := [1 .. States(transducer)];
+  verts := States(transducer);
   out   := TransitionFunction(transducer);
-  m     := States(transducer);
+  m     := NrStates(transducer);
   str   := "//dot\n";
 
   Append(str, "digraph hgn{\n");
