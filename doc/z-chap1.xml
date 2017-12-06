@@ -22,6 +22,7 @@
     <#Include Label = "XFunction">
     <#Include Label = "XAlphabet">
     <#Include Label = "States">
+    <#Include Label = "NrStates">
 
   </Section>
 
