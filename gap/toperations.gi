@@ -85,7 +85,7 @@ end);
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 [IsTransducer],
 function(T)
-  local ntfunc, nofunc, n, x, new1;
+  local ntfunc, nofunc, n, x;
   ntfunc := [];
   nofunc := [];
   for x in [1 .. T!.States + 1] do
@@ -93,9 +93,8 @@ function(T)
     Add(nofunc, []);
   od;
   for x in [0 .. T!.InputAlphabet - 1] do
-    new1 := T!.TransducerFunction([x], 1);
-    ntfunc[1][x + 1] := new1[2] + 1;
-    nofunc[1][x + 1] := new1[1];
+    ntfunc[1][x + 1] := T!.TransducerFunction([x], 1)[2] + 1;
+    nofunc[1][x + 1] := ImageConeLongestPrefix([x], 1, T);
   od;
   for n in [2 .. T!.States + 1] do
     for x in [0 .. T!.InputAlphabet - 1] do
