@@ -266,14 +266,12 @@ function(w, q, T)
     k := k + 1;
     outputs := [];
     active := Tuples([0 .. T!.InputAlphabet - 1], k);
-
     for x in active do
       word := T!.TransducerFunction(x, b)[1];
       if not word in outputs then
         Add(outputs, word);
       fi;
     od;
-
     for x in outputs do
       for y in outputs do
         if not IsPrefix(x, y) and not IsPrefix(y, x) then
@@ -284,18 +282,19 @@ function(w, q, T)
       od;
     od;
   od;
-
   while Size(active) <> 0 do
     while Size(common1) < Size(common) or flag do
       common := ShallowCopy(common1);
+      tactive := ShallowCopy(active);
       for x in active do
         word := T!.TransducerFunction(x, b)[1];
-        if Size(word) > Size(common) or (not IsPrefix(word, common) and
-                                         not IsPrefix(common, word)) then
-          Remove(active, Position(active, x));
+        if (Size(word) > Size(common)) or ((not IsPrefix(word, common)) and
+          (not IsPrefix(common, word))) then
+          Remove(tactive, Position(tactive, x));
           Add(retired, x);
         fi;
       od;
+      active := ShallowCopy(tactive);
       outputs := [];
       for x in retired do
         word := T!.TransducerFunction(x, b)[1];
@@ -315,12 +314,13 @@ function(w, q, T)
         if not word in tactive then
           Add(tactive, word);
         fi;
+        word := [];
+        Append(word, x);
       od;
     od;
     active := ShallowCopy(tactive);
     flag := true;
   od;
   Append(v, common1);
-
   return v;
 end);
