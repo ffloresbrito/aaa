@@ -1,0 +1,47 @@
+<Chapter Label = "Visualising Transducers">
+
+  <Heading>
+    Visualising Transducers
+  </Heading>
+
+  We provide the <Ref Func = "Splash"/> function written by A. Egry-Nay. 
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+  <Section Label = "Automatic viewing">
+
+    <Heading>
+      Automatic viewing
+    </Heading>
+
+    The following are the methods that can be used to display &aaa; transducers.
+
+    <#Include Label = "Splash">
+
+  </Section>
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+  <Section>
+
+    <Heading>
+      <C>dot</C> pictures
+    </Heading>
+
+    In this section, we describe the operations in &aaa; for creating
+    pictures in <C>dot</C> format.
+    <P/>
+
+    The operations described in this section return strings, which
+    can be viewed using <Ref Func = "Splash"/>.
+
+    <#Include Label = "DotTransducer"/>
+
+  </Section>
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+</Chapter>
