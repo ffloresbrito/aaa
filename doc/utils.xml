@@ -15,6 +15,59 @@
     <Description>
       This function should be called with no argument to compile the &aaa;
       documentation.
+
+<Example><![CDATA[
+gap> AaaMakeDoc();
+]]></Example>
+    </Description>
+  </ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="Splash">
+  <ManSection>
+    <Func Name = "Splash" Arg = "str"/>
+    <Returns>Nothing.</Returns>
+    <Description>
+      This function attempts to convert the string <A>str</A> into a pdf
+      document and open this document, i.e. to splash it all over your
+      monitor.<P/>
+
+      The string <A>str</A> must correspond to a valid <C>dot</C> text file and
+      you must have have <C>GraphViz</C> and <C>pdflatex</C> installed on your
+      computer.  For details about these file formats, see
+      <URL>http://www.latex-project.org</URL> and
+      <URL>http://www.graphviz.org</URL>.<P/>
+
+      This function is provided to allow convenient, immediate viewing of the
+      pictures produced by <Ref Oper="DotTransducer"/>.<P/>
+
+      This function was written by Attila Egri-Nagy and Manuel Delgado with some
+      minor changes by J. D. Mitchell.<P/>
+<Example><![CDATA[
+gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
+gap> Splash(DotTransducer(T));
+]]></Example>
+    </Description>
+  </ManSection>
+<#/GAPDoc>
+
+<#GAPDoc Label="DotTransducer">
+  <ManSection>
+    <Oper Name="DotTransducer" Arg="T"/>
+    <Returns>A string.</Returns>
+    <Description>
+      For a transducer <A>T</A>, this operation produces a graphical
+      representation of the transducer as an automaton. The output is in
+      <C>dot</C> format (also known as <C>GraphViz</C>) format. For details
+      about this file format, and information about how to display or edit this
+      format see <URL>http://www.graphviz.org</URL>.<P/>
+<Example><![CDATA[
+gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
+gap> DotTransducer(T);
+"//dot\ndigraph hgn{\nnode [shape=circle]\n1\n2\n1 -> 1
+[label=\"0|0\"]\n1 -> 2 [label=\"1|\"]\n2 -> 2
+[label=\"0|1\"]\n2 -> 1 [label=\"1|01\"]\n}\n\"
+]]></Example>
     </Description>
   </ManSection>
 <#/GAPDoc>
