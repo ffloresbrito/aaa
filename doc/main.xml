@@ -36,6 +36,7 @@
   <#Include SYSTEM "z-chap1.xml">  <!-- transducers -->
   <#Include SYSTEM "z-chap2.xml">  <!-- word operations -->
   <#Include SYSTEM "z-chap3.xml">  <!-- transducer operations -->
+  <#Include SYSTEM "z-chap4.xml">  <!-- visualising transducers -->
 
 </Body>
 
