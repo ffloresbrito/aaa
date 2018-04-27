@@ -12,7 +12,7 @@
 ##  <!ENTITY VERSION "0.0.1">
 ##  <!ENTITY GAPVERS "4.8.0">
 ##  <!ENTITY ARCHIVENAME "aaa-0.0.1">
-##  <!ENTITY COPYRIGHTYEARS "2017">
+##  <!ENTITY COPYRIGHTYEARS "2017-2018">
 ##  <#/GAPDoc>
 
 BindGlobal("_RecogsFunnyNameFormatterFunction",
