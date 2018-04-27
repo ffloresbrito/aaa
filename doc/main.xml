@@ -11,6 +11,8 @@
      <!ENTITY D "<Alt Only='HTML'>\(\mathscr{D}\)</Alt><Alt
      Only='Text'><E>D</E></Alt><Alt Only='LaTeX'><M>\mathcal{D}</M></Alt>">
      <!ENTITY noindent "<Alt Only='LaTeX'>\noindent</Alt>">
+     <!ENTITY Digraphs "<Package>Digraphs</Package>">
+     <!ENTITY Semigroups "<Package>Semigroups</Package>">
      <!ENTITY setX "<Alt Not='Text'><M>X</M></Alt><Alt Only='Text'><C>X</C></Alt>">
      <!ENTITY bfn "<Alt Not='Text'><M>\mathbf{n}</M></Alt><Alt Only='Text'><E>n</E></Alt>">
      <!ENTITY n "<Alt Not='Text'><M>n</M></Alt><Alt Only='Text'><C>n</C></Alt>">
@@ -25,9 +27,11 @@
      <!ENTITY bliss "<Alt Not='Text'><URL
    Text='bliss'>http://www.tcs.tkk.fi/Software/bliss/</URL></Alt><Alt
    Only='Text'><Package>bliss</Package></Alt>">
+     <#Include Label="PKGVERSIONDATA">
    ]>
 
 <Book Name="aaa">
+<#Include SYSTEM "title.xml">
 
 <TableOfContents/>
 

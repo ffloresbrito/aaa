@@ -19,4 +19,46 @@
   <pages>128&ndash;203</pages>
 </article></entry>
 
+<entry id="BCMNO"><article>
+  <author>
+    <name><first>C.</first><last>Bleak</last></name>
+    <name><first>P.</first><last>Cameron</last></name>
+    <name><first>Y.</first><last>Maissel</last></name>
+    <name><first>A.</first><last>Navas</last></name>
+    <name><first>F.</first><last>Olukoya</last></name>
+  </author>
+  <title>The further chameleon groups of <C>R</C>ichard <C>T</C>hompson, and
+    <C>G</C>raham <C>H</C>igman: Automorphisms via dynamis for the <C>H</C>igman
+    groups <i><C>G</C><sub>n,r</sub></i>.</title>
+  <journal>arXiv</journal>
+  <year>2016</year>
+  <volume>1605.09302v1</volume>
+</article></entry>
+
+<entry id="SEMIGPS"><manual>
+  <author>
+    <name><first>J. D.</first><last>Mitchell</last></name>
+    <name><first></first><last>others</last></name>
+  </author>
+  <title>Semigroups - <C>GAP</C> package, <C>V</C>ersion 3.0.15</title>
+  <doi>10.5281/zenodo.592893</doi>
+  <month>Mar</month>
+  <year>2018</year>
+  <url>http://dx.doi.org/10.5281/zenodo.592893</url>
+</manual></entry>
+
+<entry id="DGPHS"><manual>
+  <author>
+    <name><first>J.</first><last>De Beule</last></name>
+    <name><first>J.</first><last>Jonusas</last></name>
+    <name><first>J. D.</first><last>Mitchell</last></name>
+    <name><first>M.</first><last>Torpey</last></name>
+    <name><first>W.</first><last>Wilson</last></name>
+  </author>
+  <title>Digraphs - <C>GAP</C> package, <C>V</C>ersion 0.12.1</title>
+  <month>Apr</month>
+  <year>2018</year>
+  <url>https://gap-packages.github.io/Digraphs</url>
+</manual></entry>
+
 </file>
