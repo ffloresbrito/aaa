@@ -14,6 +14,7 @@ InstallGlobalFunction(AaaMakeDoc,
 function()
   MakeGAPDocDoc(Concatenation(PackageInfo("aaa")[1]!.InstallationPath, "/doc"),
                 "main.xml", ["../PackageInfo.g",
+                             "title.xml",
                              "transducer.xml",
                              "toperations.xml",
                              "utils.xml",
@@ -21,8 +22,10 @@ function()
   return;
 end);
 
+################################################################################
+
 InstallMethod(DotTransducer, "for a transducer",
-[IsTransducer],
+[IsTransducer],                #This function was written by Michael Torpey
 function(transducer)
   local i, j, m, n, out, st, str, verts;
 
