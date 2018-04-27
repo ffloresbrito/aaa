@@ -289,7 +289,7 @@ function(w, q, T)
       for x in active do
         word := T!.TransducerFunction(x, b)[1];
         if (Size(word) > Size(common)) or ((not IsPrefix(word, common)) and
-          (not IsPrefix(common, word))) then
+            (not IsPrefix(common, word))) then
           Remove(tactive, Position(tactive, x));
           Add(retired, x);
         fi;
