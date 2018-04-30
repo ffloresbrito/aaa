@@ -2,7 +2,10 @@
   <Title>&aaa;</Title>
   <Version>Version &VERSION;</Version>
 
-  <Author>Collin Bleak</Author>
+  <Author>Collin Bleak
+    <Email>cb211@st-andrews.ac.uk</Email>
+    <Homepage>www-groups.mcs.st-and.ac.uk/~collin/</Homepage>
+  </Author>
   <Author>Fernando Flores Brito</Author>
   <Author>Feyishayo Olukoya</Author>
 
