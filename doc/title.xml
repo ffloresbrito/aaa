@@ -27,27 +27,21 @@
   </Abstract>
 
   <Acknowledgements>
-    I would like to thank J. D. Mitchell for his help. His guidance vitally
-    contributed to making this package have a coherent structure. &aaa; owes
-    much of its structure to the &Semigroups; <Cite Key="SEMIGPS"/> package.<P/>
+    The current package is a complete rewrite of the original AAA package that
+    was developed by Plamena Mineva-Sholz, Angela Richardson, and Ieva Vasiljeva
+    under the supervision of Collin Bleak. This version has been structured
+    following the &Semigroups; <Cite Key="SEMIGPS"/> package, a very useful
+    recommendation of J. D. Mitchell, and contains all the functionality of the
+    previous version, and more.<P/>
 
     Special thanks to Michael Torpey and Wilf Wilson for their continuous
     support. Their ample knowledge about &GAP; and programming has made the
     development of this package run smoothly.<P/>
 
-    Thank you to Feyishayo Olukoya for his thoughts and help. His vast
-    experience in the subject positively contributed to the efficiency of some
-    functions.<P/>
-
     Manuel Delgado and Attila Egri-Nagy contributed to the function
     <Ref Func = "Splash"/>. The function <Ref Oper="DotTransducer"/>, written by
     Michael Torpey, is based on the &Digraphs; <Cite Key="DGPHS"/> package
     function they wrote called DotString.<P/>
-
-    I would also like to acknowledge the valiant first attempt that Plamena
-    Mineva-Sholz, Angela Richardson, and Ieva Vasiljeva made in the direction of
-    writing a &GAP; package similar to this one. The name of this package was
-    chosen to honour their good effort.<P/>
   </Acknowledgements>
 
 </TitlePage>
