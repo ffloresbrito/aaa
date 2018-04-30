@@ -21,11 +21,10 @@
 
   <Abstract>
     The &aaa; package is a &GAP; package containing methods for transducers that
-    can be represented as asynchronous automata. It builds on the ideas
-    presented by Grigorchuk, Nekrashevich, and Sushchanskii <Cite Key="GNS"/>,
-    and then goes deeper to explore automorphisms via dynamics for the Higman
-    groups as exposed by Bleak, Cameron, Maissel, Navas, and Olukoya
-    <Cite Key="BCMNO"/>.<P/>
+    can be represented as asynchronous automata. It implements the processes
+    described in the paper by Grigorchuk, Nekrashevich, and Sushchanskii
+    <Cite Key="GNS"/> for working with finite transducers and the rational
+    group R.
   </Abstract>
 
   <Acknowledgements>
