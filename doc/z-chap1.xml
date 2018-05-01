@@ -30,4 +30,21 @@
   <!--**********************************************************************-->
   <!--**********************************************************************-->
 
+  <Section Label = "Attributes of Transducers">
+
+    <Heading>
+      Attributes of Transducers
+    </Heading>
+
+    In this section we explain the different transducer attributes that the
+    &aaa; package can compute.
+
+    <#Include Label = "IsInjectiveTransducer">
+
+  </Section>
+
+  <!--**********************************************************************-->
+  <!--**********************************************************************-->
+
+
 </Chapter>

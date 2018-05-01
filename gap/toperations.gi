@@ -233,3 +233,68 @@ function(T)
   od;
   return dmy;
 end);
+
+InstallMethod(IsInjectiveTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+  local active, flag, outs, p, pair, pairs, t, tactive, u, v, w, x, y, z;
+  active := List(InputAlphabet(T), x -> [[x]]);
+  flag := true;
+  pairs := [];
+
+  while flag do
+    tactive := List(InputAlphabet(T), x -> []);
+
+    for w in InputAlphabet(T) do
+      for u in active[w + 1] do
+        for v in InputAlphabet(T) do
+          p := Concatenation(u, [v]);
+          Add(tactive[w + 1], p);
+        od;
+      od;
+    od;
+
+    active := ShallowCopy(tactive);
+    outs := List(active, x -> List(x, y -> TransducerFunction(T, y, 1)));
+    tactive := List(InputAlphabet(T), x -> []);
+
+    for x in [1 .. Size(outs)] do
+      for y in [x + 1 .. Size(outs)] do
+        for z in [1 .. Size(outs[x])] do
+          for t in [1 .. Size(outs[y])] do
+            if IsPrefix(outs[x][z][1], outs[y][t][1]) or
+              IsPrefix(outs[y][t][1], outs[x][z][1]) then
+
+              Add(tactive[x], active[x][z]);
+              Add(tactive[y], active[y][t]);
+
+              if IsPrefix(outs[x][z][1], outs[y][t][1]) then
+                pair := [Minus(outs[x][z][1], outs[y][t][1]), [outs[x][z][2],
+                                                               outs[y][t][2]]];
+              else
+                pair := [Minus(outs[y][t][1], outs[x][z][1]), [outs[y][t][2],
+                                                               outs[x][z][2]]];
+              fi;
+
+              if pair in pairs then
+                SetIsInjectiveTransducer(T, false);
+                return false;
+              else
+                Add(pairs, pair);
+              fi;
+            fi;
+          od;
+        od;
+      od;
+    od;
+
+    active := ShallowCopy(tactive);
+
+    if ForAll(active, x -> IsEmpty(x)) then
+      flag := false;
+    fi;
+  od;
+
+  SetIsInjectiveTransducer(T, true);
+  return true;
+end);

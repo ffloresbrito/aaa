@@ -63,5 +63,16 @@ gap> TransducerFunction(f, [0, 1, 0], 3);
 gap> TransducerFunction(p, [0, 1, 0], 1);
 [ [ 0, 2, 0, 2 ], 2 ]
 
+#T# IsInjectiveTransducer
+gap> T := Transducer(2, 2, [[2, 4], [3, 6], [3, 2], [5, 7], [5, 4], [6, 6],
+>  [7, 7]], [[[0], []], [[0, 1], [1, 0, 1]], [[1, 1, 1], [1, 0]], [[0, 0],
+>  [0, 1, 0]], [[0, 0, 0], [1, 1]], [[0], [1]], [[0], [1]]]);;
+gap> IsInjectiveTransducer(T);
+false
+gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+> [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);;
+gap> IsInjectiveTransducer(f);
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
