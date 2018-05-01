@@ -61,10 +61,10 @@ function(word, state, tducer)
   preimage := [];
   word2 := ShallowCopy(word);
 
-  if state > tducer!.States then
+  if state > NrStates(tducer) then
     ErrorNoReturn("aaa: Preimage: usage,\n",
                   "the second argument is not a state of the third argument,");
-  elif ForAny(word, x -> not x in [0 .. tducer!.OutputAlphabet - 1]) then
+  elif ForAny(word, x -> not x in OutputAlphabet(tducer)) then
     ErrorNoReturn("aaa: Preimage: usage,\n",
                   "the first argument contains symbols not in the output ",
                   "alphabet of the\nthird argument,");
@@ -72,34 +72,34 @@ function(word, state, tducer)
     return [];
   fi;
 
-  if word in tducer!.OutputFunction[state] then
-    return [Position(tducer!.OutputFunction[state], word) - 1];
+  if word in OutputFunction(tducer)[state] then
+    return [Position(OutputFunction(tducer)[state], word) - 1];
 
-  elif Size(word) = 1 and not [] in tducer!.OutputFunction[state] then
+  elif Size(word) = 1 and not [] in OutputFunction(tducer)[state] then
     return [];
 
   else
 
-    if not [word[1]] in tducer!.OutputFunction[state] and not [] in
-        tducer!.OutputFunction[state] then
+    if not [word[1]] in OutputFunction(tducer)[state] and not [] in
+        OutputFunction(tducer)[state] then
       return [];
 
-    elif [word[1]] in tducer!.OutputFunction[state] or
-         (not [word[1]] in tducer!.OutputFunction[state] and [] in
-          tducer!.OutputFunction[state]) then
+    elif [word[1]] in OutputFunction(tducer)[state] or
+         (not [word[1]] in OutputFunction(tducer)[state] and [] in
+          OutputFunction(tducer)[state]) then
 
-      if [word[1]] in tducer!.OutputFunction[state] then
+      if [word[1]] in OutputFunction(tducer)[state] then
         Remove(word2, 1);
-        options := Positions(tducer!.OutputFunction[state], [word[1]]);
+        options := Positions(OutputFunction(tducer)[state], [word[1]]);
       else
-        options := Positions(tducer!.OutputFunction[state], []);
+        options := Positions(OutputFunction(tducer)[state], []);
       fi;
 
       preimages := [];
 
       for option in options do
         Add(preimages, Preimage(word2,
-                                tducer!.TransitionFunction[state][option],
+                                TransitionFunction(tducer)[state][option],
                                 tducer));
       od;
 
@@ -108,7 +108,7 @@ function(word, state, tducer)
           preimage := [im];
           Append(preimage, preimages[x]);
 
-          if tducer!.TransducerFunction(preimage, state)[1] = word then
+          if TransducerFunction(tducer, preimage, state)[1] = word then
             return preimage;
           fi;
         od;
@@ -128,27 +128,27 @@ function(word, state, tducer)
   wordset := [];
   pos := [];
   words := [];
-  if state > tducer!.States then
+  if state > States(tducer) then
     ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
                   "the second argument is not a state of the third argument,");
-  elif ForAny(word, x -> not x in [0 .. tducer!.OutputAlphabet - 1]) then
+  elif ForAny(word, x -> not x in OutputAlphabet(tducer)) then
     ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
                   "the first argument contains symbols not in the output ",
                   "alphabet of the\nthird argument,");
-  elif IsEmpty(word) and not [] in tducer!.OutputFunction[state] then
+  elif IsEmpty(word) and not [] in OutputFunction(tducer)[state] then
     return [[]];
   fi;
 
   if IsEmpty(word) then
-    pos := Positions(tducer!.OutputFunction[state], []) - 1;
+    pos := Positions(OutputFunction(tducer)[state], []) - 1;
     for x in [1 .. Size(pos)] do
       Add(wordset, [pos[x]]);
     od;
   else
     for x in [1 .. Size(word)] do
-      for y in [0 .. tducer!.InputAlphabet - 1] do
-        if Size(tducer!.OutputFunction[state][y + 1]) >= x then
-          if word{[1 .. x]} = tducer!.OutputFunction[state][y + 1]{[1 .. x]}
+      for y in InputAlphabet(tducer) do
+        if Size(OutputFunction(tducer)[state][y + 1]) >= x then
+          if word{[1 .. x]} = OutputFunction(tducer)[state][y + 1]{[1 .. x]}
               then
             if not [y] in wordset then
               Add(wordset, [y]);
@@ -162,8 +162,8 @@ function(word, state, tducer)
       od;
     od;
   fi;
-  if [] in tducer!.OutputFunction[state] then
-    pos := Positions(tducer!.OutputFunction[state], []) - 1;
+  if [] in OutputFunction(tducer)[state] then
+    pos := Positions(OutputFunction(tducer)[state], []) - 1;
     for x in [1 .. Size(pos)] do
       Add(wordset, [pos[x]]);
     od;
@@ -172,14 +172,14 @@ function(word, state, tducer)
   pos := [];
   for x in wordset do
     n := n + 1;
-    omit := Size(tducer!.OutputFunction[state][x[1] + 1]);
+    omit := Size(OutputFunction(tducer)[state][x[1] + 1]);
     if omit < Size(word) then
       if omit = 0 then
         word2 := ShallowCopy(word);
       else
         word2 := Minus(word, word{[1 .. omit]});
       fi;
-        Add(pos, [PreimageConePrefixes(word2, tducer!.TransitionFunction
+        Add(pos, [PreimageConePrefixes(word2, TransitionFunction(tducer)
                                        [state][x[1] + 1], tducer), n]);
     fi;
   od;
@@ -196,7 +196,7 @@ function(word, state, tducer)
     Add(wordset, []);
   fi;
   for x in wordset do
-    if IsPrefix(tducer!.TransducerFunction(x, state)[1], word) then
+    if IsPrefix(TransducerFunction(tducer, x, state)[1], word) then
       Add(words, x);
     fi;
   od;
@@ -246,16 +246,16 @@ function(w, q, T)
   local tducerf, flag, active, tactive, outputs, retired, v, b, k, y, x, word,
         common, common1;
 
-  if ForAny(w, x -> not x in [0 .. T!.InputAlphabet - 1]) then
+  if ForAny(w, x -> not x in InputAlphabet(T)) then
     ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
                   "the first argument contains symbols not in the input ",
                   "alphabet of the third\n argument,");
-  elif not q in [1 .. T!.States] then
+  elif not q in States(T) then
     ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
                   "the second argument is not a state of the third argument,");
   fi;
 
-  tducerf := T!.TransducerFunction(w, q);
+  tducerf := TransducerFunction(T, w, q);
   v := tducerf[1];
   b := tducerf[2];
   flag := false;
@@ -265,9 +265,9 @@ function(w, q, T)
   while not flag do
     k := k + 1;
     outputs := [];
-    active := Tuples([0 .. T!.InputAlphabet - 1], k);
+    active := Tuples(InputAlphabet(T), k);
     for x in active do
-      word := T!.TransducerFunction(x, b)[1];
+      word := TransducerFunction(T, x, b)[1];
       if not word in outputs then
         Add(outputs, word);
       fi;
@@ -287,7 +287,7 @@ function(w, q, T)
       common := ShallowCopy(common1);
       tactive := ShallowCopy(active);
       for x in active do
-        word := T!.TransducerFunction(x, b)[1];
+        word := TransducerFunction(T, x, b)[1];
         if (Size(word) > Size(common)) or ((not IsPrefix(word, common)) and
             (not IsPrefix(common, word))) then
           Remove(tactive, Position(tactive, x));
@@ -297,7 +297,7 @@ function(w, q, T)
       active := ShallowCopy(tactive);
       outputs := [];
       for x in retired do
-        word := T!.TransducerFunction(x, b)[1];
+        word := TransducerFunction(T, x, b)[1];
         if not word in outputs then
           Add(outputs, word);
         fi;
@@ -309,7 +309,7 @@ function(w, q, T)
     for x in active do
       word := [];
       Append(word, x);
-      for y in [0 .. T!.InputAlphabet - 1] do
+      for y in InputAlphabet(T) do
         Append(word, [y]);
         if not word in tactive then
           Add(tactive, word);
