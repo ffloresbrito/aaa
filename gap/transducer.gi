@@ -148,3 +148,15 @@ InstallMethod(OutputAlphabet, "for a transducer",
 function(T)
   return [0 .. T!.OutputAlphabet - 1];
 end);
+
+InstallMethod(NrOutputSymbols, "for a transducer",
+[IsTransducer],
+function(T)
+  return T!.OutputAlphabet;
+end);
+
+InstallMethod(NrInputSymbols, "for a transducer",
+[IsTransducer],
+function(T)
+  return T!.InputAlphabet;
+end);
