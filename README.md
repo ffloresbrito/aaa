@@ -1,5 +1,6 @@
 ### aaa package for GAP
-#### Copyright (C) 2017 Collin Bleak, Fernando Flores Brito, Feyishayo Olukoya.
+#### Copyright (C) 2017-2018 Collin Bleak, Fernando Flores Brito,
+#### and Feyishayo Olukoya.
 #### Licencing information is available in the LICENSE file.
 
 This is a GAP package that introduces algorithms for asynchronous automata.
