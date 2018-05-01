@@ -263,7 +263,7 @@ function(T)
         for z in [1 .. Size(outs[x])] do
           for t in [1 .. Size(outs[y])] do
             if IsPrefix(outs[x][z][1], outs[y][t][1]) or
-              IsPrefix(outs[y][t][1], outs[x][z][1]) then
+                IsPrefix(outs[y][t][1], outs[x][z][1]) then
 
               Add(tactive[x], active[x][z]);
               Add(tactive[y], active[y][t]);
