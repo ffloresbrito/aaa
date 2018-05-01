@@ -21,6 +21,7 @@
     <#Include Label = "TransducerFunction">
     <#Include Label = "XFunction">
     <#Include Label = "XAlphabet">
+    <#Include Label = "NrXSymbols">
     <#Include Label = "States">
     <#Include Label = "NrStates">
 

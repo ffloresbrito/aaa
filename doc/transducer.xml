@@ -132,4 +132,25 @@ gap> States(T);
 ]]></Example>
     </Description>
   </ManSection>
+
+<#/GAPDoc>
+<#GAPDoc Label="NrXSymbols">
+  <ManSection><Heading>NrXSymbols</Heading>
+    <Oper Name = "NrInputSymbols" Arg = "T"/>
+    <Oper Name = "NrOutputSymbols" Arg = "T"/>
+    <Returns>A positive integer.</Returns>
+    <Description>
+      For a transducer <A>T</A>, the operation <C>NrInputSymbols(<A>T</A>)</C>
+      returns the number of symbols of the input alphabet of <A>T</A>, and the
+      operation <C>NrOutputSymbols(<A>T</A>)</C> returns the number of symbols
+      of the output alphabet of <A>T</A>.
+
+      <Example><![CDATA[
+gap> T := Transducer(2, 3, [[1, 2], [2, 1]], [[[0], []], [[1], [2, 1]]]);;
+gap> NrInputSymbols(T); NrOutputSymbols(T);
+2
+3
+]]></Example>
+    </Description>
+  </ManSection>
 <#/GAPDoc>
