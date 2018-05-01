@@ -22,12 +22,12 @@ function(T)
   n := 0;
   for q in newstates do
     n := n + 1;
-    for x in [0 .. T!.OutputAlphabet - 1] do
+    for x in OutputAlphabet(T) do
       word := [];
       Append(word, q[1]);
       Append(word, [x]);
       preimage := GreatestCommonPrefix(PreimageConePrefixes(word, q[2], T));
-      tdcrf := T!.TransducerFunction(preimage, q[2]);
+      tdcrf := TransducerFunction(T, preimage, q[2]);
 
       newstate := [Minus(word, tdcrf[1]), tdcrf[2]];
 
@@ -42,7 +42,7 @@ function(T)
     od;
   od;
 
-  return Transducer(T!.OutputAlphabet, T!.InputAlphabet, ntfunc, nofunc);
+  return Transducer(NrOutputSymbols(T), NrInputSymbols(T), ntfunc, nofunc);
 end);
 
 InstallMethod(TransducerProduct, "for two transducers",
@@ -53,14 +53,14 @@ function(tdcr1, tdcr2)
   ntfun := [];
   nofun := [];
 
-  if tdcr1!.OutputAlphabet <> tdcr2!.InputAlphabet then
+  if NrOutputSymbols(tdcr1) <> NrInputSymbols(tdcr2) then
     ErrorNoReturn("aaa: TransducerProduct: usage,\n",
                   "the output alphabet of the first argument must be the ",
                   "input alphabet\nof the second argument,");
   fi;
 
-  for x in [1 .. tdcr1!.States] do
-    for y in [1 .. tdcr2!.States] do
+  for x in States(tdcr1) do
+    for y in States(tdcr2) do
       Add(newstates, [x, y]);
       Add(ntfun, []);
       Add(nofun, []);
@@ -70,16 +70,17 @@ function(tdcr1, tdcr2)
   n := 0;
   for q in newstates do
     n := n + 1;
-    for x in [0 .. tdcr1!.InputAlphabet - 1] do
-      word := tdcr1!.OutputFunction[q[1]][x + 1];
-      tducerf := tdcr2!.TransducerFunction(word, q[2]);
-      newstate := [tdcr1!.TransitionFunction[q[1]][x + 1], tducerf[2]];
+    for x in InputAlphabet(tdcr1) do
+      word := OutputFunction(tdcr1)[q[1]][x + 1];
+      tducerf := TransducerFunction(tdcr2, word, q[2]);
+      newstate := [TransitionFunction(tdcr1)[q[1]][x + 1], tducerf[2]];
       ntfun[n][x + 1] := Position(newstates, newstate);
       nofun[n][x + 1] := tducerf[1];
     od;
   od;
 
-  return Transducer(tdcr1!.InputAlphabet, tdcr2!.OutputAlphabet, ntfun, nofun);
+  return Transducer(NrInputSymbols(tdcr1), NrOutputSymbols(tdcr2), ntfun,
+  nofun);
 end);
 
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
@@ -88,23 +89,23 @@ function(T)
   local ntfunc, nofunc, n, x;
   ntfunc := [];
   nofunc := [];
-  for x in [1 .. T!.States + 1] do
+  for x in [1 .. NrStates(T) + 1] do
     Add(ntfunc, []);
     Add(nofunc, []);
   od;
-  for x in [0 .. T!.InputAlphabet - 1] do
-    ntfunc[1][x + 1] := T!.TransducerFunction([x], 1)[2] + 1;
+  for x in InputAlphabet(T) do
+    ntfunc[1][x + 1] := TransducerFunction(T, [x], 1)[2] + 1;
     nofunc[1][x + 1] := ImageConeLongestPrefix([x], 1, T);
   od;
-  for n in [2 .. T!.States + 1] do
-    for x in [0 .. T!.InputAlphabet - 1] do
+  for n in [2 .. NrStates(T) + 1] do
+    for x in InputAlphabet(T) do
       nofunc[n][x + 1] := Minus(ImageConeLongestPrefix([x], n - 1, T),
                                 ImageConeLongestPrefix([], n - 1, T));
-      ntfunc[n][x + 1] := T!.TransducerFunction([x], n - 1)[2] + 1;
+      ntfunc[n][x + 1] := TransducerFunction(T, [x], n - 1)[2] + 1;
       od;
     od;
 
-  return Transducer(T!.InputAlphabet, T!.OutputAlphabet, ntfunc, nofunc);
+  return Transducer(NrInputSymbols(T), NrOutputSymbols(T), ntfunc, nofunc);
 end);
 
 InstallMethod(RemoveInaccessibleStates, "for a transducer",
@@ -119,8 +120,8 @@ function(T)
 
   for q in states do
     n := n + 1;
-    for x in [0 .. T!.InputAlphabet - 1] do
-      new := T!.TransducerFunction([x], q);
+    for x in InputAlphabet(T) do
+      new := TransducerFunction(T, [x], q);
 
       if not new[2] in states then
         Add(states, new[2]);
@@ -133,15 +134,15 @@ function(T)
     od;
   od;
 
-  return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
+  return Transducer(NrInputSymbols(T), NrOutputSymbols(T), newq, newl);
 end);
 
 InstallMethod(CopyTransducerWithInitialState,
 "for a transducer and a positive integer",
 [IsTransducer, IsPosInt],
 function(T, i)
-  local new, newq, newl, states, q, x, n;
-  states := [1 .. T!.States];
+  local new, newq, newl, q, states, x, n;
+  states := ShallowCopy(States(T));
 
   if not i in states then
     ErrorNoReturn("aaa: ChangeInitialState: usage,\n",
@@ -163,14 +164,14 @@ function(T, i)
 
   for q in states do
     n := n + 1;
-    for x in [0 .. T!.InputAlphabet - 1] do
-      new := T!.TransducerFunction([x], q);
+    for x in InputAlphabet(T) do
+      new := TransducerFunction(T, [x], q);
       newq[n][x + 1] := Position(states, new[2]);
       newl[n][x + 1] := new[1];
     od;
   od;
 
-  return Transducer(T!.InputAlphabet, T!.OutputAlphabet, newq, newl);
+  return Transducer(NrInputSymbols(T), NrOutputSymbols(T), newq, newl);
 end);
 
 InstallMethod(RemoveEquivalentStates, "for a transducer",
@@ -178,7 +179,7 @@ InstallMethod(RemoveEquivalentStates, "for a transducer",
 function(T)
   local states, n, Eq, Reps, q, p, Eqclass, new, newq, newl, x, seen, dmy, nsr,
         ns;
-  ns := T!.States;
+  ns := NrStates(T);
   nsr := 0;
   dmy := CopyTransducerWithInitialState(T, 1);
   Eqclass := function(y)
@@ -191,7 +192,7 @@ function(T)
              end;
 
   while nsr < ns do
-    ns := dmy!.States;
+    ns := NrStates(dmy);
     states := [1 .. ns];
     n := 0;
     Eq := [];
@@ -206,8 +207,8 @@ function(T)
         Add(Reps, q);
         for p in states do
           if not p in seen then
-            if dmy!.TransitionFunction[q] = dmy!.TransitionFunction[p] and
-                dmy!.OutputFunction[q] = dmy!.OutputFunction[p] then
+            if TransitionFunction(dmy)[q] = TransitionFunction(dmy)[p] and
+                OutputFunction(dmy)[q] = OutputFunction(dmy)[p] then
               Add(Eq[n], p);
               Add(seen, p);
             fi;
@@ -221,14 +222,14 @@ function(T)
       Add(newq, []);
       Add(newl, []);
 
-      for x in [0 .. dmy!.InputAlphabet - 1] do
-        new := dmy!.TransducerFunction([x], q);
+      for x in InputAlphabet(dmy) do
+        new := TransducerFunction(dmy, [x], q);
         newl[n][x + 1] := new[1];
         newq[n][x + 1] := Position(Reps, Eqclass(new[2]));
       od;
     od;
-    dmy := Transducer(dmy!.InputAlphabet, dmy!.OutputAlphabet, newq, newl);
-    nsr := dmy!.States;
+    dmy := Transducer(NrInputSymbols(dmy), NrOutputSymbols(dmy), newq, newl);
+    nsr := NrStates(dmy);
   od;
   return dmy;
 end);
