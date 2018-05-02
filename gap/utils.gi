@@ -34,7 +34,8 @@ function(transducer)
   m     := NrStates(transducer);
   str   := "//dot\n";
 
-  Append(str, "digraph hgn{\n");
+  Append(str, "digraph finite_state_machine{\n");
+  Append(str, "rankdir=LR;\n");
   Append(str, "node [shape=circle]\n");
 
   for i in verts do
