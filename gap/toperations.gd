@@ -19,3 +19,4 @@ DeclareOperation("RemoveEquivalentStates", [IsTransducer]);
 DeclareAttribute("IsInjectiveTransducer", IsTransducer);
 DeclareAttribute("EqualImagePrefixes", IsTransducer);
 DeclareOperation("\*", [IsTransducer, IsTransducer]);
+DeclareOperation("\^", [IsTransducer, IsPosInt]);

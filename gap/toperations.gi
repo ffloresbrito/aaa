@@ -87,6 +87,19 @@ InstallMethod(\*, "for two transducers",
 [IsTransducer, IsTransducer],
 TransducerProduct);
 
+InstallMethod(\^, "for a transducer and a positive integer",
+[IsTransducer, IsPosInt],
+function(T, n)
+  local tducer, x;
+  tducer := CopyTransducerWithInitialState(T, 1);
+
+  for x in [1 .. n - 1] do
+    tducer := tducer * T;
+  od;
+  return tducer;
+end);
+
+
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 [IsTransducer],
 function(T)
