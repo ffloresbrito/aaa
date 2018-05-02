@@ -40,6 +40,7 @@
     &aaa; package can compute.
 
     <#Include Label = "IsInjectiveTransducer">
+    <#Include Label = "EqualImagePrefixes">
 
   </Section>
 

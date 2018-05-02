@@ -150,3 +150,32 @@ true
   </Description>
 </ManSection>
 <#/GAPDoc>
+
+<#GAPDoc Label="EqualImagePrefixes">
+<ManSection>
+  <Attr Name="EqualImagePrefixes" Arg="T"/>
+  <Returns>A list of lists or <C>fail</C>.</Returns>
+  <Description>
+    For an transducer <A>T</A>, with initial state 1, that is not injective, the
+    attribute <C>EqualImagePrefixes(<A>T</A>)</C> returns a list <C>[u, v]</C>
+    containing two words <C>u</C>, <C>v</C> such that there exist infinite words
+    <C>p</C>, and <C>q</C> such that <C>up</C> and <C>vq</C> have the same image
+    under <A>T</A>. If <A>T</A> is an injective transducer, it returns
+    <C>fail</C>.
+
+<Example><![CDATA[
+gap> T := Transducer(2, 2, [[2, 4], [3, 6], [3, 2], [5, 7], [5, 4], [6, 6],
+>  [7, 7]], [[[0], []], [[0, 1], [1, 0, 1]], [[1, 1, 1], [1, 0]], [[0, 0],
+>  [0, 1, 0]], [[0, 0, 0], [1, 1]], [[0], [1]], [[0], [1]]]);;
+gap> IsInjectiveTransducer(T);
+false
+gap> EqualImagePrefixes(T);
+[ [ 0, 1, 1 ], [ 1, 1, 1 ] ]
+gap> TransducerFunction(T, [0, 1, 1, 1, 1, 1], 1);
+[ [ 0, 1, 0, 1, 1, 1, 1, 1 ], 6 ]
+gap> TransducerFunction(T, [1, 1, 1, 1, 1, 1], 1);
+[ [ 0, 1, 0, 1, 1, 1, 1 ], 7 ]
+]]></Example>
+  </Description>
+</ManSection>
+<#/GAPDoc>
