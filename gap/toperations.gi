@@ -83,6 +83,10 @@ function(tdcr1, tdcr2)
   nofun);
 end);
 
+InstallMethod(\*, "for two transducers",
+[IsTransducer, IsTransducer],
+TransducerProduct);
+
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 [IsTransducer],
 function(T)
