@@ -265,8 +265,8 @@ function(T)
             if IsPrefix(outs[x][z][1], outs[y][t][1]) or
                 IsPrefix(outs[y][t][1], outs[x][z][1]) then
 
-              Add(tactive[x], active[x][z]);
-              Add(tactive[y], active[y][t]);
+              AddSet(tactive[x], active[x][z]);
+              AddSet(tactive[y], active[y][t]);
 
               if IsPrefix(outs[x][z][1], outs[y][t][1]) then
                 pair := [Minus(outs[x][z][1], outs[y][t][1]), [outs[x][z][2],
@@ -277,6 +277,7 @@ function(T)
               fi;
 
               if pair in pairs then
+                SetEqualImagePrefixes(T, [active[x][z], active[y][t]]);
                 SetIsInjectiveTransducer(T, false);
                 return false;
               else
@@ -297,4 +298,26 @@ function(T)
 
   SetIsInjectiveTransducer(T, true);
   return true;
+end);
+
+InstallMethod(EqualImagePrefixes, "for a transducer",
+[IsTransducer],
+function(T)
+  local tducer;
+
+  if HasEqualImagePrefixes(T) then
+    return EqualImagePrefixes(T);
+  elif HasIsInjectiveTransducer(T) then
+    if IsInjectiveTransducer(T) = false then
+      tducer := CopyTransducerWithInitialState(T, 1);
+      IsInjectiveTransducer(tducer);
+      SetEqualImagePrefixes(T, EqualImagePrefixes(tducer));
+      return EqualImagePrefixes(T);
+    fi;
+  elif IsInjectiveTransducer(T) = false then
+    return EqualImagePrefixes(T);
+  else
+    return fail;
+  fi;
+  return fail;
 end);
