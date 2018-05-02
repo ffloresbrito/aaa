@@ -77,6 +77,11 @@ gap> T := Transducer(2, 2, [[3, 2], [4, 4], [4, 4], [4, 4]], [[[], []],
 > [[0, 1], [1, 1]], [[0, 0], [1, 0]], [[0], [1]]]);;
 gap> IsInjectiveTransducer(T);
 true
+gap> T:= Transducer(2, 2, [[1, 2], [3, 4], [1, 5], [1, 6], [3, 4], [1, 6]],
+> [[[0, 1, 0], []], [[1, 1], [0]], [[0, 1, 0], []], [[], [1, 0, 1, 0]],
+> [[1], [0]], [[], [1, 0]]]);;
+gap> IsInjectiveTransducer(T);
+true
 
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
