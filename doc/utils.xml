@@ -64,9 +64,17 @@ gap> Splash(DotTransducer(T));
 <Example><![CDATA[
 gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);;
 gap> DotTransducer(T);
-"//dot\ndigraph hgn{\nnode [shape=circle]\n1\n2\n1 -> 1
-[label=\"0|0\"]\n1 -> 2 [label=\"1|\"]\n2 -> 2
-[label=\"0|1\"]\n2 -> 1 [label=\"1|01\"]\n}\n\"
+"//dot\n
+digraph finite_state_machine{\n
+rankdir=LR;\n
+node [shape=circle]\n
+1\n
+2\n
+1 -> 1 [label=\"0|0\"]\n
+1 -> 2 [label=\"1|\"]\n
+2 -> 2 [label=\"0|1\"]\n
+2 -> 1 [label=\"1|01\"]\n
+}\n"
 ]]></Example>
     </Description>
   </ManSection>
