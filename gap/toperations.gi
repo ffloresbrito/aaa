@@ -99,7 +99,6 @@ function(T, n)
   return tducer;
 end);
 
-
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 [IsTransducer],
 function(T)
@@ -337,4 +336,67 @@ function(T)
     return fail;
   fi;
   return fail;
+end);
+
+InstallMethod(IsSurjectiveTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+  local usefulstates, prefixcodes, imagetrees, completeblocks, finalimagetree,
+  tempdictionary, currentblocks, currentword, x, flag, y;
+  imagetrees := [];
+  completeblocks := [];
+  usefulstates := [1];
+  prefixcodes := [];
+
+  for x in usefulstates do
+    flag := true;
+    Add(prefixcodes, []);
+    currentword := [];
+    while flag do
+      while IsEmpty(TransducerFunction(T, currentword, x)[1]) do
+        Add(currentword, 0);
+      od;
+      Add(prefixcodes[Position(usefulstates, x)], ShallowCopy(currentword));
+      while currentword[Size(currentword)] = NrInputSymbols(T) - 1 do
+        Remove(currentword);
+        if IsEmpty(currentword) then
+          break;
+        fi;
+      od;
+
+      if not IsEmpty(currentword) then
+        currentword[Size(currentword)] := currentword[Size(currentword)] + 1;
+      else
+        flag := false;
+      fi;
+    od;
+    for y in prefixcodes[Size(prefixcodes)] do
+      AddSet(usefulstates, TransducerFunction(T, y, x)[2]);
+    od;
+    Add(imagetrees, NewDictionary([], true));
+    for y in prefixcodes[Size(prefixcodes)] do
+      if KnowsDictionary(imagetrees[Size(imagetrees)],
+          TransducerFunction(T, y, x)[1]) then
+        AddSet(LookupDictionary(imagetrees[Size(imagetrees)]),
+        TransducerFunction(T, y, x)[2]);
+      else
+        AddDictionary(imagetrees[Size(imagetrees)],
+        TransducerFunction(T, y, x)[1], [TransducerFunction(T, y, x)[2]]);
+      fi;
+    od;
+  od;
+  finalimagetree := NewDictionary([], true);
+  AddDictionary(finalimagetree, [], [1]);
+  tempdictionary := NewDictionary([], true);
+  AddDictionary(tempdictionary, [], [1]);
+  currentblocks := [[[], tempdictionary]];
+  while not IsSubset(completeblocks, List(currentblocks, x -> x[2])) do
+    for x in currentblocks do
+      if not x[2] in completeblocks then
+        break;
+      fi;
+    od;
+    break;
+  od;
+  return prefixcodes;
 end);
