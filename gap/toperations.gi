@@ -505,4 +505,3 @@ function(T)
   SetIsSurjectiveTransducer(T, answer);
   return answer;
 end);
-
