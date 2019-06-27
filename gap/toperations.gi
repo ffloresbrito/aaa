@@ -102,7 +102,16 @@ end);
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 [IsTransducer],
 function(T)
-  local ntfunc, nofunc, n, x;
+  local ntfunc, nofunc, n, x, const, target, pos, badpref, neededcopies,
+        i, stufftowrite, out, edgestopushfrom, edge, pushstring;
+  const := List(TransducerConstantStateOutputs(T),x-> List(x,y->y));
+  for i in [1 .. Size(const[2])] do
+    const[2][i]:= const[2][i]{[1 .. Size(const[2][i])-2]};
+    const[2][i]:= SplitString(const[2][i],"(");
+    const[2][i][1]:= List([1 .. Size(const[2][i][1])], x -> Int(const[2][i][1]{[x]}));
+    const[2][i][2]:= List([1 .. Size(const[2][i][2])], x -> Int(const[2][i][2]{[x]}));
+  od;
+  edgestopushfrom := [];
   ntfunc := [];
   nofunc := [];
   for x in [1 .. NrStates(T) + 1] do
@@ -110,17 +119,58 @@ function(T)
     Add(nofunc, []);
   od;
   for x in InputAlphabet(T) do
-    ntfunc[1][x + 1] := TransducerFunction(T, [x], 1)[2] + 1;
-    nofunc[1][x + 1] := ImageConeLongestPrefix([x], 1, T);
+    target := TransducerFunction(T, [x], 1)[2];
+    ntfunc[1][x + 1] := target + 1;
+    pos := Position(const[1], target);
+    if pos = fail then
+      nofunc[1][x + 1] := ImageConeLongestPrefix([x], 1, T);
+    else
+      out := TransducerFunction(T,[x],1)[1];
+      nofunc[1][x + 1] := Concatenation(out, const[2][pos][1]);
+      if out <> [] and const[2][pos][1] = [] and out[Size(out)] = const[2][pos][2][Size(const[2][pos][2])] then
+        Add(edgestopushfrom, [1,x+1]);
+      fi;
+    fi;
   od;
   for n in [2 .. NrStates(T) + 1] do
-    for x in InputAlphabet(T) do
-      nofunc[n][x + 1] := Minus(ImageConeLongestPrefix([x], n - 1, T),
-                                ImageConeLongestPrefix([], n - 1, T));
-      ntfunc[n][x + 1] := TransducerFunction(T, [x], n - 1)[2] + 1;
+    if not n - 1 in const[1] then
+      for x in InputAlphabet(T) do
+        target := TransducerFunction(T, [x], n - 1)[2];
+        ntfunc[n][x + 1] := target + 1;
+        pos := Position(const[1], target);
+        if pos = fail then
+          nofunc[n][x + 1] := Minus(ImageConeLongestPrefix([x], n - 1, T),
+                                    ImageConeLongestPrefix([], n - 1, T));
+        else
+          badpref := ImageConeLongestPrefix([], n - 1, T);
+          out := TransducerFunction(T, [x], n - 1)[1];
+          neededcopies := Int(Ceil(Float(((Size(badpref) - Size(const[2][pos][1]))/Size(const[2][pos][2])))));
+          neededcopies := Maximum(neededcopies, 0);
+          stufftowrite := Concatenation(out, const[2][pos][1], Concatenation(ListWithIdenticalEntries(neededcopies, const[2][pos][2])));
+          nofunc[n][x + 1] := Minus(stufftowrite, badpref);
+          if nofunc[n][x + 1] <> [] and nofunc[n][x + 1][Size(nofunc[n][x + 1])]=const[2][pos][2][1] then
+            Add(edgestopushfrom, [n, x + 1]);
+          fi;
+        fi;
       od;
+    else
+      for x in InputAlphabet(T) do;
+        ntfunc[n][x + 1] := n;
+        nofunc[n][x + 1] := const[2][Position(const[1],n - 1)][2];
+      od;
+    fi;
+  od;
+  for edge in edgestopushfrom do
+    Add(ntfunc,ListWithIdenticalEntries(Size(InputAlphabet(T)),Size(ntfunc) + 1));
+    pushstring := ShallowCopy(nofunc[ntfunc[edge[1]][edge[2]]][1]);
+    out := nofunc[edge[1]][edge[2]];
+    while out <> [] and out[Size(out)] = pushstring[Size(pushstring)] do
+      Remove(out);
+      pushstring := Concatenation([pushstring[Size(pushstring)]],pushstring{[1 .. Size(pushstring)-1]});
     od;
-
+    Add(nofunc, ListWithIdenticalEntries(Size(InputAlphabet(T)), pushstring));
+    ntfunc[edge[1]][edge[2]]:= Size(ntfunc);
+  od;
   return Transducer(NrInputSymbols(T), NrOutputSymbols(T), ntfunc, nofunc);
 end);
 
