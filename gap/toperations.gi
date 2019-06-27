@@ -252,68 +252,60 @@ end);
 
 InstallMethod(IsInjectiveTransducer, "for a transducer",
 [IsTransducer],
-function(T)
-  local active, flag, outs, p, pair, pairs, t, tactive, u, v, w, x, y, z;
-  active := List(InputAlphabet(T), x -> [[x]]);
-  flag := true;
-  pairs := [];
-
-  while flag do
-    tactive := List(InputAlphabet(T), x -> []);
-
-    for w in InputAlphabet(T) do
-      for u in active[w + 1] do
-        for v in InputAlphabet(T) do
-          p := Concatenation(u, [v]);
-          Add(tactive[w + 1], p);
-        od;
-      od;
-    od;
-
-    active := ShallowCopy(tactive);
-    outs := List(active, x -> List(x, y -> TransducerFunction(T, y, 1)));
-    tactive := List(InputAlphabet(T), x -> []);
-
-    for x in [1 .. Size(outs)] do
-      for y in [x + 1 .. Size(outs)] do
-        for z in [1 .. Size(outs[x])] do
-          for t in [1 .. Size(outs[y])] do
-            if IsPrefix(outs[x][z][1], outs[y][t][1]) or
-                IsPrefix(outs[y][t][1], outs[x][z][1]) then
-
-              AddSet(tactive[x], active[x][z]);
-              AddSet(tactive[y], active[y][t]);
-
-              if IsPrefix(outs[x][z][1], outs[y][t][1]) then
-                pair := [Minus(outs[x][z][1], outs[y][t][1]), [outs[x][z][2],
-                                                               outs[y][t][2]]];
-              else
-                pair := [Minus(outs[y][t][1], outs[x][z][1]), [outs[y][t][2],
-                                                               outs[x][z][2]]];
-              fi;
-
-              if pair in pairs then
-                SetEqualImagePrefixes(T, [active[x][z], active[y][t]]);
-                SetIsInjectiveTransducer(T, false);
-                return false;
-              else
-                Add(pairs, pair);
-              fi;
-            fi;
-          od;
-        od;
-      od;
-    od;
-
-    active := ShallowCopy(tactive);
-
-    if ForAll(active, x -> IsEmpty(x)) then
-      flag := false;
-    fi;
-  od;
-
-  SetIsInjectiveTransducer(T, true);
-  return true;
+function(t)
+ local T, state, CurrentDigraph, D, tuple, out1, out2, out, newvertex, vertex, letter;
+ T := RemoveInaccessibleStates(t);
+ for state in States(T) do
+   CurrentDigraph := [[],[]];
+   for tuple in UnorderedTuples(InputAlphabet(T),2) do
+     if not tuple[1] = tuple[2] then
+        out1 := TransducerFunction(T,[tuple[1]],state);
+        out2 := TransducerFunction(T,[tuple[2]],state);
+        if IsPrefix(out1[1],out2[1]) then
+          newvertex := [[out1[2],[]],[out2[2],Minus(out1[1],out2[1])]];
+        elif IsPrefix(out2[1],out1[1]) then
+          newvertex := [[out2[2],[]],[out1[2],Minus(out2[1],out1[1])]];
+        else
+          continue;
+        fi;
+        if newvertex[1] = newvertex[2] then
+           SetIsInjectiveTransducer(T, false);
+           return false;
+        fi;
+        if not newvertex in CurrentDigraph[1] then
+          Add(CurrentDigraph[1],newvertex);
+          Add(CurrentDigraph[2], []);
+        fi;
+     fi;
+   od;
+   for vertex in CurrentDigraph[1] do
+     for letter in InputAlphabet(T) do
+        out := TransducerFunction(T,[letter],vertex[2][1]);
+        if IsPrefix(vertex[2][2],out[1]) then
+          newvertex := [vertex[1],[out[2],Minus(vertex[2][2],out[1])]];
+        elif IsPrefix(out[1],vertex[2][2]) then
+          newvertex := [[out[2],[]],[vertex[1][1],Minus(out[1],vertex[2][2])]];
+        else
+          continue;
+        fi;
+        if newvertex[1] = newvertex[2] then
+           SetIsInjectiveTransducer(T, false);
+           return false;
+        fi;
+        if not newvertex in CurrentDigraph[1] then
+          Add(CurrentDigraph[1],newvertex);
+          Add(CurrentDigraph[2],[]);
+        fi;
+        Add(CurrentDigraph[2][Position(CurrentDigraph[1],vertex)],Position(CurrentDigraph[1],newvertex));
+     od;
+   od;
+   D := Digraph(CurrentDigraph[2]);
+   if DigraphHasLoops(D) or DigraphGirth(D) < infinity then
+     return false;
+   fi;
+ od;
+ SetIsInjectiveTransducer(T, true);
+ return true;
 end);
 
 InstallMethod(EqualImagePrefixes, "for a transducer",
