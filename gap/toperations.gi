@@ -533,3 +533,66 @@ function(T)
   od;
   return Automaton("epsilon", numberofstates, Concatenation(List(OutputAlphabet(T),x->String(x)[1]),"@"), transitiontable, [1], [1 .. numberofstates]);
 end);
+
+InstallMethod(TransducerConstantStateOutputs, "for a transducer",
+[IsTransducer],
+function(T)
+  local constantstates, constantstateoutputs, currentstate, state,
+  automatonhasbeenbuilt, stateisnotconstant, tuple, out1, out2, A, MinA,
+  newstatenr, badstates, TMat, path, pos, root, circuit, next, Adata;
+  constantstates := [];
+  constantstateoutputs := [];
+  automatonhasbeenbuilt := false;
+  for state in States(T) do
+    stateisnotconstant := false;
+    for tuple in UnorderedTuples(InputAlphabet(T),2) do
+       if not tuple[1] = tuple[2] then
+         out1 := TransducerFunction(T,[tuple[1]],state);
+         out2 := TransducerFunction(T,[tuple[2]],state);
+         if not (IsPrefix(out1[1],out2[1]) or IsPrefix(out2[1],out1[1])) then
+           stateisnotconstant:= true;
+           break;
+         fi;
+       fi;
+    od;
+    if stateisnotconstant then
+      continue;
+    fi;
+    if not automatonhasbeenbuilt then
+      A := TransducerImageAutomaton(T);
+      Adata := [NumberStatesOfAutomaton(A), AlphabetOfAutomaton(A), TransitionMatrixOfAutomaton(A)];
+      automatonhasbeenbuilt := true;
+    fi;
+    MinA := MinimalAutomaton(Automaton("epsilon",Adata[1],Adata[2],Adata[3],[state],[1 .. Adata[1]]));
+    newstatenr := NumberStatesOfAutomaton(MinA);
+    badstates := Filtered([1 .. newstatenr], x-> not x in FinalStatesOfAutomaton(MinA));
+    if not Size(badstates) = 1 then
+      continue;
+    fi;
+    TMat := TransitionMatrixOfAutomaton(MinA);
+    currentstate := InitialStatesOfAutomaton(MinA)[1];
+    path := [];
+    pos := fail;
+    while pos = fail do
+      next := Filtered([1 .. Size(TMat)], x-> TMat[x][currentstate]<>badstates[1]);
+      if not Size(next) = 1 then
+        stateisnotconstant := true;
+        break;
+      fi;
+      Add(path,[currentstate,next[1]]);
+      currentstate := TMat[next[1]][currentstate];
+      pos := Position(List(path,x->x[1]),currentstate);
+    od;
+    if not Size(path) = newstatenr -1 then
+      continue;
+    fi;
+    if stateisnotconstant then
+      continue;
+    fi;
+    Add(constantstates,state);
+    root := Concatenation(List(path{[1 .. pos-1]}, x->String(x[2]-1)));
+    circuit := Concatenation(List(path{[pos .. Size(path)]}, x-> String(x[2]-1)));
+    Add(constantstateoutputs, Concatenation(root,"(",circuit,")*"));
+  od;
+  return [constantstates,constantstateoutputs];
+end);

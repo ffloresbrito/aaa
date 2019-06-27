@@ -20,5 +20,6 @@ DeclareAttribute("IsInjectiveTransducer", IsTransducer);
 DeclareAttribute("IsSurjectiveTransducer", IsTransducer);
 DeclareAttribute("EqualImagePrefixes", IsTransducer);
 DeclareAttribute("TransducerImageAutomaton", IsTransducer);
+DeclareAttribute("TransducerConstantStateOutputs", IsTransducer);
 DeclareOperation("\*", [IsTransducer, IsTransducer]);
 DeclareOperation("\^", [IsTransducer, IsPosInt]);
