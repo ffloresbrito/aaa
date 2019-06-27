@@ -499,3 +499,37 @@ function(T)
   SetIsSurjectiveTransducer(T, answer);
   return answer;
 end);
+
+InstallMethod(TransducerImageAutomaton, "for a transducer", 
+[IsTransducer],
+function(T)
+  local numberofstates, i, transitiontable, currentnewstate, j, k;
+  numberofstates := Size(States(T));
+  for i in Concatenation(OutputFunction(T)) do
+    if not Size(i)=0 then
+      numberofstates := numberofstates + Size(i) - 1;
+    fi;
+  od;
+  transitiontable := List([1 .. Size(OutputAlphabet(T))+1], x -> List([1 .. numberofstates], y-> []));
+  currentnewstate := Size(States(T)) + 1;
+  for i in States(T) do
+    for j in InputAlphabet(T) do
+      if Size(OutputFunction(T)[i][j+1]) > 1 then
+         Add(transitiontable[OutputFunction(T)[i][j+1][1]+1][i],currentnewstate);
+         for k in [2 .. Size(OutputFunction(T)[i][j+1])-1] do
+           AddSet(transitiontable[OutputFunction(T)[i][j+1][k]+1][currentnewstate],currentnewstate + 1);
+           currentnewstate := currentnewstate + 1;
+         od;
+           AddSet(transitiontable[OutputFunction(T)[i][j+1][Size(OutputFunction(T)[i][j+1])]+1][currentnewstate],TransducerFunction(T,[j],i)[2]);
+           currentnewstate := currentnewstate + 1;
+      fi;
+      if Size(OutputFunction(T)[i][j+1]) = 1 then 
+          AddSet(transitiontable[OutputFunction(T)[i][j+1][1]+1][i],TransducerFunction(T,[j],i)[2]);
+      fi;
+      if Size(OutputFunction(T)[i][j+1]) < 1 then 
+          AddSet(transitiontable[Size(OutputAlphabet(T))+1][i],TransducerFunction(T,[j],i)[2]);
+      fi;
+    od;
+  od;
+  return Automaton("epsilon", numberofstates, Concatenation(List(OutputAlphabet(T),x->String(x)[1]),"@"), transitiontable, [1], [1 .. numberofstates]);
+end);
