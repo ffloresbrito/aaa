@@ -685,3 +685,64 @@ function(T)
 	D := Digraph(Out);
 	return DigraphHasLoops(D) or DigraphGirth(D) < infinity;
 end);
+
+QuotientTransducer := function(T,EqR)
+  local Classes, class, i, Pi, Lambda, initialclass;
+  Classes:=ShallowCopy(EquivalenceRelationPartition(EquivalenceRelationByPairs(Domain(States(T)),EqR)));
+
+  class := function(q)
+        local j;
+        for j in [1 .. Length(Classes)] do
+                if q in Classes[j] then
+                        return j;
+                fi;
+        od;
+	return fail;
+  end;
+  for i in States(T) do
+	if class(i)=fail then
+		Add(Classes,[i]);
+	fi;
+  od;
+  for i in Classes do
+	if 1 in i then
+          initialclass := i;
+        fi;
+  od;
+  Remove(Classes,Position(Classes,initialclass));
+  Classes := Concatenation([initialclass],Classes);
+  Pi:= ShallowCopy(Classes);
+  Lambda := ShallowCopy(Classes);
+  Apply(Pi,x -> TransitionFunction(T)[x[1]]);
+  Apply(Lambda, x-> OutputFunction(T)[x[1]]);
+  for i in Pi do
+        Apply(i,class);
+  od;
+  return Transducer(Length(InputAlphabet(T)),Length(OutputAlphabet(T)),Pi,Lambda
+);
+end;
+
+InstallMethod(CombineEquivalentStates, "for a transducer",
+ [IsTransducer],
+function(T)
+  local  x, EqRelation, i, tuple, NewTuple, b, flag;
+  EqRelation := Filtered(UnorderedTuples(States(T), 2),
+                       x -> OutputFunction(T)[x[1]] = OutputFunction(T)[x[2]]);
+  flag := true;
+  while flag do
+    flag := false;
+    for tuple in EqRelation do
+      for i in InputAlphabet(T) do
+        NewTuple := [TransducerFunction(T, [i], tuple[1])[2],
+                     TransducerFunction(T, [i], tuple[2])[2]];
+        Sort(NewTuple);
+        if not NewTuple in EqRelation then
+          Remove(EqRelation,Position(EqRelation,tuple));
+          flag := true;
+          break;
+        fi;
+      od;
+    od;
+  od;
+  return QuotientTransducer(T,EqRelation);
+end);
