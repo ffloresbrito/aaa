@@ -882,3 +882,7 @@ function(T)
 	fi;
 	return infinity;
 end);
+
+InstallMethod(IsSynchronizingTransducer, "for a transducer",
+[IsTransducer], T -> TransducerSynchronizingLength(T)<infinity);
+
