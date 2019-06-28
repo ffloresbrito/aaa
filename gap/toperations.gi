@@ -945,3 +945,7 @@ function(T)
   fi;
   return RemoveInaccessibleStates(CopyTransducerWithInitialState(T,TransducerFunction(T,ListWithIdenticalEntries(SLen,0),1)[2]));
 end);
+
+InstallMethod(IsCoreTransducer, "for a transducer",
+[IsTransducer], T -> IsSynchronizingTransducer(T)
+and IsomorphicTransducers(T, TransducerCore(T)));
