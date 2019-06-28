@@ -249,3 +249,9 @@ function(StateNr, OutNr, T)
     od;
   return output;
 end);
+
+InstallMethod(NrTransducers, "returns the number of transducers (with alphabet size 2) with given number of states and maximum output length",
+[IsPosInt,IsPosInt],
+function(StateNr, OutNr)
+  return (StateNr*(2^(OutNr + 1) - 1))^(StateNr * 2);
+end);

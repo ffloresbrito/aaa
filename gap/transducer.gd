@@ -34,3 +34,4 @@ DeclareOperation("AlphabetChangeTransducer", [IsPosInt, IsPosInt]);
 DeclareOperation("RandomTransducer", [IsPosInt, IsPosInt]);
 DeclareOperation("TransducerByNumber", [IsPosInt, IsPosInt, IsPosInt]);
 DeclareOperation("NumberByTransducer", [IsPosInt, IsPosInt, IsTransducer]);
+DeclareOperation("NrTransducers", [IsPosInt, IsPosInt]);
