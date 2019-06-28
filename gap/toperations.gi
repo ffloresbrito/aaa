@@ -124,6 +124,15 @@ function(T1,T2)
   return OutputFunction(T1)=OutputFunction(T2) and TransitionFunction(T1)=TransitionFunction(T2);
 end);
 
+InstallMethod(\^, "for a transducer and a bijective transducer",
+[IsTransducer, IsTransducer],
+function(T1,T2)
+  if not IsBijectiveTransducer(T2) then
+    return fail;
+  fi;
+  return T2^-1 * T1 * T2;
+end);
+
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 [IsTransducer],
 function(T)
