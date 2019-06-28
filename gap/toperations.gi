@@ -808,3 +808,6 @@ end);
 
 InstallMethod(\=, "for two transducers",
 [IsTransducer, IsTransducer], OmegaEquivalentTransducers);
+
+InstallMethod(IsBijectiveTransducer, "for a transducer",
+[IsTransducer], T -> IsInjectiveTransducer(T) and IsSurjectiveTransducer(T));
