@@ -26,5 +26,6 @@ DeclareAttribute("CombineEquivalentStates", IsTransducer);
 DeclareAttribute("MinimalTransducer", IsTransducer);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("OmegaEquivalentTransducers", [IsTransducer, IsTransducer]);
+DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("\*", [IsTransducer, IsTransducer]);
 DeclareOperation("\^", [IsTransducer, IsPosInt]);

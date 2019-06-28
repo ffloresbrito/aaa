@@ -99,6 +99,12 @@ function(T, n)
   return tducer;
 end);
 
+InstallMethod(EqualTransducers, "for a pair of transducers",
+[IsTransducer, IsTransducer],
+function(T1,T2)
+  return OutputFunction(T1)=OutputFunction(T2) and TransitionFunction(T1)=TransitionFunction(T2);
+end);
+
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 [IsTransducer],
 function(T)
