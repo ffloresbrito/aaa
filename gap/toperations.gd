@@ -23,6 +23,7 @@ DeclareAttribute("EqualImagePrefixes", IsTransducer);
 DeclareAttribute("TransducerImageAutomaton", IsTransducer);
 DeclareAttribute("TransducerConstantStateOutputs", IsTransducer);
 DeclareAttribute("IsDegenerateTransducer", IsTransducer);
+DeclareAttribute("IsMinimalTransducer", IsTransducer);
 DeclareAttribute("CombineEquivalentStates", IsTransducer);
 DeclareAttribute("MinimalTransducer", IsTransducer);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducer, IsTransducer]);

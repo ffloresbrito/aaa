@@ -784,6 +784,7 @@ function(T)
   output := RemoveStatesWithIncompleteResponse(output);
   output := RemoveInaccessibleStates(output);
   output := CombineEquivalentStates(output);
+  SetIsMinimalTransducer(output, true);
   return output;
 end);
 
@@ -830,3 +831,9 @@ InstallMethod(\=, "for two transducers",
 
 InstallMethod(IsBijectiveTransducer, "for a transducer",
 [IsTransducer], T -> IsInjectiveTransducer(T) and IsSurjectiveTransducer(T));
+
+InstallMethod(IsMinimalTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+  return IsomorphicInitialTransducers(T, MinimalTransducer(T));
+end);
