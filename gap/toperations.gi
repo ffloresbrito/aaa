@@ -927,3 +927,9 @@ function(T)
   return true;
 end);
 
+InstallMethod(IsomorphicTransducers, "for a pair of transducers",
+[IsTransducer,IsTransducer],
+function(T1,T2)
+  return ForAny(States(T2), x -> IsomorphicInitialTransducers(T1,
+                                 CopyTransducerWithInitialState(T2,x)));
+end);

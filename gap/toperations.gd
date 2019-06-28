@@ -35,6 +35,7 @@ DeclareAttribute("TransducerSynchronizingLength", IsTransducer);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("OmegaEquivalentTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
+DeclareOperation("IsomorphicTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("\*", [IsTransducer, IsTransducer]);
 DeclareOperation("\^", [IsTransducer, IsInt]);
 DeclareOperation("\^", [IsTransducer, IsTransducer]);
