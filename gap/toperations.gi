@@ -849,3 +849,18 @@ end);
 
 InstallMethod(IsSynchronousTransducer, "for a transducer",
 [IsTransducer], T -> ForAll(OutputFunction(T), x-> ForAll(x, y -> Size(y)=1)));
+
+InstallMethod(TransducerOrder, "for a transducer",
+[IsTransducer],
+function(T)
+  local p;
+  if not IsBijectiveTransducer(T) then
+    ErrorNoReturn("aaa: TransducerOrder: usage,\n",
+                  "the given transducer must be bijective");
+  fi;
+  p := 1;
+  while not T^p = T^0 do
+    p := p + 1;
+  od;
+  return p;
+end);
