@@ -125,6 +125,10 @@ InstallMethod(PreimageConePrefixes, "for a den. list a pos. int. and a transd.",
 [IsDenseList, IsPosInt, IsTransducer],
 function(word, state, tducer)
   local word2, x, wordset, pos, words, y, omit, n, newword;
+  if IsDegenerateTransducer(tducer) then
+    ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
+                  "the given transducer must be nondegenerate ");
+  fi;
   wordset := [];
   pos := [];
   words := [];

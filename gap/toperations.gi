@@ -104,6 +104,12 @@ InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
 function(T)
   local ntfunc, nofunc, n, x, const, target, pos, badpref, neededcopies,
         i, stufftowrite, out, edgestopushfrom, edge, pushstring;
+
+  if IsDegenerateTransducer(T) then
+    ErrorNoReturn("aaa: RemoveStatesWithIncompleteResponce: usage,\n",
+                  "the given transducer must be nondegenerate ");
+  fi;
+
   const := List(TransducerConstantStateOutputs(T),x-> List(x,y->y));
   for i in [1 .. Size(const[2])] do
     const[2][i]:= const[2][i]{[1 .. Size(const[2][i])-2]};
@@ -304,6 +310,12 @@ InstallMethod(IsInjectiveTransducer, "for a transducer",
 [IsTransducer],
 function(t)
  local T, state, CurrentDigraph, D, tuple, out1, out2, out, newvertex, vertex, letter;
+
+ if IsDegenerateTransducer(t) then
+   ErrorNoReturn("aaa: IsInjectiveTransducer: usage,\n",
+                  "the given transducer must be nondegenerate ");
+ fi;
+
  T := RemoveInaccessibleStates(t);
  for state in States(T) do
    CurrentDigraph := [[],[]];
@@ -387,6 +399,12 @@ function(T)
   currentblocks, containsantichain, currentword, x, flag, y, minwords, tyx,
   pos, keys, subtree, check, pos2, prefix, block, state, imagekeys,
   minword, answer;
+
+  if IsDegenerateTransducer(T) then
+    ErrorNoReturn("aaa: IsSurjectiveTransducer: usage,\n",
+                  "the given transducer must be nondegenerate ");
+  fi;
+
   imagetrees := States(T);
   completeblocks := [];
   usefulstates := [1];
@@ -645,4 +663,25 @@ function(T)
     Add(constantstateoutputs, Concatenation(root,"(",circuit,")*"));
   od;
   return [constantstates,constantstateoutputs];
+end);
+
+
+InstallMethod(IsDegenerateTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+	local Out, D, OutNeigh;
+	Out := States(T);
+	OutNeigh := function(s)
+		local Output, i;
+		Output := [];
+		for i in InputAlphabet(T) do
+			if TransducerFunction(T,[i],s)[1] = [] then
+				Add(Output,TransducerFunction(T,[i],s)[2]);
+			fi;
+		od;
+		return Output;
+	end;
+	Apply(Out, OutNeigh);
+	D := Digraph(Out);
+	return DigraphHasLoops(D) or DigraphGirth(D) < infinity;
 end);
