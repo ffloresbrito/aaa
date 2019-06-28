@@ -746,3 +746,18 @@ function(T)
   od;
   return QuotientTransducer(T,EqRelation);
 end);
+
+InstallMethod(MinimalTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+  local output;
+   if IsDegenerateTransducer(T) then
+    ErrorNoReturn("aaa: MinimalTransducer: usage,\n",
+                  "the given transducer must be nondegenerate ");
+  fi;
+  output := RemoveInaccessibleStates(T);
+  output := RemoveStatesWithIncompleteResponse(output);
+  output := RemoveInaccessibleStates(output);
+  output := CombineEquivalentStates(output);
+  return output;
+end);

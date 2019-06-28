@@ -23,5 +23,6 @@ DeclareAttribute("TransducerImageAutomaton", IsTransducer);
 DeclareAttribute("TransducerConstantStateOutputs", IsTransducer);
 DeclareAttribute("IsDegenerateTransducer", IsTransducer);
 DeclareAttribute("CombineEquivalentStates", IsTransducer);
+DeclareAttribute("MinimalTransducer", IsTransducer);
 DeclareOperation("\*", [IsTransducer, IsTransducer]);
 DeclareOperation("\^", [IsTransducer, IsPosInt]);
