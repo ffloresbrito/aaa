@@ -790,3 +790,15 @@ function(T1,T2)
   od;
   return false;
 end);
+
+InstallMethod(OmegaEquivalentTransducers, "for a pair of transducers",
+[IsTransducer,IsTransducer],
+function(T1, T2)
+  local M1, M2;
+  M1:= MinimalTransducer(T1);
+  M2:= MinimalTransducer(T2);
+  return IsomorphicInitialTransducers(M1, M2);
+end);
+
+InstallMethod(\=, "for two transducers",
+[IsTransducer, IsTransducer], OmegaEquivalentTransducers);
