@@ -29,3 +29,4 @@ DeclareOperation("States", [IsTransducer]);
 DeclareOperation("NrStates", [IsTransducer]);
 DeclareOperation("NrOutputSymbols", [IsTransducer]);
 DeclareOperation("NrInputSymbols", [IsTransducer]);
+DeclareOperation("IdentityTransducer", [IsPosInt]);

@@ -160,3 +160,10 @@ InstallMethod(NrInputSymbols, "for a transducer",
 function(T)
   return T!.InputAlphabet;
 end);
+
+InstallMethod(IdentityTransducer, "returns identity transducer on given alphabet size",
+[IsPosInt],
+function(AlphSize)
+  return Transducer(AlphSize,AlphSize,[List([1 .. AlphSize], x -> 1)],
+                    [List([0 .. AlphSize - 1], x-> [x])]);
+end);
