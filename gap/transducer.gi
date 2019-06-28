@@ -185,3 +185,30 @@ function(n,m)
   end;
   return InverseTransducer(2tok(n)) * 2tok(m);
 end);
+
+InstallMethod(RandomTransducer,"gives random transducers",
+[IsPosInt,IsPosInt],
+function(AlphSize,NrStates)
+	local i, j, k, OutputLength, Pi, Lambda;
+	Pi:= [];
+	Lambda:= [];
+	for i in [1 .. NrStates] do
+	   Add(Pi,[]);
+	   Add(Lambda,[]);
+	   for j in [1 .. AlphSize] do
+		Add(Pi[i],Random([1 .. NrStates]));
+		OutputLength:= 0;
+		if not Random([1,2,3,4]) = 1 then
+			OutputLength := OutputLength + 1;
+			while Random([1,2]) = 1 do
+				OutputLength := OutputLength + 1;
+			od;
+		fi;
+		Add(Lambda[i],[]);
+		for k in [1 .. OutputLength] do
+			Add(Lambda[i][j],Random([0 .. AlphSize - 1]));
+		od;
+	   od;
+	od;
+	return Transducer(AlphSize,AlphSize,Pi,Lambda);
+end);
