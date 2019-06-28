@@ -231,3 +231,21 @@ function(StateNr, OutNr, TNr)
   od;
   return Transducer(2,2, Pi, Lambda);
 end);
+
+InstallMethod(NumberByTransducer, "given the number of states and max output length this inverts the function TransducerByNumber",
+[IsPosInt, IsPosInt, IsTransducer],
+function(StateNr, OutNr, T)
+  local output, NrWords, L, j, k, n, base;
+  NrWords := 2^(OutNr + 1)-1;
+  output := 1;
+  base := StateNr*NrWords;
+    for n in [0 .. (StateNr * 2)-1] do
+      j := Int(n/2)+1;
+      k := RemInt(n,2)+1;
+      L:= Size(OutputFunction(T)[j][k]);
+      output := output + (2^L-1)*(base^n);
+      output := output + Sum(List([1 .. L],x-> OutputFunction(T)[j][k][x]*(2^(x-1))))*(base^n);
+      output := output + (TransitionFunction(T)[j][k]-1)*NrWords*(base^n);
+    od;
+  return output;
+end);
