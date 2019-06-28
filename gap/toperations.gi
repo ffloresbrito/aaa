@@ -761,3 +761,32 @@ function(T)
   output := CombineEquivalentStates(output);
   return output;
 end);
+
+InstallMethod(IsomorphicInitialTransducers, "for a pair of transducer",
+[IsTransducer, IsTransducer],
+function(T1,T2)
+  local D1, D2, perm, Dtemp, i;
+  if not States(T1) = States(T2) then
+    return false;
+  fi;
+  if not InputAlphabet(T1)=InputAlphabet(T2) then
+    return false;
+  fi;
+  if not OutputAlphabet(T1)= OutputAlphabet(T2) then
+    return false;
+  fi;
+  D1 := List([1 .. Size(States(T1))], x -> [OutputFunction(T1)[x], TransitionFunction(T1)[x]]);
+  D2 := List([1 .. Size(States(T2))], x -> [OutputFunction(T2)[x], TransitionFunction(T2)[x]]);
+  for perm in SymmetricGroup(Size(States(T1))) do
+     if 1^perm = 1 then
+       Dtemp := StructuralCopy(List([1 .. Size(States(T1))],x-> D1[x^perm]));
+       for i in [1 .. Size(Dtemp)] do
+         Apply(Dtemp[i][2], x -> x ^ (perm ^ -1));
+       od;
+       if Dtemp = D2 then
+         return true;
+       fi;
+     fi;
+  od;
+  return false;
+end);
