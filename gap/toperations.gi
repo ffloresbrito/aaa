@@ -949,3 +949,8 @@ end);
 InstallMethod(IsCoreTransducer, "for a transducer",
 [IsTransducer], T -> IsSynchronizingTransducer(T)
 and NrStates(T) = NrStates(TransducerCore(T)));
+
+InstallMethod(CoreProduct, "for a pair of transducers", [IsTransducer, IsTransducer],
+function(C1,C2)
+  return TransducerCore(MinimalTransducer(C1*C2));
+end);
