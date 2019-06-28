@@ -864,3 +864,21 @@ function(T)
   od;
   return p;
 end);
+
+InstallMethod(TransducerSynchronizingLength, "for a transducer", [IsTransducer],
+function(T)
+	local count, CopyT, TempT, flag;
+	flag := true;
+        CopyT := CopyTransducerWithInitialState(T,1);
+	count := -1;
+	while flag do
+		count := count + 1;
+		TempT := QuotientTransducer(CopyT,Filtered(Cartesian(States(CopyT), States(CopyT)),x-> TransitionFunction(CopyT)[x[1]]=TransitionFunction(CopyT)[x[2]]));
+		flag := (States(CopyT) <> States(TempT));
+		CopyT := TempT;
+	od;
+	if States(CopyT) = [1] then 
+		return count;
+	fi;
+	return infinity;
+end);
