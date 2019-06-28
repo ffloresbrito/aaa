@@ -886,3 +886,9 @@ end);
 InstallMethod(IsSynchronizingTransducer, "for a transducer",
 [IsTransducer], T -> TransducerSynchronizingLength(T)<infinity);
 
+InstallMethod(IsBisynchronizingTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+  return IsBijectiveTransducer(T) and IsSynchronizingTransducer(T) and IsSynchronizingTransducer(InverseTransducer(T));
+end);
+
