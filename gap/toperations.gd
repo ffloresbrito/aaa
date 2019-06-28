@@ -32,6 +32,7 @@ DeclareAttribute("IsBisynchronizingTransducer", IsTransducer);
 DeclareAttribute("IsLipschitzTransducer", IsTransducer);
 DeclareAttribute("TransducerOrder", IsTransducer);
 DeclareAttribute("TransducerSynchronizingLength", IsTransducer);
+DeclareAttribute("TransducerCore", IsTransducer);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("OmegaEquivalentTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
