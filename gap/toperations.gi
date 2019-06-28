@@ -892,3 +892,38 @@ function(T)
   return IsBijectiveTransducer(T) and IsSynchronizingTransducer(T) and IsSynchronizingTransducer(InverseTransducer(T));
 end);
 
+InstallMethod(IsLipschitzTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+  local s, statepath, letterpath, currentstate, nonconstantstates;
+  nonconstantstates := States(T);
+  SubtractSet(nonconstantstates, TransducerConstantStateOutputs(T)[1]);
+  for s in nonconstantstates do;
+    statepath := [s];
+    letterpath := [0];
+    currentstate :=  TransducerFunction(T, [0], s)[2];
+    while statepath <> [] do
+      if currentstate = s and
+        Size(TransducerFunction(T, letterpath, s)[1]) < Size(letterpath) then
+        return false;
+      fi;
+      if not currentstate in statepath then
+        Add(letterpath, 0);
+        Add(statepath, currentstate);
+      else
+        letterpath[Size(letterpath)] := letterpath[Size(letterpath)] + 1;
+        while letterpath <> [] and
+              letterpath[Size(letterpath)] = NrInputSymbols(T) do;
+          Remove(letterpath);
+          Remove(statepath);
+          if letterpath <> [] then
+            letterpath[Size(letterpath)] := letterpath[Size(letterpath)] + 1;
+          fi;
+        od;
+      fi;
+      currentstate := TransducerFunction(T, letterpath, s)[2];
+    od;
+  od;
+  return true;
+end);
+
