@@ -167,3 +167,21 @@ function(AlphSize)
   return Transducer(AlphSize,AlphSize,[List([1 .. AlphSize], x -> 1)],
                     [List([0 .. AlphSize - 1], x-> [x])]);
 end);
+
+InstallMethod(AlphabetChangeTransducer, "gives transducer for changing alphabet",
+[IsPosInt, IsPosInt],
+function(n,m)
+  local 2tok;
+  2tok := function(k)
+    local i, outputfunction, transitionfunction;
+    if k = 2 then
+      return IdentityTransducer(2);
+    fi;
+    transitionfunction := List([2 .. k], x-> [1, x]);
+    transitionfunction[k - 1][2] := 1;
+    outputfunction := List([0 .. k - 2], x -> [[x],[]]);
+    outputfunction[k-1][2] := [k-1];
+    return Transducer(2, k, transitionfunction, outputfunction);
+  end;
+  return InverseTransducer(2tok(n)) * 2tok(m);
+end);
