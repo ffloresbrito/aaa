@@ -41,6 +41,22 @@ gap> TransducerFunction(t, [2], 1)[1]; TransducerFunction(t, [1], 2)[1];
 [ 1 ]
 gap> TransducerFunction(p, [2], 2)[1];
 [ 1 ]
+gap> T := Transducer(2, 2, [[1, 2], [2, 2]], [[[1], [1, 1]], [[1], [1, 1]]]);;
+gap> R := RemoveStatesWithIncompleteResponse(T);;
+gap> OutputFunction(R);
+[ [ [  ], [  ] ], [ [ 1 ], [ 1 ] ], [ [ 1 ], [ 1 ] ], [ [ 1 ], [ 1 ] ], 
+  [ [ 1 ], [ 1 ] ] ]
+gap> TransitionFunction(R);
+[ [ 4, 5 ], [ 2, 2 ], [ 3, 3 ], [ 4, 4 ], [ 5, 5 ] ]
+gap> T := Transducer(2, 3, [[2, 3], [2, 3], [2, 3]], [[[2, 0], [2]],
+> [[1, 1, 0], [1, 1]], [[0], [0, 1, 1]]]);;
+gap> R := RemoveStatesWithIncompleteResponse(T);;
+gap> OutputFunction(R);
+[ [ [ 2 ], [ 2 ] ], [ [ 0, 1, 1 ], [ 0, 1, 1 ] ], 
+  [ [ 1, 1, 0 ], [ 1, 1, 0 ] ], [ [ 0, 1, 1 ], [ 0, 1, 1 ] ], 
+  [ [ 0, 1, 1 ], [ 0, 1, 1 ] ] ]
+gap> TransitionFunction(R);
+[ [ 5, 4 ], [ 2, 2 ], [ 3, 3 ], [ 4, 4 ], [ 5, 5 ] ]
 
 #T# RemoveInaccessibleStates
 gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
