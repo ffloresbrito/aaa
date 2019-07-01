@@ -335,7 +335,7 @@ InstallMethod(IsSurjectiveTransducer, "for a transducer",
 function(T)
   local usefulstates, prefixcodes, imagetrees, completeblocks, finalimagetree,
   currentblocks, containsantichain, currentword, x, flag, y, minwords, tyx,
-  tree, pos, keys, subtree, check, pos2, prefix, block, state, imagekeys,
+  pos, keys, subtree, check, pos2, prefix, block, state, imagekeys,
   minword, answer;
   imagetrees := States(T);
   completeblocks := [];
@@ -353,10 +353,10 @@ function(T)
     check := false;
     for x in list do
       for y in [1 .. Size(minwords)] do
-        if IsPrefix(x, minwords[y]) then
+        if IsPrefix(minwords[y], x) then
           minwords[y] := StructuralCopy(x);
           break;
-        elif IsPrefix(minwords[y], x) then
+        elif IsPrefix(x, minwords[y]) then
           check := true;
           break;
         fi;
@@ -411,26 +411,29 @@ function(T)
         flag := false;
       fi;
     od;
-    for y in prefixcodes[Size(prefixcodes)] do
-      AddSet(usefulstates, TransducerFunction(T, y, x)[2]);
+    for y in prefixcodes[Size(prefixcodes)] do;
+      tyx := TransducerFunction(T, y, x);
+      if not tyx[2] in usefulstates then
+         Add(usefulstates, tyx[2]);
+      fi;
     od;
     imagetrees[x] := [];
     for y in prefixcodes[Size(prefixcodes)] do
       tyx := TransducerFunction(T, y, x);
-      tree := imagetrees[x];
-      pos := Position(List(tree, x -> x[1]), tyx[1]);
-      if  not pos = fail then
-        AddSet(tree[pos][2], tyx[2]);
+      pos := Position(List(imagetrees[x], y -> y[1]), tyx[1]);
+      if not pos = fail then
+        AddSet(imagetrees[x][pos][2], tyx[2]);
       else
-        AddSet(tree, [tyx[1], [tyx[2]]]);
+        AddSet(imagetrees[x], [tyx[1], [tyx[2]]]);
       fi;
     od;
   od;
+
   finalimagetree := [[[], [1]]];
   currentblocks := [[[], [[[], [1]]]]];
   keys := [[]];
   while (not IsSubset(completeblocks, List(currentblocks, x -> x[2]))) and
-      containsantichain(keys, NrInputSymbols(T)) do
+      containsantichain(keys, NrOutputSymbols(T)) do
     for block in currentblocks do
       if not block[2] in completeblocks then
         break;
@@ -438,14 +441,14 @@ function(T)
     od;
     keys := List(finalimagetree, x -> x[1]);
     for state in finalimagetree[Position(keys, block[1])][2] do
-      imagekeys := List(imagetrees[state], x -> x[1]);
-      for prefix in  imagekeys do
-        keys   := List(finalimagetree, x -> x[1]);
+      imagekeys := StructuralCopy(List(imagetrees[state], x -> x[1]));
+      for prefix in imagekeys do
+        keys := List(finalimagetree, x -> x[1]);
         pos := Position(keys, Concatenation(block[1], prefix));
         if not pos = fail then
           pos2 := Position(imagekeys, prefix);
           Append(finalimagetree[pos][2], imagetrees[state][pos2][2]);
-          Set(finalimagetree[pos][2]);
+          finalimagetree[pos][2] := Set(finalimagetree[pos][2]);
         else
           pos2 := Position(imagekeys, prefix);
           Add(finalimagetree, [StructuralCopy(Concatenation(block[1], prefix)),
@@ -465,12 +468,10 @@ function(T)
     for x in keys do
       if IsPrefix(x, prefix) then
         for y in [1 .. Size(minwords)] do
-          if IsPrefix(x, minwords[y]) then
+          if IsPrefix(minwords[y], x) then
             minwords[y] := StructuralCopy(x);
-            break;
-          elif IsPrefix(minwords[y], x) then
+          elif IsPrefix(x, minwords[y]) then
             check := true;
-            break;
           fi;
         od;
 
@@ -479,6 +480,7 @@ function(T)
         fi;
         check := false;
       fi;
+      minwords := Set(minwords);
     od;
     for minword in minwords do
       subtree := [];
@@ -488,12 +490,12 @@ function(T)
                StructuralCopy(finalimagetree[x][2])]);
          fi;
       od;
-      Add(currentblocks, [minword, StructuralCopy(subtree)]);
+      Add(currentblocks, [ShallowCopy(minword), StructuralCopy(subtree)]);
     od;
     keys := List(finalimagetree, x -> x[1]);
   od;
 
-  answer := containsantichain(keys, NrInputSymbols(T));
+  answer := containsantichain(keys, NrOutputSymbols(T));
   SetIsSurjectiveTransducer(T, answer);
   return answer;
 end);
