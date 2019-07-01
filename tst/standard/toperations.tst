@@ -146,5 +146,23 @@ gap> String(TransducerImageAutomaton(T));
  [ 1 ], [ ] ], [ [ ], [ 1 ], [ 1 ], [ ] ], [ [ ], [ 3, 4 ], [ 1 ], [ ] ], [ [ \
 2 ], [ ], [ ], [ ] ] ],[ 1 ],[ 1 .. 4 ]);;"
 
+#T# TransducerConstantStateOutputs
+gap> T := Transducer(2, 2, [[1, 2], [2, 2]], [[[1], [1, 1]], [[1], [1, 1]]]);;
+gap> TransducerConstantStateOutputs(T);
+[ [ 1, 2 ], [ "(1)*", "(1)*" ] ]
+gap> T := Transducer(2, 3, [[2, 3], [2, 3], [2, 3]], [[[2, 0], [2]],
+> [[1, 1, 0], [1, 1]], [[0], [0, 1, 1]]]);;
+gap> TransducerConstantStateOutputs(T);
+[ [ 1, 2, 3 ], [ "2(011)*", "(110)*", "(011)*" ] ]
+gap> T := Transducer(2, 2, [[3, 3], [1, 1], [2, 1]], [[[1], []],
+> [[0, 1, 1, 1], [0]], [[0], [1]]]);;
+gap> TransducerConstantStateOutputs(T);
+[ [  ], [  ] ]
+gap> T := Transducer(5, 3, [[1, 1, 1, 1, 1], [1, 1, 1, 1, 2]],
+> [[[0], [1], [2, 0], [2, 1], [2, 2]], [[1], [2, 0], [2, 1],
+> [2, 2, 0], [2, 2]]]);;
+gap> TransducerConstantStateOutputs(T);
+[ [  ], [  ] ]
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
