@@ -103,6 +103,25 @@ gap> P := Transducer(2, 2, [[3, 4], [3, 2], [1, 3], [2, 4]], [[[1], [0]],
 > [[], [1]], [[1], [0]], [[1, 0], [1]]]);;
 gap> IsSurjectiveTransducer(P);
 false
+gap> T := Transducer(2, 2, [[1, 2], [1, 1]], [[[0], [1]], [[], []]]);;
+gap> IsSurjectiveTransducer(T);
+true
+gap> T := Transducer(2, 2, [[3, 3], [2, 3], [3, 2]], [[[0, 1], []],
+> [[1], [1, 0, 0, 1, 0, 1]], [[1, 1], [0, 1]]]);;
+gap> IsSurjectiveTransducer(T);
+false
+gap> T := Transducer(2, 2, [[1, 2], [1, 1]], [[[0], [1]], [[], []]]);;
+gap> IsSurjectiveTransducer(T);
+true
+gap> T := Transducer(5, 3, [[1, 1, 1, 1, 1], [1, 1, 1, 1, 2]],
+> [[[0], [1], [2, 0], [2, 1], [2, 2]], [[1], [2, 0], [2, 1],
+> [2, 2, 0], [2, 2]]]);;
+gap> IsSurjectiveTransducer(T);
+true
+gap> T := Transducer(3, 3, [[3, 2, 3], [1, 3, 1], [1, 3, 1]],
+> [[[1, 1], [0], [2]], [[1], [1], []], [[2, 0], [0, 1, 0], []]]);;
+gap> IsSurjectiveTransducer(T);
+false
 
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
