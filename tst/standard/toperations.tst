@@ -257,5 +257,37 @@ false
 gap> IsomorphicInitialTransducers(T, T4);
 true
 
+#T# OmegaEquivalentTransduces "="
+gap> T := Transducer(2, 2, [[2, 2], [3, 1], [3, 3], [5, 2], [2, 1]],
+> [[[1, 0], [0, 0]], [[1], []], [[0], [1]], [[1], [1]], [[], [0, 0]]]);;
+gap> M := MinimalTransducer(T);;
+gap> OmegaEquivalentTransducers(T, M);
+true
+gap> T = M;
+true
+gap> T := Transducer(2, 3, [[1, 3], [2, 3], [3, 3]], [[[1], [2]], [[1], [2]],
+> [[0, 0], [1, 0]]]);;
+gap> T2 := CopyTransducerWithInitialState(T, 2);;
+gap> T3 := CopyTransducerWithInitialState(T, 3);;
+gap> T4 := CopyTransducerWithInitialState(T3, 3);;
+gap> OmegaEquivalentTransducers(T, T2);
+true
+gap> OmegaEquivalentTransducers(T, T3);
+false
+gap> OmegaEquivalentTransducers(T, T4);
+true
+gap> T = T4;
+true
+gap> T := Transducer(3, 4, [[1, 3, 2], [2, 1, 4], [1, 1, 1], [3, 2, 1]],
+> [[[1], [3], [0]], [[1, 1], [], [3, 0]], [[1, 3], [2], [3, 2]],
+> [[0], [0], [0]]]);;
+gap> T2 := Transducer(3, 4, [[1, 2, 2], [2, 1, 4], [1, 1, 1], [3, 2, 1]],
+> [[[1], [3], [0]], [[1, 1], [], [3, 0]], [[1, 3], [2], [3, 2]],
+> [[0], [0], [0]]]);;
+gap> OmegaEquivalentTransducers(T, T2);
+false
+gap> T = T2;
+false
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
