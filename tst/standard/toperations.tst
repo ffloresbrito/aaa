@@ -199,5 +199,27 @@ gap> T := Transducer(5, 3, [[1, 1, 1, 1, 1], [1, 1, 1, 1, 2]],
 gap> IsDegenerateTransducer(T);
 false
 
+#T# CombineEquivalentStates
+gap> T := Transducer(3, 4, [[1, 2, 2], [3, 2, 2], [3, 2, 2]],
+> [[[1], [], [1, 0]], [[2], [2], [2]], [[1], [], [1, 0]]]);;
+gap> CombineEquivalentStates(T);
+<transducer with input alphabet on 3 symbols, output alphabet on 
+4 symbols, and 2 states.>
+gap> T := Transducer(3, 3, [[2, 3, 2], [2, 1, 4], [1, 4, 2], [4, 2, 3]],
+> [[[2], [], [2]], [[2], [0, 1], [1, 2, 0]], [[0], [], [1]], [[], [1], [0]]]);;
+gap> CombineEquivalentStates(T);
+<transducer with input alphabet on 3 symbols, output alphabet on 
+3 symbols, and 4 states.>
+gap> T := Transducer(2, 2, [[2, 4], [3, 2], [5, 4], [1, 5], [1, 4]],
+> [[[0], [1, 0]], [[], [1]], [[0], [1 , 0]], [[], [1]], [[], [1]]]);;
+gap> CombineEquivalentStates(T);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 2 states.>
+gap> T := Transducer(2, 2, [[1, 4], [3, 2], [5, 4], [3, 5], [1, 4]],
+> [[[0], [1, 0]], [[], [1]], [[0], [1 , 0]], [[], [1]], [[], [1]]]);;
+gap> CombineEquivalentStates(T);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 5 states.>
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
