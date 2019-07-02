@@ -409,5 +409,21 @@ gap> C2 := Transducer(3, 3, [[1, 1, 1]], [[[0], [2], [1]]]);;
 gap> T^(C1*C2)= (T^C1)^C2;
 true
 
+#T# TransducerOrder
+gap> T := IdentityTransducer(5);;
+gap> TransducerOrder(T);
+1
+gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> TransducerOrder(T);
+2
+gap> T := Transducer(5, 5, [[1, 1, 1, 1, 1]], [[[1], [0], [3], [4], [2]]]);;
+gap> TransducerOrder(T);
+6
+gap> TransducerOrder(T^-1);
+6
+gap> TransducerOrder(T^-2);
+3
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
