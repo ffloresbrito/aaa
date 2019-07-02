@@ -244,5 +244,18 @@ gap> OutputFunction(M);
 gap> TransitionFunction(M);
 [ [ 2, 2 ], [ 3, 1 ], [ 3, 3 ] ]
 
+#T# IsomorphicInitialTransducers
+gap> T := Transducer(2, 3, [[1, 3], [2, 3], [3, 3]], [[[1], [2]], [[1], [2]],
+> [[0, 0], [1, 0]]]);;
+gap> T2 := CopyTransducerWithInitialState(T, 2);;
+gap> T3 := CopyTransducerWithInitialState(T, 3);;
+gap> T4 := CopyTransducerWithInitialState(T3, 3);;
+gap> IsomorphicInitialTransducers(T, T2);
+true
+gap> IsomorphicInitialTransducers(T, T3);
+false
+gap> IsomorphicInitialTransducers(T, T4);
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
