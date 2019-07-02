@@ -55,5 +55,27 @@ gap> EqualTransducers(T, Transducer(4, 4, [[1, 1, 1, 1]],
 > [[[0], [1], [2], [3]]]));
 true
 
+#T# AlphabetChangeTransducer
+gap> T := Transducer(2, 4, [[1, 2], [1, 3], [1, 1]],
+> [[[0], []], [[1], []], [[2], [3]]]);;
+gap> EqualTransducers(T, AlphabetChangeTransducer(2, 4));
+true
+gap> T3to5 := AlphabetChangeTransducer(3, 5);
+<transducer with input alphabet on 3 symbols, output alphabet on 
+5 symbols, and 4 states.>
+gap> T5to3 := AlphabetChangeTransducer(5, 3);
+<transducer with input alphabet on 5 symbols, output alphabet on 
+3 symbols, and 2 states.>
+gap> T3to3 := T3to5 * T5to3;
+<transducer with input alphabet on 3 symbols, output alphabet on 
+3 symbols, and 8 states.>
+gap> T5to5 := T5to3 * T3to5;
+<transducer with input alphabet on 5 symbols, output alphabet on 
+5 symbols, and 8 states.>
+gap> T3to3 = T3to3^0;
+true
+gap> T5to5 = T5to5^0;
+true
+
 #
 gap> STOP_TEST("aaa package: standard/transducer.tst");
