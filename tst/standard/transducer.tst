@@ -77,5 +77,16 @@ true
 gap> T5to5 = T5to5^0;
 true
 
+#T# RandomTransducer
+gap> T := RandomTransducer(3, 5);
+<transducer with input alphabet on 3 symbols, output alphabet on 
+3 symbols, and 5 states.>
+gap> T := RandomTransducer(4, 2);
+<transducer with input alphabet on 4 symbols, output alphabet on 
+4 symbols, and 2 states.>
+gap> T := RandomTransducer(2, 5);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 5 states.>
+
 #
 gap> STOP_TEST("aaa package: standard/transducer.tst");
