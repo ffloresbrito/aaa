@@ -378,5 +378,23 @@ gap> T := Transducer(3, 3, [[3, 2, 1], [3, 3, 1], [2, 2, 1]],
 gap> IsMinimalTransducer(T);
 false
 
+#T# IsSynchronousTransducer
+gap> T := Transducer(3, 3, [[1, 2, 1], [3, 3, 3], [1, 3, 2]],
+> [[[1], [2], [1]], [[0], [1], [2]], [[0], [0], [1]]]);;
+gap> IsSynchronousTransducer(T);
+true
+gap> T := Transducer(3, 3, [[1, 2, 1], [3, 3, 3], [1, 3, 2]],
+> [[[1], [2], [1]], [[0], [1], [2, 1]], [[0], [0], [1]]]);;
+gap> IsSynchronousTransducer(T);
+false
+gap> T := Transducer(2, 2, [[1, 2], [4, 3], [1, 2], [2, 1]],
+> [[[1], [1]], [[1], [0]], [[0], [0]], [[1], [0]]]);;
+gap> IsSynchronousTransducer(T);
+true
+gap> T := Transducer(2, 2, [[1, 2], [4, 3], [1, 2], [2, 1]],
+> [[[], [1]], [[1], [0]], [[0], [1]], [[0], [0]]]);;
+gap> IsSynchronousTransducer(T);
+false
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
