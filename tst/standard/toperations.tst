@@ -221,5 +221,28 @@ gap> CombineEquivalentStates(T);
 <transducer with input alphabet on 2 symbols, output alphabet on 
 2 symbols, and 5 states.>
 
+#T# MinimalTransducer
+gap> T := Transducer(3, 3, [[2, 2, 1], [4, 3, 1], [4, 2, 3], [1, 1, 4]],
+> [[[2], [2, 0], [2]], [[2, 2, 0], [], [0, 1]], [[], [0], [2]],
+> [[2, 1], [1, 0, 1], [1, 2]]]);;
+gap> M := MinimalTransducer(T);
+<transducer with input alphabet on 3 symbols, output alphabet on 
+3 symbols, and 5 states.>
+gap> OutputFunction(M);
+[ [ [ 2 ], [ 2, 0 ], [ 2, 2 ] ], [ [ 2, 2, 0 ], [  ], [ 0, 1, 2 ] ], 
+  [ [  ], [ 0 ], [ 2 ] ], [ [ 2, 1, 2 ], [ 1, 0, 1, 2 ], [ 1, 2 ] ], 
+  [ [  ], [ 0 ], [ 2 ] ] ]
+gap> TransitionFunction(M);
+[ [ 2, 2, 3 ], [ 4, 5, 3 ], [ 2, 2, 3 ], [ 3, 3, 4 ], [ 4, 2, 5 ] ]
+gap> T := Transducer(2, 2, [[2, 2], [3, 1], [3, 3], [5, 2], [2, 1]],
+> [[[1, 0], [0, 0]], [[1], []], [[0], [1]], [[1], [1]], [[], [0, 0]]]);;
+gap> M := MinimalTransducer(T);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 3 states.>
+gap> OutputFunction(M);
+[ [ [ 1, 0 ], [ 0, 0 ] ], [ [ 1 ], [  ] ], [ [ 0 ], [ 1 ] ] ]
+gap> TransitionFunction(M);
+[ [ 2, 2 ], [ 3, 1 ], [ 3, 3 ] ]
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
