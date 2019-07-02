@@ -344,5 +344,23 @@ gap> T := Transducer(2, 2, [[1, 2], [1, 1]], [[[0], [1]], [[], []]]);;
 gap> IsBijectiveTransducer(T);
 false
 
+#T# Powers
+gap> T := Transducer(2, 4, [[1, 2], [1, 3], [1, 1]], [[[0], []], [[1], []],
+> [[2], [3]]]);;
+gap> EqualTransducers(T^1, T);
+true
+gap> T^-1;
+<transducer with input alphabet on 4 symbols, output alphabet on 
+2 symbols, and 1 state.>
+gap> T := Transducer(2, 2, [[1, 2], [1, 1]], [[[0], [1]], [[], []]]);;
+gap> T2 := Transducer(2, 2, [[1, 4], [1, 3], [1, 1], [2, 2]],
+> [[[0], [1]], [[], []], [[], []], [[], []]]);;
+gap> EqualTransducers(T^2, T2);
+true
+gap> f := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+> [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);;
+gap> f^-3 * f^2 = f^-1;
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
