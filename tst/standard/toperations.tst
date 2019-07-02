@@ -396,5 +396,18 @@ gap> T := Transducer(2, 2, [[1, 2], [4, 3], [1, 2], [2, 1]],
 gap> IsSynchronousTransducer(T);
 false
 
+#T# Conjugation
+gap> T := Transducer(3, 3, [[2, 3, 2], [1, 2, 1], [1, 2, 1]],
+> [[[1, 1], [0], [2]], [[2, 0], [0, 1, 0], []], [[1], [1], []]]);;
+gap> 3to2 := AlphabetChangeTransducer(3, 2);;
+gap> 2to3 := AlphabetChangeTransducer(2, 3);;
+gap> (T^3to2)^2to3 = T;
+true
+gap> C1 := Transducer(3, 3, [[1, 1, 2], [1, 3, 2], [1, 1, 2]], [[[2], [0], [1]],
+> [[0, 0], [], [1]], [[0, 2], [2], [0, 1]]]);;
+gap> C2 := Transducer(3, 3, [[1, 1, 1]], [[[0], [2], [1]]]);;
+gap> T^(C1*C2)= (T^C1)^C2;
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
