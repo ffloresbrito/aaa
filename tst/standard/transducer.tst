@@ -88,5 +88,19 @@ gap> T := RandomTransducer(2, 5);
 <transducer with input alphabet on 2 symbols, output alphabet on 
 2 symbols, and 5 states.>
 
+#T# TransducerByNumber
+gap> T := Transducer(2, 2, [[3, 1], [1, 1], [1, 1]], [[[0, 0, 0], [1, 1, 0]],
+> [[], []], [[], []]]);;
+gap> T2 := TransducerByNumber(3,4,1000);;
+gap> EqualTransducers(T, T2);
+true
+gap> T := Transducer(2, 2, [[3, 2], [1, 1], [1, 1], [1, 1]],
+> [[[0], [0]], [[1], []], [[], []], [[], []]]);;
+gap> T2 := TransducerByNumber(4,3,8192);;
+gap> EqualTransducers(T, T2);
+true
+gap> EqualTransducers(TransducerByNumber(1, 1, 8), IdentityTransducer(2));
+true
+
 #
 gap> STOP_TEST("aaa package: standard/transducer.tst");
