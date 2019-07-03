@@ -102,5 +102,17 @@ true
 gap> EqualTransducers(TransducerByNumber(1, 1, 8), IdentityTransducer(2));
 true
 
+#T# NumberByTransducer
+gap> T := Transducer(2, 2, [[3, 1], [1, 1], [1, 1]], [[[0, 0, 0], [1, 1, 0]],
+> [[], []], [[], []]]);;
+gap> NumberByTransducer(3, 4, T);
+1000
+gap> T := Transducer(2, 2, [[3, 2], [1, 1], [1, 1], [1, 1]],
+> [[[0], [0]], [[1], []], [[], []], [[], []]]);;
+gap> NumberByTransducer(4, 3, T);
+8192
+gap> NumberByTransducer(1, 1, IdentityTransducer(2));
+8
+
 #
 gap> STOP_TEST("aaa package: standard/transducer.tst");
