@@ -470,5 +470,28 @@ gap> T := Transducer(3, 3, [[1, 2, 1], [3, 3, 3], [1, 3, 2]],
 gap> IsSynchronizingTransducer(T);
 false
 
+#T# IsBisynchronizingTransducer
+gap> T := IdentityTransducer(4);;
+gap> IsBisynchronizingTransducer(T);
+true
+gap> T := DeBruijnTransducer(2, 4);;
+gap> IsBisynchronizingTransducer(T);
+true
+gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> IsBisynchronizingTransducer(T);
+true
+gap> T := Transducer(2, 2, [[2, 3], [3, 4], [3, 2], [3, 4]],
+> [[[1], [1, 0, 1]], [[1], []], [[1], [0, 1]], [[1], [0]]]);;
+gap> IsBisynchronizingTransducer(T);
+false
+gap> T := TransducerByNumber(1, 1, 9);;
+gap> IsBisynchronizingTransducer(T);
+false
+gap> T := Transducer(3, 3, [[1, 2, 1], [3, 3, 3], [1, 3, 2]],
+> [[[1], [2], [1]], [[0], [1], [2, 1]], [[0], [0], [1]]]);;
+gap> IsBisynchronizingTransducer(T);
+false
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
