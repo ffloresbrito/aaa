@@ -570,5 +570,35 @@ gap> OutputFunction(C);
 gap> TransitionFunction(C);
 [ [ 1, 2 ], [ 1, 3 ], [ 1, 3 ] ]
 
+#T# IsCoreTransducer(T);
+gap> T := TransducerByNumber(1, 1, 9);;
+gap> IsCoreTransducer(T);
+true
+gap> T := Transducer(2, 2, [[2, 3], [3, 4], [3, 2], [3, 4]],
+> [[[1], [1, 0, 1]], [[1], []], [[1], [0, 1]], [[1], [0]]]);;
+gap> IsCoreTransducer(T);
+false
+gap> C := TransducerCore(T);;
+gap> IsCoreTransducer(C);
+true
+gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> IsCoreTransducer(T);
+true
+gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> IsCoreTransducer(T);
+true
+gap> T := Transducer(2, 4, [[1, 2], [1, 3], [1, 1]], [[[0], []], [[1], []],
+> [[2], [3]]]);;
+gap> IsCoreTransducer(T);
+false
+gap> T := DeBruijnTransducer(2, 3);;
+gap> IsCoreTransducer(T);
+true
+gap> T := DeBruijnTransducer(3, 2);;
+gap> IsCoreTransducer(T);
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
