@@ -548,5 +548,27 @@ false
 gap> IsomorphicTransducers(T5, T5);
 true
 
+#T# TransducerCore
+gap> T := TransducerByNumber(1, 1, 9);;
+gap> C := TransducerCore(T);;
+gap> OutputFunction(C);
+[ [ [ 1 ], [ 1 ] ] ]
+gap> TransitionFunction(C);
+[ [ 1, 1 ] ]
+gap> T := Transducer(2, 2, [[2, 3], [3, 4], [3, 2], [3, 4]],
+> [[[1], [1, 0, 1]], [[1], []], [[1], [0, 1]], [[1], [0]]]);;
+gap> C := TransducerCore(T);;
+gap> OutputFunction(C);
+[ [ [ 1 ], [ 0, 1 ] ], [ [ 1 ], [  ] ], [ [ 1 ], [ 0 ] ] ]
+gap> TransitionFunction(C);
+[ [ 1, 2 ], [ 1, 3 ], [ 1, 3 ] ]
+gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> C := TransducerCore(T);;
+gap> OutputFunction(C);
+[ [ [ 1, 0 ], [  ] ], [ [ 0 ], [ 1, 1 ] ], [ [ 0 ], [ 1 ] ] ]
+gap> TransitionFunction(C);
+[ [ 1, 2 ], [ 1, 3 ], [ 1, 3 ] ]
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
