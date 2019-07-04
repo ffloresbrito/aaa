@@ -529,5 +529,24 @@ gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
 gap> IsLipschitzTransducer(T);
 false
 
+#T# IsomorphicTransducers
+gap> T := Transducer(2, 3, [[1, 3], [2, 3], [3, 3]], [[[1], [2]], [[1], [2]],
+> [[0, 0], [1, 0]]]);;
+gap> T2 := CopyTransducerWithInitialState(T, 2);;
+gap> T3 := CopyTransducerWithInitialState(T, 3);;
+gap> T4 := CopyTransducerWithInitialState(T3, 3);;
+gap> IsomorphicTransducers(T, T2);
+true
+gap> IsomorphicTransducers(T, T3);
+true
+gap> IsomorphicTransducers(T, T4);
+true
+gap> T5 := Transducer(2, 3, [[1, 3], [2, 3], [3, 3]], [[[0], [2]], [[1], [2]],
+> [[0, 0], [1, 0]]]);;
+gap> IsomorphicTransducers(T, T5);
+false
+gap> IsomorphicTransducers(T5, T5);
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
