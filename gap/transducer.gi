@@ -255,3 +255,27 @@ InstallMethod(NrTransducers, "returns the number of transducers (with alphabet s
 function(StateNr, OutNr)
   return (StateNr*(2^(OutNr + 1) - 1))^(StateNr * 2);
 end);
+
+InstallMethod(DeBruijnTransducer, "returns a transducer",
+[IsPosInt, IsPosInt],
+function(Alph, WordLen)
+  local StateToLabel, LabelToState, state, letter, target, Pi, Lambda;
+  StateToLabel := function(n)
+     return List([0 .. (WordLen - 1)], x -> Int(RemInt(n - 1, Alph ^ (x + 1))
+                                                / (Alph ^ x)));
+  end;
+  LabelToState := function(l)
+    return 1 + Sum(List([0 .. WordLen - 1], y -> l[y + 1] * (Alph ^ y)));
+  end;
+  Pi := [];
+  for state in [1 .. Alph ^ WordLen] do
+    Add(Pi, []);
+    for letter in [0 .. Alph - 1] do
+      target := Concatenation(StateToLabel(state){[2 .. WordLen]}, [letter]);
+      Add(Pi[state], LabelToState(target));
+    od;
+  od;
+  Lambda := ListWithIdenticalEntries(Alph ^ WordLen,
+                                     List([0 .. Alph - 1], x -> [x]));
+  return Transducer(Alph, Alph, Pi, Lambda);
+end);
