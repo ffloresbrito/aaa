@@ -36,6 +36,7 @@ DeclareAttribute("TransducerCore", IsTransducer);
 DeclareAttribute("IsCoreTransducer", IsTransducer);
 DeclareAttribute("ImageAsUnionOfCones", IsTransducer);
 DeclareAttribute("HasClopenImage", IsTransducer);
+DeclareAttribute("IsCompletableCore", IsTransducer);
 DeclareOperation("CoreProduct", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("OmegaEquivalentTransducers", [IsTransducer, IsTransducer]);

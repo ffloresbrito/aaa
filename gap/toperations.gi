@@ -1013,3 +1013,10 @@ InstallMethod(HasClopenImage, "for a Transducer",
 function(T)
  return ImageAsUnionOfCones(T) <> fail;
 end);
+
+InstallMethod(IsCompletableCore, "for a transducer",
+[IsTransducer],
+function(T)
+  return not IsDegenerateTransducer(T) and IsCoreTransducer(T)
+         and IsInjectiveTransducer(T) and HasClopenImage(T);
+end);
