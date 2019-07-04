@@ -425,5 +425,24 @@ gap> TransducerOrder(T^-1);
 gap> TransducerOrder(T^-2);
 3
 
+#T# TransducerSynchronizingLength
+gap> T := IdentityTransducer(4);;
+gap> TransducerSynchronizingLength(T);
+0
+gap> T := DeBruijnTransducer(2, 4);;
+gap> TransducerSynchronizingLength(T);
+4
+gap> T := DeBruijnTransducer(4, 3);;
+gap> TransducerSynchronizingLength(T);
+3
+gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> TransducerSynchronizingLength(T);
+2
+gap> T := Transducer(3, 3, [[1, 2, 1], [3, 3, 3], [1, 3, 2]],
+> [[[1], [2], [1]], [[0], [1], [2, 1]], [[0], [0], [1]]]);;
+gap> TransducerSynchronizingLength(T);
+infinity
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
