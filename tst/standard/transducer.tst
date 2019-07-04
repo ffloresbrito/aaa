@@ -114,5 +114,27 @@ gap> NumberByTransducer(4, 3, T);
 gap> NumberByTransducer(1, 1, IdentityTransducer(2));
 8
 
+#T# NrTransducers
+gap> NrTransducers(1,1);
+9
+gap> NrTransducers(1,2);
+49
+gap> NrTransducers(2,1);
+1296
+gap> NrTransducers(1,3);
+225
+gap> NrTransducers(2,2);
+38416
+gap> NrTransducers(3,1);
+531441
+gap> NrTransducers(1,4);
+961
+gap> NrTransducers(2,3);
+810000
+gap> NrTransducers(3,2);
+85766121
+gap> NrTransducers(4,1);
+429981696
+
 #
 gap> STOP_TEST("aaa package: standard/transducer.tst");
