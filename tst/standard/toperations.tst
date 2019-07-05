@@ -600,5 +600,35 @@ gap> T := DeBruijnTransducer(3, 2);;
 gap> IsCoreTransducer(T);
 true
 
+#T# CoreProduct
+gap> T1 := TransducerByNumber(1, 1, 9);;
+gap> C1 := TransducerCore(T1);;
+gap> T2 := Transducer(2, 2, [[2, 3], [3, 4], [3, 2], [3, 4]],
+> [[[1], [1, 0, 1]], [[1], []], [[1], [0, 1]], [[1], [0]]]);;
+gap> C2 := TransducerCore(T2);;
+gap> P1 := CoreProduct(C1, C2);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 1 state.>
+gap> P2 := CoreProduct(C2, C1);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 1 state.>
+gap> IsomorphicTransducers(P1, TransducerCore(MinimalTransducer(T1 * T2)));
+true
+gap> IsomorphicTransducers(P2, TransducerCore(MinimalTransducer(T2 * T1)));
+true
+gap> T1 := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> C1 := TransducerCore(T1);;
+gap> P1 := CoreProduct(C1, C2);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 3 states.>
+gap> P2 := CoreProduct(C2, C1);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 5 states.>
+gap> IsomorphicTransducers(P1, TransducerCore(MinimalTransducer(T1 * T2)));
+true
+gap> IsomorphicTransducers(P2, TransducerCore(MinimalTransducer(T2 * T1)));
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
