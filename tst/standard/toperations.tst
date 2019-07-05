@@ -630,5 +630,34 @@ true
 gap> IsomorphicTransducers(P2, TransducerCore(MinimalTransducer(T2 * T1)));
 true
 
+#T# CoreCompletion
+gap> T := IdentityTransducer(2);;
+gap> Comp := CoreCompletion(T);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 2 states.>
+gap> IsBijectiveTransducer(Comp);
+true
+gap> IsomorphicTransducers(TransducerCore(Comp), T);
+true
+gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
+> [1, 1]], [[0], [1]]]);;
+gap> Comp := CoreCompletion(T);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 4 states.>
+gap> IsBijectiveTransducer(Comp);
+true
+gap> IsomorphicTransducers(TransducerCore(Comp), T);
+true
+gap> AGnrFig6:= Transducer(2, 2, [[2, 5], [3, 7], [3, 4], [1, 7], [1, 4],
+> [1, 4], [10, 8], [10, 8], [3, 7], [9, 6]], [[[], []], [[1, 0, 0], [0, 1]],
+> [[0], [1]], [[], []], [[0, 1], [1, 0, 1]], [[1], [0, 1]], [[0, 0], [1, 1]],
+> [[0], [1]], [[0, 0], [1]], [[], []]]);
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 10 states.>
+gap> IsCoreTransducer(AGnrFig6);
+true
+gap> IsBijectiveTransducer(CoreCompletion(AGnrFig6));
+true
+
 #
 gap> STOP_TEST("aaa package: standard/toperations.tst");
