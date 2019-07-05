@@ -954,3 +954,62 @@ InstallMethod(CoreProduct, "for a pair of transducers", [IsTransducer, IsTransdu
 function(C1,C2)
   return TransducerCore(MinimalTransducer(C1*C2));
 end);
+
+InstallMethod(ImageAsUnionOfCones, "for a transducer",
+[IsTransducer],
+function(T)
+  local A, NrS, Pairs, Alph, Cones, GoodStates, TMat, Word, StatePath,
+        letter, pos, target;
+  if IsDegenerateTransducer(T) then
+    ErrorNoReturn("aaa: ImageAsUnionOfCones: usage,\n",
+                  "the given transducer must be nondegenerate ");
+  fi;
+  Alph := OutputAlphabet(T);
+  A  := MinimalAutomaton(TransducerImageAutomaton(T));
+  NrS  := NumberStatesOfAutomaton(A);
+  if NrS = 1 then
+    return [[]];
+  fi;
+  Cones := [];
+  GoodStates := FinalStatesOfAutomaton(A);
+  if not Size(GoodStates) = NrS - 1 then
+    return fail;
+  fi;
+  TMat := TransitionMatrixOfAutomaton(A);
+  Word := [];
+  StatePath := [InitialStatesOfAutomaton(A)[1]];
+  letter := 0;
+  repeat
+    target := TMat[letter + 1][StatePath[Size(StatePath)]];
+    pos := Position(StatePath, target);
+    if pos = fail then
+      Add(Word, letter);
+      Add(StatePath, target);
+      letter := 0;
+    elif pos = Size(StatePath) then
+      if Size(Set(List(TMat, x -> x[target]))) > 1 then
+        return fail;
+      fi;
+      if target in GoodStates then
+        Add(Cones, ShallowCopy(Word));
+      fi;
+      letter := Word[Size(Word)] + 1;
+      Remove(Word);
+      Remove(StatePath);
+    else
+      return fail;
+    fi;
+    while Word <> [] and letter = Size(Alph) do
+      letter := Word[Size(Word)] + 1;
+      Remove(Word);
+      Remove(StatePath);
+    od;
+  until letter = Size(Alph);
+  return Cones;
+end);
+
+InstallMethod(HasClopenImage, "for a Transducer",
+[IsTransducer],
+function(T)
+ return ImageAsUnionOfCones(T) <> fail;
+end);
