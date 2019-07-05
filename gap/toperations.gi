@@ -1020,3 +1020,54 @@ function(T)
   return not IsDegenerateTransducer(T) and IsCoreTransducer(T)
          and IsInjectiveTransducer(T) and HasClopenImage(T);
 end);
+
+InstallMethod(CoreCompletion, "for a transducer",
+[IsTransducer],
+function(C)
+  local MC, imagecone, preimagecones, viablecombination, toutput, Pi, Lambda,
+        currentstate, cone, i, state;
+  if not IsCompletableCore(C) then
+    ErrorNoReturn("aaa: CoreCompletion: usage,\n",
+                  "this transducer is not a completable core");
+  fi;
+  if not NrInputSymbols(C) = 2 then
+   ErrorNoReturn("aaa: CoreCompletion: usage,\n",
+                  "this transducer is a completable core\n",
+                  "but this package is currently only able to\n",
+                  "handle transducers with inputalphabet size 2");
+  fi;
+  MC := TransducerCore(MinimalTransducer(C));
+  imagecone := ImageAsUnionOfCones(MC)[1];
+  preimagecones := [];
+  for cone in Set(PreimageConePrefixes(imagecone, 1, MC)) do
+    if ForAll(preimagecones, x -> not IsPrefix(cone, x)) then
+      Add(preimagecones, cone);
+    fi;
+  od;
+
+  if Size(preimagecones) = 1 then
+    preimagecones := [Concatenation(preimagecones[1], [0]),
+                      Concatenation(preimagecones[1], [1])];
+  fi;
+  viablecombination := [];
+  for cone in preimagecones do
+    toutput := TransducerFunction(MC, cone, 1);
+    Add(viablecombination, [Minus(toutput[1], imagecone), toutput[2]]);
+  od;
+  Pi := Concatenation([[viablecombination[1][2]]], TransitionFunction(MC));
+  for state in Pi do
+    Apply(state, x-> x+1);
+  od;
+  Lambda := Concatenation([[viablecombination[1][1]]], OutputFunction(MC));
+  currentstate := 1;
+  for i in [2 .. Size(viablecombination) - 1] do
+    Pi[currentstate][2] := Size(Pi) + 1;
+    Pi[Size(Pi)][1] := viablecombination[i][2] + 1;
+    Lambda[currentstate][2] := [];
+    Lambda[Size(Lambda)][1] := viablecombination[i][1];
+    currentstate := Size(Pi);
+  od;
+  Pi[currentstate][2] := viablecombination[Size(viablecombination)][2] + 1;
+  Lambda[currentstate][2] := viablecombination[Size(viablecombination)][1];
+  return Transducer(2, 2, Pi, Lambda);
+end);
