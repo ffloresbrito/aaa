@@ -948,4 +948,4 @@ end);
 
 InstallMethod(IsCoreTransducer, "for a transducer",
 [IsTransducer], T -> IsSynchronizingTransducer(T)
-and IsomorphicTransducers(T, TransducerCore(T)));
+and NrStates(T) = NrStates(TransducerCore(T)));
