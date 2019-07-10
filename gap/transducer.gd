@@ -12,23 +12,26 @@
 # that of objects that relate to this package. The appropiate ViewObj functions
 # are defined in the transducer.gi file.
 
+IsTransducerOrRTransducer := NewFilter("IsTransducerOrRTransducer");
 DeclareRepresentation("IsTransducer", IsComponentObjectRep and
-                      IsAttributeStoringRep, ["InputAlphabet",
+                      IsAttributeStoringRep and IsTransducerOrRTransducer,
+                                             ["InputAlphabet",
                                               "OutputAlphabet",
                                               "States",
                                               "TransitionFunction",
                                               "OutputFunction",
                                               "TransducerFunction"]);
 DeclareOperation("Transducer", [IsPosInt, IsPosInt, IsDenseList, IsDenseList]);
-DeclareOperation("TransducerFunction", [IsTransducer, IsDenseList, IsPosInt]);
-DeclareOperation("OutputFunction", [IsTransducer]);
-DeclareOperation("TransitionFunction", [IsTransducer]);
-DeclareOperation("InputAlphabet", [IsTransducer]);
-DeclareOperation("OutputAlphabet", [IsTransducer]);
-DeclareOperation("States", [IsTransducer]);
-DeclareOperation("NrStates", [IsTransducer]);
-DeclareOperation("NrOutputSymbols", [IsTransducer]);
-DeclareOperation("NrInputSymbols", [IsTransducer]);
+DeclareOperation("TransducerFunction",
+                 [IsTransducerOrRTransducer, IsDenseList, IsPosInt]);
+DeclareOperation("OutputFunction", [IsTransducerOrRTransducer]);
+DeclareOperation("TransitionFunction", [IsTransducerOrRTransducer]);
+DeclareOperation("InputAlphabet", [IsTransducerOrRTransducer]);
+DeclareOperation("OutputAlphabet", [IsTransducerOrRTransducer]);
+DeclareOperation("States", [IsTransducerOrRTransducer]);
+DeclareOperation("NrStates", [IsTransducerOrRTransducer]);
+DeclareOperation("NrOutputSymbols", [IsTransducerOrRTransducer]);
+DeclareOperation("NrInputSymbols", [IsTransducerOrRTransducer]);
 DeclareOperation("IdentityTransducer", [IsPosInt]);
 DeclareOperation("AlphabetChangeTransducer", [IsPosInt, IsPosInt]);
 DeclareOperation("RandomTransducer", [IsPosInt, IsPosInt]);

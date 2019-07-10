@@ -9,7 +9,7 @@
 ##
 
 ReadPackage("aaa", "gap/transducer.gd");
-
+ReadPackage("aaa", "gap/rtransducer.gd");
 ReadPackage("aaa", "gap/toperations.gd");
 ReadPackage("aaa", "gap/utils.gd");
 ReadPackage("aaa", "gap/woperations.gd");

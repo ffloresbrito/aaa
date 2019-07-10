@@ -108,55 +108,55 @@ function(inalph, outalph, tranfunc, outfunc)
 end);
 
 InstallMethod(TransducerFunction, "for a transducer, a dense list and a posint",
-[IsTransducer, IsDenseList, IsPosInt],
+[IsTransducerOrRTransducer, IsDenseList, IsPosInt],
 function(T, input, state)
   return T!.TransducerFunction(input, state);
 end);
 
 InstallMethod(TransitionFunction, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return T!.TransitionFunction;
 end);
 
 InstallMethod(OutputFunction, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return T!.OutputFunction;
 end);
 
 InstallMethod(States, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return [1 .. T!.States];
 end);
 
 InstallMethod(NrStates, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return T!.States;
 end);
 
 InstallMethod(InputAlphabet, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return [0 .. T!.InputAlphabet - 1];
 end);
 
 InstallMethod(OutputAlphabet, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return [0 .. T!.OutputAlphabet - 1];
 end);
 
 InstallMethod(NrOutputSymbols, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return T!.OutputAlphabet;
 end);
 
 InstallMethod(NrInputSymbols, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return T!.InputAlphabet;
 end);

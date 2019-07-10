@@ -25,21 +25,28 @@ end);
 ################################################################################
 
 InstallMethod(DotTransducer, "for a transducer",
-[IsTransducer],                #This function was written by Michael Torpey
+[IsTransducerOrRTransducer],   #This function was written by Michael Torpey
 function(transducer)
-  local i, j, m, n, out, st, str, verts;
+  local i, j, label, m, n, out, st, str, verts;
 
   verts := States(transducer);
   out   := TransitionFunction(transducer);
   m     := NrStates(transducer);
   str   := "//dot\n";
 
+  label := List(verts, x -> String(x));
+  if IsRTransducer(transducer) then
+    for i in RootStates(transducer) do
+      label[i] := Concatenation("R", label[i]);
+    od;
+  fi;
+
   Append(str, "digraph finite_state_machine{\n");
   Append(str, "rankdir=LR;\n");
   Append(str, "node [shape=circle]\n");
 
   for i in verts do
-    Append(str, Concatenation(String(i), "\n"));
+    Append(str, Concatenation(label[i], "\n"));
   od;
 
   for i in verts do
@@ -48,7 +55,7 @@ function(transducer)
       n := n + 1;
       st := String(OutputFunction(transducer)[i][n]);
       RemoveCharacters(st, " [,]");
-      Append(str, Concatenation(String(i), " -> ", String(j)));
+      Append(str, Concatenation(label[i], " -> ", label[j]));
       Append(str, Concatenation(" [label=\"", String(n - 1), "|", st, "\"]"));
       Append(str, "\n");
     od;
