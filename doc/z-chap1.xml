@@ -41,7 +41,6 @@
 
     <#Include Label = "IsInjectiveTransducer">
     <#Include Label = "IsSurjectiveTransducer">
-    <#Include Label = "EqualImagePrefixes">
 
   </Section>
 

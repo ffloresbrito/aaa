@@ -404,28 +404,6 @@ function(t)
  return true;
 end);
 
-InstallMethod(EqualImagePrefixes, "for a transducer",
-[IsTransducer],
-function(T)
-  local tducer;
-
-  if HasEqualImagePrefixes(T) then
-    return EqualImagePrefixes(T);
-  elif HasIsInjectiveTransducer(T) then
-    if IsInjectiveTransducer(T) = false then
-      tducer := CopyTransducerWithInitialState(T, 1);
-      IsInjectiveTransducer(tducer);
-      SetEqualImagePrefixes(T, EqualImagePrefixes(tducer));
-      return EqualImagePrefixes(T);
-    fi;
-  elif IsInjectiveTransducer(T) = false then
-    return EqualImagePrefixes(T);
-  else
-    return fail;
-  fi;
-  return fail;
-end);
-
 InstallMethod(IsSurjectiveTransducer, "for a transducer",
 [IsTransducer],
 function(T)
