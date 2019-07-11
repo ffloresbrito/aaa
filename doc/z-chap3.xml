@@ -23,6 +23,8 @@
     <#Include Label = "TransducerProduct">
     <#Include Label = "RemoveStatesWithIncompleteResponse">
     <#Include Label = "RemoveInaccessibleStates">
+    <#Include Label = "CombineEquivalentStates">
+    <#Include Label = "MinimalTransducer">
     <#Include Label = "CopyTransducerWithInitialState">
 
   </Section>

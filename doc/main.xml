@@ -36,6 +36,7 @@
 <TableOfContents/>
 
 <Body>
+  <#Include SYSTEM "z-chapint.xml">  <!-- introduction -->
   <#Include SYSTEM "z-chap0.xml">  <!-- installation -->
   <#Include SYSTEM "z-chap1.xml">  <!-- transducers -->
   <#Include SYSTEM "z-chap2.xml">  <!-- word operations -->

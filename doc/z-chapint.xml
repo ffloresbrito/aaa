@@ -1,0 +1,20 @@
+<Chapter Label = "introduction">
+
+  <Heading>
+   aaa package
+  </Heading>
+  <Section Label = "An introduction to asynchronous automata">
+<Heading>
+   An introduction to asynchronous automata
+  </Heading>
+  This package grew out of a desire to be able to work efficiently with elements of the asychronous rational group as described in the paper <Cite Key = "GNS"/>. We will give a brief description of that group here, and give an example in the next subsection of implementing the main processes of the package.
+ </Section>
+
+ <Section Label = "Examples">
+<Heading>
+   Examples
+  </Heading>
+
+ </Section>
+  </Chapter>
+~          
