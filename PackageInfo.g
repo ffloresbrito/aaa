@@ -49,16 +49,6 @@ ArchiveFormats := ".tar.gz",
 
 Persons := [
   rec(
-    LastName      := "Flores Brito",
-    FirstNames    := "F.",
-    IsAuthor      := true,
-    IsMaintainer  := true,
-    Email         := "ffb3@st-andrews.ac.uk",
-    WWWHome       := "",
-    Place         := "St Andrews",
-    Institution   := "University of St Andrews"),
-
-  rec(
     LastName     := "Bleak",
     FirstNames    := "C. P.",
     IsAuthor      := true,
@@ -69,27 +59,46 @@ Persons := [
     Institution   := "University of St Andrews"),
 
   rec(
-    LastName      := "Mitchell",
-    FirstNames    := "J. D.",
+    LastName      := "Flores Brito",
+    FirstNames    := "F.",
+    IsAuthor      := true,
+    IsMaintainer  := true,
+    Email         := "ffb3@st-andrews.ac.uk",
+    WWWHome       := "",
+    Place         := "St Andrews",
+    Institution   := "University of St Andrews"),
+
+  rec(
+    LastName      := "Elliott",
+    FirstNames    := "L.",
     IsAuthor      := true,
     IsMaintainer  := false,
-    Email         := "jdm3@st-and.ac.uk",
-    WWWHome       := "http://www-groups.mcs.st-andrews.ac.uk/~jamesm/",
+    Email         := "le27@st-and.ac.uk",
+    WWWHome       := "http://le27.github.io/Luke-Elliott/",
     PostalAddress := _STANDREWS,
     Place         := "St Andrews",
-    Institution   := "University of St Andrews")],
+    Institution   := "University of St Andrews"),
+
+ rec(
+    LastName      := "Olukoya",
+    FirstNames    := "F.",
+    IsAuthor      := true,
+    IsMaintainer  := false,
+    Email         := "feyisayo.olukoya@abdn.ac.uk",
+    WWWHome       := "https://www.abdn.ac.uk/ncs/departments/mathematics/profiles/feyisayo.olukoya/",
+    PostalAddress := "Institute of Mathematics, Aberdeen, AB24 3UE, UK",
+    Place         := "Aberdeen",
+    Institution   := "University of Aberdeen")],
+
 
 Status := "deposited",
 
-AbstractHTML :=
-"""<p>The <strong class=\"pkg\">AAA</strong> package is a <strong
-class=\"pkg\">GAP</strong> package containing methods for asynchronous
-transducers.</p>
-<p><strong class=\"pkg\">AAA</strong> contains methods not available in the
-<strong class=\"pkg\">GAP</strong> library as therein only synchronous automata
-are covered.</p> <p>There are methods for eliminating states of incomplete
-response, remove inaccesible states, determine whether a transducer is
-invertible and if it is to invert the transducer.</p>""",
+AbstractHTML := Concatenation(
+"<p>The <strong class=\"pkg\">AAA</strong> package is a <strong class=\"pkg\">GAP</strong>",
+" package containing methods for asynchronous transducers.</p><p><strong class=\"pkg\">AAA</strong> ",
+"contains methods not available in the <strong class=\"pkg\">GAP</strong> library as therein only synchronous ",
+"automata are covered.</p><p>There are methods for eliminating states of incomplete response, remove inaccesible states, ",
+"determine whether a transducer is invertible and if it is to invert the transducer.</p>"),
 
 PackageDoc := rec(
   BookName  := "aaa",

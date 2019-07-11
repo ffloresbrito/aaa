@@ -31,11 +31,12 @@
     <C>inputletter</C> are as before.
 
     <Example><![CDATA[
-gap> T := Transducer(2, 2, [[1, 2], [2, 1]], [[[0], []], [[1], [0, 1]]]);
+gap> T := Transducer(2, 2, [[2, 3], [2, 3], [2, 3]],
+> 			   [[[], []], [[0], [0]], [[1], [1]]]);
 <transducer with input alphabet on 2 symbols, output alphabet on 2 symbols,
-  and 2 states.>
-]]></Example>
-  </Description>
+  and 3 states.>
+  ]]></Example>
+ </Description>
 </ManSection>
 <#/GAPDoc>
 
