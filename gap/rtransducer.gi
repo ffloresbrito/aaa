@@ -231,3 +231,18 @@ InstallMethod(NrOutputRoots, "for an rtransducer",
 function(T)
   return T!.OutputRoots;
 end);
+
+InstallMethod(TransducerToRTransducer, "for a transducer",
+[IsTransducer],
+function(T)
+  local Pi, Lambda, i;
+  Pi := StructuralCopy(TransitionFunction(T));
+  Lambda := StructuralCopy(OutputFunction(T));
+  for i in Pi do
+    Apply(i, x -> x + 1);
+  od;
+  Pi := Concatenation([[2]], Pi);
+  Lambda := Concatenation([[[0]]], Lambda);
+
+  return RTransducer(1, 1, NrInputSymbols(T), NrOutputSymbols(T), Pi, Lambda);
+end);
