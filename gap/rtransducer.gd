@@ -15,4 +15,4 @@ DeclareOperation("NrInputRoots", [IsRTransducer]);
 DeclareOperation("NrOutputRoots", [IsRTransducer]);
 DeclareOperation("RootStates", [IsRTransducer]);
 DeclareOperation("TransducerToRTransducer", [IsTransducer]);
-
+DeclareOperation("RTransducerToTransducer", [IsRTransducer]);

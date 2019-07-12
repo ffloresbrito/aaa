@@ -246,3 +246,29 @@ function(T)
 
   return RTransducer(1, 1, NrInputSymbols(T), NrOutputSymbols(T), Pi, Lambda);
 end);
+
+InstallMethod(RTransducerToTransducer, "for a transducer",
+[IsRTransducer],
+function(T)
+  local Pi, Lambda, i, j, startoutput;
+  if not (NrInputRoots(T) = 1 and NrOutputRoots(T) = 1) then
+    ErrorNoReturn("aaa: Transducer: usage,\n",
+                 "the given transducer may only have one input root letter\n",
+                 "and one output root letter,");
+  fi;
+  Pi := StructuralCopy(TransitionFunction(T));
+  Lambda := StructuralCopy(OutputFunction(T));
+  for i in RootStates(T) do
+    for j in [1 .. Size(Lambda[i])] do
+      if Lambda[i][j] <> [] then
+        Lambda[i][j] := Lambda[i][j]{[2 .. Size(Lambda[i][j])]};
+      fi;
+    od;
+  od;
+  startoutput := Lambda[1][1];
+  for i in InputAlphabet(T) do
+    Lambda[1][i + 1] := Concatenation(startoutput, Lambda[2][i + 1]);
+  od;
+  Pi[1] := ShallowCopy(Pi[2]);
+  return Transducer(NrInputSymbols(T), NrOutputSymbols(T), Pi, Lambda);
+end);
