@@ -13,7 +13,8 @@
 DeclareOperation("InverseTransducer", [IsTransducer]);
 DeclareOperation("TransducerProduct", [IsTransducerOrRTransducer,
                                        IsTransducerOrRTransducer]);
-DeclareOperation("RemoveStatesWithIncompleteResponse", [IsTransducer]);
+DeclareOperation("RemoveStatesWithIncompleteResponse",
+                 [IsTransducerOrRTransducer]);
 DeclareOperation("RemoveInaccessibleStates", [IsTransducer]);
 DeclareOperation("CopyTransducerWithInitialState", [IsTransducer, IsPosInt]);
 DeclareOperation("RemoveEquivalentStates", [IsTransducer]);

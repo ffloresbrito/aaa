@@ -159,7 +159,7 @@ function(T1,T2)
 end);
 
 InstallMethod(RemoveStatesWithIncompleteResponse, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   local ntfunc, nofunc, n, x, const, target, pos, badpref, neededcopies,
         i, stufftowrite, out, edgestopushfrom, edge, pushstring;
@@ -183,7 +183,7 @@ function(T)
     Add(ntfunc, []);
     Add(nofunc, []);
   od;
-  for x in InputAlphabet(T) do
+  for x in [0 .. Size(OutputFunction(T)[1]) - 1] do
     target := TransducerFunction(T, [x], 1)[2];
     ntfunc[1][x + 1] := target + 1;
     pos := Position(const[1], target);
@@ -199,7 +199,7 @@ function(T)
   od;
   for n in [2 .. NrStates(T) + 1] do
     if not n - 1 in const[1] then
-      for x in InputAlphabet(T) do
+      for x in [0 .. Size(OutputFunction(T)[n - 1]) - 1] do
         target := TransducerFunction(T, [x], n - 1)[2];
         ntfunc[n][x + 1] := target + 1;
         pos := Position(const[1], target);
@@ -229,14 +229,21 @@ function(T)
     Add(ntfunc,ListWithIdenticalEntries(Size(InputAlphabet(T)),Size(ntfunc) + 1));
     pushstring := ShallowCopy(nofunc[ntfunc[edge[1]][edge[2]]][1]);
     out := nofunc[edge[1]][edge[2]];
-    while out <> [] and out[Size(out)] = pushstring[Size(pushstring)] do
+    while out <> [] and out[Size(out)] = pushstring[Size(pushstring)] and not
+          (IsRTransducer(T) and edge[1] in RootStates(T) and Size(out) = 1) do
       Remove(out);
       pushstring := Concatenation([pushstring[Size(pushstring)]],pushstring{[1 .. Size(pushstring)-1]});
     od;
     Add(nofunc, ListWithIdenticalEntries(Size(InputAlphabet(T)), pushstring));
     ntfunc[edge[1]][edge[2]]:= Size(ntfunc);
   od;
-  return Transducer(NrInputSymbols(T), NrOutputSymbols(T), ntfunc, nofunc);
+
+  if IsRTransducer(T) then
+    return RTransducer(NrInputRoots(T), NrOutputRoots(T), NrInputSymbols(T),
+                      NrOutputSymbols(T), ntfunc, nofunc);
+  else
+    return Transducer(NrInputSymbols(T), NrOutputSymbols(T), ntfunc, nofunc);
+  fi;
 end);
 
 InstallMethod(RemoveInaccessibleStates, "for a transducer",
