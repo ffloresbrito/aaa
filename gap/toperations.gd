@@ -21,7 +21,7 @@ DeclareAttribute("IsInjectiveTransducer", IsTransducer);
 DeclareAttribute("IsSurjectiveTransducer", IsTransducer);
 DeclareAttribute("IsBijectiveTransducer", IsTransducer);
 DeclareAttribute("TransducerImageAutomaton", IsTransducerOrRTransducer);
-DeclareAttribute("TransducerConstantStateOutputs", IsTransducer);
+DeclareAttribute("TransducerConstantStateOutputs", IsTransducerOrRTransducer);
 DeclareAttribute("IsDegenerateTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsMinimalTransducer", IsTransducer);
 DeclareAttribute("CombineEquivalentStates", IsTransducer);

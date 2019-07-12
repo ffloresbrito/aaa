@@ -651,7 +651,7 @@ function(T)
 end);
 
 InstallMethod(TransducerConstantStateOutputs, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   local constantstates, constantstateoutputs, currentstate, state,
   automatonhasbeenbuilt, stateisnotconstant, tuple, out1, out2, A, MinA,
@@ -661,7 +661,7 @@ function(T)
   automatonhasbeenbuilt := false;
   for state in States(T) do
     stateisnotconstant := false;
-    for tuple in UnorderedTuples(InputAlphabet(T),2) do
+    for tuple in UnorderedTuples([0 .. Size(OutputFunction(T)[state]) - 1], 2) do
        if not tuple[1] = tuple[2] then
          out1 := TransducerFunction(T,[tuple[1]],state);
          out2 := TransducerFunction(T,[tuple[2]],state);
