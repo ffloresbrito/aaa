@@ -22,7 +22,7 @@ DeclareAttribute("IsSurjectiveTransducer", IsTransducer);
 DeclareAttribute("IsBijectiveTransducer", IsTransducer);
 DeclareAttribute("TransducerImageAutomaton", IsTransducer);
 DeclareAttribute("TransducerConstantStateOutputs", IsTransducer);
-DeclareAttribute("IsDegenerateTransducer", IsTransducer);
+DeclareAttribute("IsDegenerateTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsMinimalTransducer", IsTransducer);
 DeclareAttribute("CombineEquivalentStates", IsTransducer);
 DeclareAttribute("MinimalTransducer", IsTransducer);

@@ -704,14 +704,14 @@ end);
 
 
 InstallMethod(IsDegenerateTransducer, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
 	local Out, D, OutNeigh;
 	Out := States(T);
 	OutNeigh := function(s)
 		local Output, i;
 		Output := [];
-		for i in InputAlphabet(T) do
+		for i in [0 .. Size(OutputFunction(T)[s]) - 1] do
 			if TransducerFunction(T,[i],s)[1] = [] then
 				Add(Output,TransducerFunction(T,[i],s)[2]);
 			fi;
