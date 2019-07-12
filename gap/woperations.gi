@@ -245,15 +245,20 @@ function(L)
 end);
 
 InstallMethod(ImageConeLongestPrefix, "for a dens. list a pos. int and a tdcr.",
-[IsDenseList, IsPosInt, IsTransducer],
+[IsDenseList, IsPosInt, IsTransducerOrRTransducer],
 function(w, q, T)
   local tducerf, flag, active, tactive, outputs, retired, v, b, k, y, x, word,
         common, common1;
 
-  if ForAny(w, x -> not x in InputAlphabet(T)) then
+  if (IsTransducer(T) or q <> 1) and ForAny(w, x -> not x in InputAlphabet(T)) then
     ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
                   "the first argument contains symbols not in the input ",
                   "alphabet of the third\n argument,");
+  elif IsRTransducer(T) and q = 1 and w <> [] and
+       (ForAny(w{[2 .. Size(w)]}, x -> not x in InputAlphabet(T)) or
+        not w[1] in InputRoots(T)) then
+    ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
+                  "the given word cannot be read from the start state");
   elif not q in States(T) then
     ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
                   "the second argument is not a state of the third argument,");
@@ -269,7 +274,12 @@ function(w, q, T)
   while not flag do
     k := k + 1;
     outputs := [];
-    active := Tuples(InputAlphabet(T), k);
+    if IsRTransducer(T) and b = 1 then
+      active := List(Cartesian(InputRoots(T), Tuples(InputAlphabet(T), k - 1)),
+                      x -> Concatenation([x[1]], x[2]));
+    else
+      active := Tuples(InputAlphabet(T), k);
+    fi;
     for x in active do
       word := TransducerFunction(T, x, b)[1];
       if not word in outputs then
