@@ -20,7 +20,7 @@ DeclareOperation("RemoveEquivalentStates", [IsTransducer]);
 DeclareAttribute("IsInjectiveTransducer", IsTransducer);
 DeclareAttribute("IsSurjectiveTransducer", IsTransducer);
 DeclareAttribute("IsBijectiveTransducer", IsTransducer);
-DeclareAttribute("TransducerImageAutomaton", IsTransducer);
+DeclareAttribute("TransducerImageAutomaton", IsTransducerOrRTransducer);
 DeclareAttribute("TransducerConstantStateOutputs", IsTransducer);
 DeclareAttribute("IsDegenerateTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsMinimalTransducer", IsTransducer);
