@@ -741,7 +741,7 @@ function(T)
 	return DigraphHasLoops(D) or DigraphGirth(D) < infinity;
 end);
 
-QuotientTransducer := function(T,EqR)
+QuotientTransducer := function(T,EqR, wantoutputs)
   local Classes, class, i, Pi, Lambda, initialclass;
   Classes:=ShallowCopy(EquivalenceRelationPartition(EquivalenceRelationByPairs(Domain(States(T)),EqR)));
 
@@ -769,16 +769,25 @@ QuotientTransducer := function(T,EqR)
   Pi:= ShallowCopy(Classes);
   Lambda := ShallowCopy(Classes);
   Apply(Pi,x -> TransitionFunction(T)[x[1]]);
-  Apply(Lambda, x-> OutputFunction(T)[x[1]]);
+  if wantoutputs then
+    Apply(Lambda, x-> OutputFunction(T)[x[1]]);
+  else
+    Apply(Lambda,
+          x-> ListWithIdenticalEntries(Size(OutputFunction(T)[x[1]]), []));
+  fi;
   for i in Pi do
         Apply(i,class);
   od;
-  return Transducer(Length(InputAlphabet(T)),Length(OutputAlphabet(T)),Pi,Lambda
-);
+  if IsTransducer(T) then
+    return Transducer(NrInputSymbols(T), NrOutputSymbols(T), Pi, Lambda);
+  elif IsRTransducer(T) then
+    return RTransducer(NrInputRoots(T), NrOutputRoots(T),
+                       NrInputSymbols(T), NrOutputSymbols(T), Pi, Lambda);
+  fi;
 end;
 
 InstallMethod(CombineEquivalentStates, "for a transducer",
- [IsTransducer],
+ [IsTransducerOrRTransducer],
 function(T)
   local  x, EqRelation, i, tuple, NewTuple, b, flag;
   EqRelation := Filtered(UnorderedTuples(States(T), 2),
@@ -787,19 +796,26 @@ function(T)
   while flag do
     flag := false;
     for tuple in EqRelation do
-      for i in InputAlphabet(T) do
-        NewTuple := [TransducerFunction(T, [i], tuple[1])[2],
-                     TransducerFunction(T, [i], tuple[2])[2]];
-        Sort(NewTuple);
-        if not NewTuple in EqRelation then
+      if IsRTransducer(T) and (tuple[1] = 1 or
+         (tuple[1] in RootStates(T)) <> (tuple[2] in RootStates(T))) then
           Remove(EqRelation,Position(EqRelation,tuple));
           flag := true;
           break;
-        fi;
-      od;
+      else
+        for i in InputAlphabet(T) do
+          NewTuple := [TransducerFunction(T, [i], tuple[1])[2],
+                       TransducerFunction(T, [i], tuple[2])[2]];
+          Sort(NewTuple);
+          if not NewTuple in EqRelation then
+            Remove(EqRelation,Position(EqRelation,tuple));
+            flag := true;
+            break;
+          fi;
+        od;
+      fi;
     od;
   od;
-  return QuotientTransducer(T,EqRelation);
+  return QuotientTransducer(T,EqRelation, true);
 end);
 
 InstallMethod(MinimalTransducer, "for a transducer",
@@ -894,7 +910,7 @@ function(T)
 	count := -1;
 	while flag do
 		count := count + 1;
-		TempT := QuotientTransducer(CopyT,Filtered(Cartesian(States(CopyT), States(CopyT)),x-> TransitionFunction(CopyT)[x[1]]=TransitionFunction(CopyT)[x[2]]));
+		TempT := QuotientTransducer(CopyT,Filtered(Cartesian(States(CopyT), States(CopyT)),x-> TransitionFunction(CopyT)[x[1]]=TransitionFunction(CopyT)[x[2]]), false);
 		flag := (States(CopyT) <> States(TempT));
 		CopyT := TempT;
 	od;
