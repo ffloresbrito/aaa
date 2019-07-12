@@ -11,7 +11,8 @@
 # This file contains the declaration of operations that relate to transducers.
 
 DeclareOperation("InverseTransducer", [IsTransducer]);
-DeclareOperation("TransducerProduct", [IsTransducer, IsTransducer]);
+DeclareOperation("TransducerProduct", [IsTransducerOrRTransducer,
+                                       IsTransducerOrRTransducer]);
 DeclareOperation("RemoveStatesWithIncompleteResponse", [IsTransducer]);
 DeclareOperation("RemoveInaccessibleStates", [IsTransducer]);
 DeclareOperation("CopyTransducerWithInitialState", [IsTransducer, IsPosInt]);
@@ -42,6 +43,6 @@ DeclareOperation("IsomorphicInitialTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("OmegaEquivalentTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicTransducers", [IsTransducer, IsTransducer]);
-DeclareOperation("\*", [IsTransducer, IsTransducer]);
+DeclareOperation("\*", [IsTransducerOrRTransducer, IsTransducerOrRTransducer]);
 DeclareOperation("\^", [IsTransducer, IsInt]);
 DeclareOperation("\^", [IsTransducer, IsTransducer]);

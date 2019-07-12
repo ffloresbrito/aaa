@@ -46,7 +46,7 @@ function(T)
 end);
 
 InstallMethod(TransducerProduct, "for two transducers",
-[IsTransducer, IsTransducer],
+[IsTransducerOrRTransducer, IsTransducerOrRTransducer],
 function(tdcr1, tdcr2)
   local newstates, newstate, ntfun, nofun, tducerf, word, x, y, q, n;
   newstates := [];
@@ -57,6 +57,16 @@ function(tdcr1, tdcr2)
     ErrorNoReturn("aaa: TransducerProduct: usage,\n",
                   "the output alphabet of the first argument must be the ",
                   "input alphabet\nof the second argument,");
+  fi;
+  if not IsRTransducer(tdcr1) = IsRTransducer(tdcr2) then
+  ErrorNoReturn("aaa: TransducerProduct: usage,\n",
+                  "one of the transducers has roots and the other",
+                  "doesn't,");
+  fi;
+  if IsRTransducer(tdcr1) and OutputRoots(tdcr1) <> InputRoots(tdcr2) then
+    ErrorNoReturn("aaa: TransducerProduct: usage,\n",
+                  "the output roots of the first argument must be the ",
+                  "input roots\nof the second argument,");
   fi;
 
   for x in States(tdcr1) do
@@ -70,21 +80,36 @@ function(tdcr1, tdcr2)
   n := 0;
   for q in newstates do
     n := n + 1;
-    for x in InputAlphabet(tdcr1) do
-      word := OutputFunction(tdcr1)[q[1]][x + 1];
-      tducerf := TransducerFunction(tdcr2, word, q[2]);
-      newstate := [TransitionFunction(tdcr1)[q[1]][x + 1], tducerf[2]];
-      ntfun[n][x + 1] := Position(newstates, newstate);
-      nofun[n][x + 1] := tducerf[1];
-    od;
+    if IsRTransducer(tdcr1) and
+       ((q[1] = 1 and not q[2] in RootStates(tdcr2))
+        or (q[2] = 1 and not q[1] in RootStates(tdcr1))) then
+      for x in [0 .. Size(OutputFunction(tdcr1)[q[1]]) - 1] do
+        ntfun[n][x + 1] := 2;
+        nofun[n][x + 1] := [];
+      od;
+    else
+      for x in [0 .. Size(OutputFunction(tdcr1)[q[1]]) - 1] do
+        word := OutputFunction(tdcr1)[q[1]][x + 1];
+        tducerf := TransducerFunction(tdcr2, word, q[2]);
+        newstate := [TransitionFunction(tdcr1)[q[1]][x + 1], tducerf[2]];
+        ntfun[n][x + 1] := Position(newstates, newstate);
+        nofun[n][x + 1] := tducerf[1];
+      od;
+    fi;
   od;
 
-  return Transducer(NrInputSymbols(tdcr1), NrOutputSymbols(tdcr2), ntfun,
-  nofun);
+  if IsRTransducer(tdcr1) then
+    return RTransducer(NrInputRoots(tdcr1), NrOutputRoots(tdcr2),
+                       NrInputSymbols(tdcr1), NrOutputSymbols(tdcr2), ntfun,
+                       nofun);
+  else
+    return Transducer(NrInputSymbols(tdcr1), NrOutputSymbols(tdcr2), ntfun,
+                      nofun);
+  fi;
 end);
 
 InstallMethod(\*, "for two transducers",
-[IsTransducer, IsTransducer],
+[IsTransducerOrRTransducer, IsTransducerOrRTransducer],
 TransducerProduct);
 
 InstallMethod(\^, "for a transducer and a positive integer",
