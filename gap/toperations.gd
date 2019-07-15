@@ -20,7 +20,7 @@ DeclareOperation("CopyTransducerWithInitialState", [IsTransducerOrRTransducer,
                                                     IsPosInt]);
 DeclareOperation("RemoveEquivalentStates", [IsTransducer]);
 DeclareAttribute("IsInjectiveTransducer", IsTransducerOrRTransducer);
-DeclareAttribute("IsSurjectiveTransducer", IsTransducer);
+DeclareAttribute("IsSurjectiveTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsBijectiveTransducer", IsTransducer);
 DeclareAttribute("TransducerImageAutomaton", IsTransducerOrRTransducer);
 DeclareAttribute("TransducerConstantStateOutputs", IsTransducerOrRTransducer);

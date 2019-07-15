@@ -466,7 +466,7 @@ function(t)
 end);
 
 InstallMethod(IsSurjectiveTransducer, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   local usefulstates, prefixcodes, imagetrees, completeblocks, finalimagetree,
   currentblocks, containsantichain, currentword, x, flag, y, minwords, tyx,
@@ -476,7 +476,7 @@ function(T)
   if IsDegenerateTransducer(T) then
     ErrorNoReturn("aaa: IsSurjectiveTransducer: usage,\n",
                   "the given transducer must be nondegenerate ");
-  fi;
+    fi;
 
   imagetrees := States(T);
   completeblocks := [];
@@ -484,7 +484,7 @@ function(T)
   prefixcodes := [];
 
   containsantichain := function(list, n)
-    local currentword, minwords, x, y, check, maxword, children, i;
+    local currentword, minwords, x, y, check, maxword, children, i, letters;
     if IsEmpty(list) then
       return false;
     fi;
@@ -515,7 +515,12 @@ function(T)
       Remove(maxword);
       children := [];
       minwords := Set(minwords);
-      for i in [0 .. n - 1] do
+      if IsRTransducer(T) and maxword = [] then
+        letters := NrInputRoots(T);
+      else
+        letters := n;
+      fi;
+      for i in [0 .. letters - 1] do
         Add(children, Concatenation(maxword, [i]));
       od;
       if not IsSubset(minwords, children) then
@@ -539,7 +544,10 @@ function(T)
         Add(currentword, 0);
       od;
       Add(prefixcodes[Position(usefulstates, x)], StructuralCopy(currentword));
-      while currentword[Size(currentword)] = NrInputSymbols(T) - 1 do
+      while ((IsTransducer(T) or x > 1 or Size(currentword) > 1) and
+            currentword[Size(currentword)] = NrInputSymbols(T) - 1) or
+            (IsRTransducer(T) and x = 1 and Size(currentword) = 1 and
+            currentword[Size(currentword)] = NrInputRoots(T) - 1) do
         Remove(currentword);
         if IsEmpty(currentword) then
           break;
