@@ -819,16 +819,21 @@ function(T)
 end);
 
 InstallMethod(MinimalTransducer, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   local output;
    if IsDegenerateTransducer(T) then
     ErrorNoReturn("aaa: MinimalTransducer: usage,\n",
                   "the given transducer must be nondegenerate ");
   fi;
-  output := RemoveInaccessibleStates(T);
+  output := T;
+  if IsTransducer(T) then
+    output := RemoveInaccessibleStates(output);
+  fi;
   output := RemoveStatesWithIncompleteResponse(output);
-  output := RemoveInaccessibleStates(output);
+  if IsTransducer(T) then
+    output := RemoveInaccessibleStates(output);
+  fi;
   output := CombineEquivalentStates(output);
   SetIsMinimalTransducer(output, true);
   return output;

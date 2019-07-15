@@ -26,7 +26,7 @@ DeclareAttribute("TransducerConstantStateOutputs", IsTransducerOrRTransducer);
 DeclareAttribute("IsDegenerateTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsMinimalTransducer", IsTransducer);
 DeclareAttribute("CombineEquivalentStates", IsTransducerOrRTransducer);
-DeclareAttribute("MinimalTransducer", IsTransducer);
+DeclareAttribute("MinimalTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsSynchronousTransducer", IsTransducer);
 DeclareAttribute("IsSynchronizingTransducer", IsTransducer);
 DeclareAttribute("IsBisynchronizingTransducer", IsTransducer);
