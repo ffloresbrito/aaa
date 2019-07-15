@@ -21,7 +21,7 @@ DeclareOperation("CopyTransducerWithInitialState", [IsTransducerOrRTransducer,
 DeclareOperation("RemoveEquivalentStates", [IsTransducer]);
 DeclareAttribute("IsInjectiveTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsSurjectiveTransducer", IsTransducerOrRTransducer);
-DeclareAttribute("IsBijectiveTransducer", IsTransducer);
+DeclareAttribute("IsBijectiveTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("TransducerImageAutomaton", IsTransducerOrRTransducer);
 DeclareAttribute("TransducerConstantStateOutputs", IsTransducerOrRTransducer);
 DeclareAttribute("IsDegenerateTransducer", IsTransducerOrRTransducer);

@@ -930,7 +930,8 @@ InstallMethod(\=, "for two transducers",
 [IsTransducer, IsTransducer], OmegaEquivalentTransducers);
 
 InstallMethod(IsBijectiveTransducer, "for a transducer",
-[IsTransducer], T -> IsInjectiveTransducer(T) and IsSurjectiveTransducer(T));
+[IsTransducerOrRTransducer], T -> IsInjectiveTransducer(T)
+                                  and IsSurjectiveTransducer(T));
 
 InstallMethod(IsMinimalTransducer, "for a transducer",
 [IsTransducerOrRTransducer],
