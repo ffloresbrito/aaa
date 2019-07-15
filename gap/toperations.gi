@@ -122,7 +122,7 @@ InstallMethod(\*, "for two transducers",
 TransducerProduct);
 
 InstallMethod(\^, "for a transducer and a positive integer",
-[IsTransducer, IsInt],
+[IsTransducerOrRTransducer, IsInt],
 function(T, n)
   local flag, tducer, x;
   if n = 1 then
@@ -139,8 +139,18 @@ function(T, n)
     ErrorNoReturn("aaa: ^: usage,\n",
                   "the given transducer must have the same domain and range");
   fi;
-  if n = 0 then
-   return IdentityTransducer(Size(InputAlphabet(T)));
+  if IsRTransducer(T) then
+    if not InputRoots(T) = OutputRoots(T) then
+      ErrorNoReturn("aaa: ^: usage,\n",
+                  "the given transducer must have the same domain and range");
+    fi;
+    if n = 0 then
+      return IdentityRTransducer(NrInputRoots(T), NrInputSymbols(T));
+    fi;
+  else
+    if n = 0 then
+     return IdentityTransducer(Size(InputAlphabet(T)));
+    fi;
   fi;
 
   tducer := CopyTransducerWithInitialState(T, 1);

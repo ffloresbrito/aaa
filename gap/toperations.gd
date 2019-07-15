@@ -48,5 +48,5 @@ DeclareOperation("OmegaEquivalentTransducers", [IsTransducerOrRTransducer,
 DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("\*", [IsTransducerOrRTransducer, IsTransducerOrRTransducer]);
-DeclareOperation("\^", [IsTransducer, IsInt]);
+DeclareOperation("\^", [IsTransducerOrRTransducer, IsInt]);
 DeclareOperation("\^", [IsTransducer, IsTransducer]);
