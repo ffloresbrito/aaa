@@ -10,7 +10,7 @@
 
 # This file contains the declaration of operations that relate to transducers.
 
-DeclareOperation("InverseTransducer", [IsTransducer]);
+DeclareOperation("InverseTransducer", [IsTransducerOrRTransducer]);
 DeclareOperation("TransducerProduct", [IsTransducerOrRTransducer,
                                        IsTransducerOrRTransducer]);
 DeclareOperation("RemoveStatesWithIncompleteResponse",

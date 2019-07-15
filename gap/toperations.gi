@@ -11,10 +11,10 @@
 # This file contains methods for operations that relate to transducers.
 
 InstallMethod(InverseTransducer, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
-  local newstates, ntfunc, nofunc, n, x, q, word, preimage, newstate, tdcrf;
-  newstates := [];
+  local newstates, ntfunc, nofunc, n, x, q, word, preimage, newstate, tdcrf,
+        readletters;
   ntfunc := [[]];
   nofunc := [[]];
   newstates := [[[], 1]];
@@ -22,7 +22,12 @@ function(T)
   n := 0;
   for q in newstates do
     n := n + 1;
-    for x in OutputAlphabet(T) do
+    if IsRTransducer(T) and n = 1 then
+      readletters := OutputRoots(T);
+    else
+      readletters := OutputAlphabet(T);
+    fi;
+    for x in readletters do
       word := [];
       Append(word, q[1]);
       Append(word, [x]);
@@ -41,8 +46,12 @@ function(T)
       nofunc[n][x + 1] := preimage;
     od;
   od;
-
-  return Transducer(NrOutputSymbols(T), NrInputSymbols(T), ntfunc, nofunc);
+  if IsTransducer(T) then
+    return Transducer(NrOutputSymbols(T), NrInputSymbols(T), ntfunc, nofunc);
+  else
+    return RTransducer(NrOutputRoots(T), NrInputRoots(T),
+                       NrOutputSymbols(T), NrInputSymbols(T), ntfunc, nofunc);
+  fi;
 end);
 
 InstallMethod(TransducerProduct, "for two transducers",
