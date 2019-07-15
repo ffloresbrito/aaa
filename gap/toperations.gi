@@ -277,15 +277,20 @@ end);
 
 InstallMethod(CopyTransducerWithInitialState,
 "for a transducer and a positive integer",
-[IsTransducer, IsPosInt],
+[IsTransducerOrRTransducer, IsPosInt],
 function(T, i)
-  local new, newq, newl, q, states, x, n;
+  local new, newq, newl, q, states, x, n, accessiblestates, newq2;
   states := ShallowCopy(States(T));
 
   if not i in states then
     ErrorNoReturn("aaa: ChangeInitialState: usage,\n",
                   "the second argument is not a state of the first argument,");
   fi;
+  if IsRTransducer(T) and i <> 1 and i in RootStates(T) then
+    ErrorNoReturn("aaa: ChangeInitialState: usage,\n",
+                  "the state must be the initial state or a non root state,");
+  fi;
+
 
   newq := [];
   newl := [];
@@ -302,14 +307,34 @@ function(T, i)
 
   for q in states do
     n := n + 1;
-    for x in InputAlphabet(T) do
+    for x in [0 .. Size(OutputFunction(T)[q]) - 1] do
       new := TransducerFunction(T, [x], q);
       newq[n][x + 1] := Position(states, new[2]);
       newl[n][x + 1] := new[1];
     od;
   od;
 
-  return Transducer(NrInputSymbols(T), NrOutputSymbols(T), newq, newl);
+  if IsTransducer(T) then
+    return Transducer(NrInputSymbols(T), NrOutputSymbols(T), newq, newl);
+  else
+    if i = 1 then
+      return RTransducer(NrInputRoots(T), NrOutputRoots(T), NrInputSymbols(T),
+                         NrOutputSymbols(T), newq, newl);
+    fi;
+    accessiblestates := [1];
+    for q in accessiblestates do
+      for x in newq[q] do
+        if not x in accessiblestates then
+          Add(accessiblestates, x);
+        fi;
+      od;
+    od;
+    newq2 := List(accessiblestates,
+                  x -> List(newq[x], y -> Position(accessiblestates, y)));
+    return Transducer(NrInputSymbols(T), NrOutputSymbols(T), newq2,
+                      List(accessiblestates, x -> newl[x]));
+
+  fi;
 end);
 
 InstallMethod(RemoveEquivalentStates, "for a transducer",

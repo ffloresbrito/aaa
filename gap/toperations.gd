@@ -16,7 +16,8 @@ DeclareOperation("TransducerProduct", [IsTransducerOrRTransducer,
 DeclareOperation("RemoveStatesWithIncompleteResponse",
                  [IsTransducerOrRTransducer]);
 DeclareOperation("RemoveInaccessibleStates", [IsTransducer]);
-DeclareOperation("CopyTransducerWithInitialState", [IsTransducer, IsPosInt]);
+DeclareOperation("CopyTransducerWithInitialState", [IsTransducerOrRTransducer,
+                                                    IsPosInt]);
 DeclareOperation("RemoveEquivalentStates", [IsTransducer]);
 DeclareAttribute("IsInjectiveTransducer", IsTransducer);
 DeclareAttribute("IsSurjectiveTransducer", IsTransducer);
