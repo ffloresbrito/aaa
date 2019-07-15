@@ -319,3 +319,12 @@ function(RootSize, AlphSize, NrStates)
         return RTransducer(RootSize, RootSize, AlphSize, AlphSize, Pi, Lambda);
 end);
 
+InstallMethod(IdentityRTransducer,"for two positive integers",
+[IsPosInt, IsPosInt],
+function(RootSize, AlphSize)
+  return RTransducer(RootSize, RootSize, AlphSize, AlphSize, 
+                    [List([1 .. RootSize], x -> 2),
+                     List([1 .. AlphSize], x -> 2)],
+                    [List([0 .. RootSize - 1], x-> [x]),
+                     List([0 .. AlphSize - 1], x-> [x])]);
+end);
