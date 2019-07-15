@@ -896,7 +896,7 @@ InstallMethod(IsBijectiveTransducer, "for a transducer",
 [IsTransducer], T -> IsInjectiveTransducer(T) and IsSurjectiveTransducer(T));
 
 InstallMethod(IsMinimalTransducer, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   return IsomorphicInitialTransducers(T, MinimalTransducer(T));
 end);
