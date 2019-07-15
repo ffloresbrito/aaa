@@ -1041,7 +1041,7 @@ function(T1,T2)
 end);
 
 InstallMethod(TransducerCore, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(T)
   local SLen;
   SLen := TransducerSynchronizingLength(T);
@@ -1049,7 +1049,13 @@ function(T)
     ErrorNoReturn("aaa: TransducerCore: usage,\n",
                   "the transducer must be synchronizing ");
   fi;
-  return RemoveInaccessibleStates(CopyTransducerWithInitialState(T,TransducerFunction(T,ListWithIdenticalEntries(SLen,0),1)[2]));
+  if IsTransducer(T) then
+    return RemoveInaccessibleStates(CopyTransducerWithInitialState(T,
+              TransducerFunction(T, ListWithIdenticalEntries(SLen, 0), 1)[2]));
+  else
+    return CopyTransducerWithInitialState(T,
+              TransducerFunction(T, ListWithIdenticalEntries(SLen, 0), 1)[2]);
+  fi;
 end);
 
 InstallMethod(IsCoreTransducer, "for a transducer",
