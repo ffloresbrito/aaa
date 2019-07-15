@@ -40,7 +40,8 @@ DeclareAttribute("HasClopenImage", IsTransducer);
 DeclareAttribute("IsCompletableCore", IsTransducer);
 DeclareAttribute("CoreCompletion", IsTransducer);
 DeclareOperation("CoreProduct", [IsTransducer, IsTransducer]);
-DeclareOperation("IsomorphicInitialTransducers", [IsTransducer, IsTransducer]);
+DeclareOperation("IsomorphicInitialTransducers", [IsTransducerOrRTransducer,
+                                                  IsTransducerOrRTransducer]);
 DeclareOperation("OmegaEquivalentTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicTransducers", [IsTransducer, IsTransducer]);

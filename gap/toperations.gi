@@ -840,9 +840,15 @@ function(T)
 end);
 
 InstallMethod(IsomorphicInitialTransducers, "for a pair of transducer",
-[IsTransducer, IsTransducer],
+[IsTransducerOrRTransducer, IsTransducerOrRTransducer],
 function(T1,T2)
   local D1, D2, perm, Dtemp, i;
+  if IsTransducer(T1) <> IsTransducer(T2) then
+    ErrorNoReturn("aaa: TransducerOrder: usage,\n",
+                  "the given transducers must be of the same type must",
+                  " be bijective");
+
+  fi;
   if not States(T1) = States(T2) then
     return false;
   fi;
@@ -850,6 +856,12 @@ function(T1,T2)
     return false;
   fi;
   if not OutputAlphabet(T1)= OutputAlphabet(T2) then
+    return false;
+  fi;
+  if IsRTransducer(T1) and InputRoots(T1) <> InputRoots(T2) then
+    return false;
+  fi;
+  if IsRTransducer(T1) and OutputRoots(T1) <> OutputRoots(T2) then
     return false;
   fi;
   D1 := List([1 .. Size(States(T1))], x -> [OutputFunction(T1)[x], TransitionFunction(T1)[x]]);
