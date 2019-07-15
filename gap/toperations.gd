@@ -43,7 +43,8 @@ DeclareAttribute("CoreCompletion", IsTransducer);
 DeclareOperation("CoreProduct", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducerOrRTransducer,
                                                   IsTransducerOrRTransducer]);
-DeclareOperation("OmegaEquivalentTransducers", [IsTransducer, IsTransducer]);
+DeclareOperation("OmegaEquivalentTransducers", [IsTransducerOrRTransducer,
+                                                IsTransducerOrRTransducer]);
 DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("\*", [IsTransducerOrRTransducer, IsTransducerOrRTransducer]);

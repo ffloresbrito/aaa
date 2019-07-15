@@ -918,7 +918,7 @@ function(T1,T2)
 end);
 
 InstallMethod(OmegaEquivalentTransducers, "for a pair of transducers",
-[IsTransducer,IsTransducer],
+[IsTransducerOrRTransducer, IsTransducerOrRTransducer],
 function(T1, T2)
   local M1, M2;
   M1:= MinimalTransducer(T1);
@@ -927,7 +927,8 @@ function(T1, T2)
 end);
 
 InstallMethod(\=, "for two transducers",
-[IsTransducer, IsTransducer], OmegaEquivalentTransducers);
+[IsTransducerOrRTransducer, IsTransducerOrRTransducer],
+OmegaEquivalentTransducers);
 
 InstallMethod(IsBijectiveTransducer, "for a transducer",
 [IsTransducerOrRTransducer], T -> IsInjectiveTransducer(T)
