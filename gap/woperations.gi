@@ -122,7 +122,7 @@ function(word, state, tducer)
 end);
 
 InstallMethod(PreimageConePrefixes, "for a den. list a pos. int. and a transd.",
-[IsDenseList, IsPosInt, IsTransducer],
+[IsDenseList, IsPosInt, IsTransducerOrRTransducer],
 function(word, state, tducer)
   local word2, x, wordset, pos, words, y, omit, n, newword;
   if IsDegenerateTransducer(tducer) then
@@ -135,10 +135,18 @@ function(word, state, tducer)
   if state > States(tducer) then
     ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
                   "the second argument is not a state of the third argument,");
-  elif ForAny(word, x -> not x in OutputAlphabet(tducer)) then
+  elif (state > 1 or IsTransducer(tducer)) and
+       ForAny(word, x -> not x in OutputAlphabet(tducer)) then
     ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
                   "the first argument contains symbols not in the output ",
                   "alphabet of the\nthird argument,");
+  elif (state = 1 and IsRTransducer(tducer)) and
+       (not word[1] in OutputRoots(tducer) or
+       ForAny(word{[2 .. Size(word)]},
+              x -> not x in OutputAlphabet(tducer))) then
+    ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
+                  "the first argument contains invalid symbols ");
+
   elif IsEmpty(word) and not [] in OutputFunction(tducer)[state] then
     return [[]];
   fi;
@@ -150,7 +158,7 @@ function(word, state, tducer)
     od;
   else
     for x in [1 .. Size(word)] do
-      for y in InputAlphabet(tducer) do
+      for y in [0 .. Size(OutputFunction(tducer)[state]) - 1] do
         if Size(OutputFunction(tducer)[state][y + 1]) >= x then
           if word{[1 .. x]} = OutputFunction(tducer)[state][y + 1]{[1 .. x]}
               then

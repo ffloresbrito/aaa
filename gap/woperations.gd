@@ -14,7 +14,8 @@
 DeclareOperation("IsPrefix", [IsDenseList, IsDenseList]);
 DeclareOperation("Minus", [IsDenseList, IsDenseList]);
 DeclareOperation("Preimage", [IsDenseList, IsPosInt, IsTransducer]);
-DeclareOperation("PreimageConePrefixes", [IsDenseList, IsPosInt, IsTransducer]);
+DeclareOperation("PreimageConePrefixes", [IsDenseList, IsPosInt,
+                                          IsTransducerOrRTransducer]);
 DeclareOperation("GreatestCommonPrefix", [IsDenseList]);
 DeclareOperation("ImageConeLongestPrefix",
                  [IsDenseList, IsPosInt, IsTransducerOrRTransducer]);
