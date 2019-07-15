@@ -633,7 +633,7 @@ true
 #T# CoreCompletion
 gap> T := IdentityTransducer(2);;
 gap> Comp := CoreCompletion(T);
-<transducer with input alphabet on 2 symbols, output alphabet on 
+<rtransducer with input alphabet on 2 symbols, output alphabet on 
 2 symbols, and 2 states.>
 gap> IsBijectiveTransducer(Comp);
 true
@@ -642,7 +642,7 @@ true
 gap> T := Transducer(2, 2, [[1, 2], [1, 3], [1, 3]], [[[1, 0], []], [[0],
 > [1, 1]], [[0], [1]]]);;
 gap> Comp := CoreCompletion(T);
-<transducer with input alphabet on 2 symbols, output alphabet on 
+<rtransducer with input alphabet on 2 symbols, output alphabet on 
 2 symbols, and 4 states.>
 gap> IsBijectiveTransducer(Comp);
 true
@@ -657,6 +657,32 @@ gap> AGnrFig6:= Transducer(2, 2, [[2, 5], [3, 7], [3, 4], [1, 7], [1, 4],
 gap> IsCoreTransducer(AGnrFig6);
 true
 gap> IsBijectiveTransducer(CoreCompletion(AGnrFig6));
+true
+gap> Strangetransducer2 := Transducer(4, 4, [[1, 4, 3, 4], [1, 4, 3, 4], [1, 4, 3, 4], [2, 5,
+> 3, 4], [2, 5, 3, 4]], [[[0], [0], [1], [1]], [[0], [0], [3], [3]], [[0],                
+> [1], [1], [0]], [[2], [2], [3], [3]], [[2], [2], [1], [1]]]);                           
+<transducer with input alphabet on 4 symbols, output alphabet on 
+4 symbols, and 5 states.>
+gap> Comp := CoreCompletion(Strangetransducer2);
+<rtransducer with input alphabet on 4 symbols, output alphabet on 
+4 symbols, and 7 states.>
+gap> IsBijectiveTransducer(Comp);
+true
+gap> IsomorphicTransducers(TransducerCore(MinimalTransducer(Comp)), Strangetransducer2);
+true
+gap> StrangeTransducer9 := Transducer(2, 2, [[1, 3], [1, 4], [  
+> 5, 7], [5, 7], [1, 8], [1, 9], [2, 9], [5, 6], [1, 9]], [[[0
+> , 0, 1], []], [[0, 1], []], [[1, 0, 1], [0, 0]], [[1, 0, 1],
+>  [0]], [[1], []], [[], [1, 1]], [[], [1, 1]], [[0, 1], []], 
+> [[], [1]]]);                                                
+<transducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 9 states.>
+gap> IsCompletableCore(StrangeTransducer9);
+true
+gap> Comp := CoreCompletion(StrangeTransducer9);
+<rtransducer with input alphabet on 2 symbols, output alphabet on 
+2 symbols, and 11 states.>
+gap> IsBijectiveTransducer(Comp);
 true
 
 #

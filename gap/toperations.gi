@@ -1137,17 +1137,13 @@ InstallMethod(CoreCompletion, "for a transducer",
 [IsTransducer],
 function(C)
   local MC, imagecone, preimagecones, viablecombination, toutput, Pi, Lambda,
-        currentstate, cone, i, state;
+        currentstate, cone, i, state, letter, pair, temp,
+        NumberRootStates, numberofletters, currentletter;
   if not IsCompletableCore(C) then
     ErrorNoReturn("aaa: CoreCompletion: usage,\n",
                   "this transducer is not a completable core");
   fi;
-  if not NrInputSymbols(C) = 2 then
-   ErrorNoReturn("aaa: CoreCompletion: usage,\n",
-                  "this transducer is a completable core\n",
-                  "but this package is currently only able to\n",
-                  "handle transducers with inputalphabet size 2");
-  fi;
+
   MC := TransducerCore(MinimalTransducer(C));
   imagecone := ImageAsUnionOfCones(MC)[1];
   preimagecones := [];
@@ -1157,29 +1153,53 @@ function(C)
     fi;
   od;
 
-  if Size(preimagecones) = 1 then
-    preimagecones := [Concatenation(preimagecones[1], [0]),
-                      Concatenation(preimagecones[1], [1])];
-  fi;
+  NumberRootStates := Size(preimagecones);
+
+  temp := StructuralCopy(preimagecones);
+  preimagecones := [];
+  for i in [0 .. NrInputSymbols(C) - 2] do
+    for cone in temp do
+      Add(preimagecones, [i, StructuralCopy(cone)]);
+    od;
+  od;
+
   viablecombination := [];
   for cone in preimagecones do
-    toutput := TransducerFunction(MC, cone, 1);
-    Add(viablecombination, [Minus(toutput[1], imagecone), toutput[2]]);
+    toutput := TransducerFunction(MC, cone[2], 1);
+    Add(viablecombination,
+        [Concatenation([cone[1]], Minus(toutput[1], imagecone)), toutput[2]]);
   od;
-  Pi := Concatenation([[viablecombination[1][2]]], TransitionFunction(MC));
-  for state in Pi do
-    Apply(state, x-> x+1);
+
+  Pi := [];
+  Lambda := [];
+  for i in [2 .. NumberRootStates] do
+    Add(Pi, [i]);
+    Add(Lambda,[[]]);
   od;
-  Lambda := Concatenation([[viablecombination[1][1]]], OutputFunction(MC));
+  Add(Pi, []);
+  Add(Lambda,[[]]);
+  Append(Pi, ShallowCopy(TransitionFunction(MC)));
+  for state in [NumberRootStates + 1 .. Size(Pi)] do
+    Apply(Pi[state], x -> x + NumberRootStates);
+  od;
+  Append(Lambda, ShallowCopy(OutputFunction(MC)));
+
   currentstate := 1;
-  for i in [2 .. Size(viablecombination) - 1] do
-    Pi[currentstate][2] := Size(Pi) + 1;
-    Pi[Size(Pi)][1] := viablecombination[i][2] + 1;
-    Lambda[currentstate][2] := [];
-    Lambda[Size(Lambda)][1] := viablecombination[i][1];
-    currentstate := Size(Pi);
+  while not viablecombination = [] do
+    currentletter := Size(Pi[currentstate]);
+    if currentstate = 1 then
+      numberofletters := NrInputSymbols(C) - 1;
+    else
+      numberofletters := NrInputSymbols(C);
+    fi;
+    while currentletter < numberofletters do
+      pair := Remove(viablecombination);
+      Pi[currentstate][currentletter + 1] := pair[2] + NumberRootStates;
+      Lambda[currentstate][currentletter + 1] := pair[1];
+      currentletter := currentletter + 1;
+    od;
+    currentstate := currentstate + 1;
   od;
-  Pi[currentstate][2] := viablecombination[Size(viablecombination)][2] + 1;
-  Lambda[currentstate][2] := viablecombination[Size(viablecombination)][1];
-  return Transducer(2, 2, Pi, Lambda);
+  return RTransducer(NrInputSymbols(C) - 1, NrInputSymbols(C) - 1,
+                    NrInputSymbols(C), NrInputSymbols(C), Pi, Lambda);
 end);
