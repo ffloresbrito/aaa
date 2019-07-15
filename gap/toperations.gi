@@ -398,7 +398,7 @@ function(T)
 end);
 
 InstallMethod(IsInjectiveTransducer, "for a transducer",
-[IsTransducer],
+[IsTransducerOrRTransducer],
 function(t)
  local T, state, CurrentDigraph, D, tuple, out1, out2, out, newvertex, vertex, letter;
 
@@ -407,10 +407,14 @@ function(t)
                   "the given transducer must be nondegenerate ");
  fi;
 
- T := RemoveInaccessibleStates(t);
+ if IsTransducer(t) then
+   T := RemoveInaccessibleStates(t);
+ else
+   T := CopyTransducerWithInitialState(t, 1);
+ fi;
  for state in States(T) do
    CurrentDigraph := [[],[]];
-   for tuple in UnorderedTuples(InputAlphabet(T),2) do
+   for tuple in UnorderedTuples([0 .. Size(OutputFunction(T)[state]) - 1], 2) do
      if not tuple[1] = tuple[2] then
         out1 := TransducerFunction(T,[tuple[1]],state);
         out2 := TransducerFunction(T,[tuple[2]],state);

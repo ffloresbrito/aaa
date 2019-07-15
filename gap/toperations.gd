@@ -19,7 +19,7 @@ DeclareOperation("RemoveInaccessibleStates", [IsTransducer]);
 DeclareOperation("CopyTransducerWithInitialState", [IsTransducerOrRTransducer,
                                                     IsPosInt]);
 DeclareOperation("RemoveEquivalentStates", [IsTransducer]);
-DeclareAttribute("IsInjectiveTransducer", IsTransducer);
+DeclareAttribute("IsInjectiveTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsSurjectiveTransducer", IsTransducer);
 DeclareAttribute("IsBijectiveTransducer", IsTransducer);
 DeclareAttribute("TransducerImageAutomaton", IsTransducerOrRTransducer);
