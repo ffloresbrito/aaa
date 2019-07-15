@@ -272,3 +272,50 @@ function(T)
   Pi[1] := ShallowCopy(Pi[2]);
   return Transducer(NrInputSymbols(T), NrOutputSymbols(T), Pi, Lambda);
 end);
+
+InstallMethod(RandomRTransducer,"gives random transducers",
+[IsPosInt, IsPosInt, IsPosInt],
+function(RootSize, AlphSize, NrStates)
+        local i, j, k, OutputLength, NrArrows, Pi, Lambda, target, NrRootStates;
+        NrRootStates := 1;
+        while 1 = Random([1 .. 2]) and NrRootStates < NrStates do
+          NrRootStates := NrRootStates + 1;
+        od;
+        Pi:= [];
+        Lambda:= [];
+        for i in [1 .. NrStates] do
+           Add(Pi,[]);
+           Add(Lambda,[]);
+           NrArrows := AlphSize;
+           if i = 1 then
+               NrArrows := RootSize;
+           fi;
+           for j in [1 .. NrArrows] do
+                Add(Lambda[i],[]);
+                if i <= NrRootStates then
+                    target := Random([2 .. NrStates]);
+                    Add(Pi[i], target);
+                    if target > NrRootStates then
+                        Add(Lambda[i][j], Random([0 .. RootSize - 1]));
+                    else
+                        continue;
+                    fi;
+                else
+                    target := Random([NrRootStates + 1 .. NrStates]);
+                    Add(Pi[i], target);
+                fi;
+                OutputLength:= 0;
+                if not Random([1,2,3,4]) = 1 then
+                        OutputLength := OutputLength + 1;
+                        while Random([1,2]) = 1 do
+                                OutputLength := OutputLength + 1;
+                        od;
+                fi;
+                for k in [1 .. OutputLength] do
+                    Add(Lambda[i][j],Random([0 .. AlphSize - 1]));
+                od;
+           od;
+        od;
+        return RTransducer(RootSize, RootSize, AlphSize, AlphSize, Pi, Lambda);
+end);
+
