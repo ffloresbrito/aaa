@@ -33,7 +33,7 @@ DeclareAttribute("IsSynchronizingTransducer", IsTransducer);
 DeclareAttribute("IsBisynchronizingTransducer", IsTransducer);
 DeclareAttribute("IsLipschitzTransducer", IsTransducer);
 DeclareAttribute("TransducerOrder", IsTransducer);
-DeclareAttribute("TransducerSynchronizingLength", IsTransducer);
+DeclareAttribute("TransducerSynchronizingLength", IsTransducerOrRTransducer);
 DeclareAttribute("TransducerCore", IsTransducer);
 DeclareAttribute("IsCoreTransducer", IsTransducer);
 DeclareAttribute("ImageAsUnionOfCones", IsTransducer);

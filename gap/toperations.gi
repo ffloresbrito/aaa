@@ -967,7 +967,7 @@ function(T)
   return p;
 end);
 
-InstallMethod(TransducerSynchronizingLength, "for a transducer", [IsTransducer],
+InstallMethod(TransducerSynchronizingLength, "for a transducer", [IsTransducerOrRTransducer],
 function(T)
 	local count, CopyT, TempT, flag;
 	flag := true;
@@ -979,9 +979,13 @@ function(T)
 		flag := (States(CopyT) <> States(TempT));
 		CopyT := TempT;
 	od;
-	if States(CopyT) = [1] then 
+	if IsTransducer(T) and States(CopyT) = [1] then
 		return count;
 	fi;
+        if IsRTransducer(T) and States(CopyT) = [1, 2] then
+                return count + 1;
+        fi;
+
 	return infinity;
 end);
 
