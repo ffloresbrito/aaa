@@ -279,3 +279,27 @@ function(Alph, WordLen)
                                      List([0 .. Alph - 1], x -> [x]));
   return Transducer(Alph, Alph, Pi, Lambda);
 end);
+
+InstallMethod(BlockCodeTransducer, "for a positive integer and a block code function", [IsPosInt, IsPosInt, IsFunction],
+function(Alph, WordLen, f)
+  local StateToLabel, LabelToState, state, letter, target, Pi, Lambda;
+  StateToLabel := function(n)
+     return List([0 .. (WordLen - 1)], x -> Int(RemInt(n - 1, Alph ^ (x + 1))
+                                                / (Alph ^ x)));
+  end;
+  LabelToState := function(l)
+    return 1 + Sum(List([0 .. WordLen - 1], y -> l[y + 1] * (Alph ^ y)));
+  end;
+  Pi := [];
+  Lambda := [];
+  for state in [1 .. Alph ^ WordLen] do
+    Add(Pi, []);
+    Add(Lambda, []);
+    for letter in [0 .. Alph - 1] do
+      target := Concatenation(StateToLabel(state){[2 .. WordLen]}, [letter]);
+      Add(Pi[state], LabelToState(target));
+      Add(Lambda[state], f(Concatenation(StateToLabel(state), [letter])));
+    od;
+  od;
+  return Transducer(Alph, Alph, Pi, Lambda);
+end);

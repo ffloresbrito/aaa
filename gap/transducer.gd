@@ -39,3 +39,4 @@ DeclareOperation("TransducerByNumber", [IsPosInt, IsPosInt, IsPosInt]);
 DeclareOperation("NumberByTransducer", [IsPosInt, IsPosInt, IsTransducer]);
 DeclareOperation("NrTransducers", [IsPosInt, IsPosInt]);
 DeclareOperation("DeBruijnTransducer", [IsPosInt, IsPosInt]);
+DeclareOperation("BlockCodeTransducer", [IsPosInt, IsPosInt, IsFunction]);
