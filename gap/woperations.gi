@@ -373,3 +373,16 @@ function(v, w)
   return false;
   
 end);
+
+InstallMethod(IsPrimeWord, "for a dense lists",
+[IsDenseList],
+function(w)
+  local i;
+  for i in [2 .. Size(w)] do
+    if Concatenation(w{[i .. Size(w)]},w{[1 .. i - 1]}) = w then
+      return false;
+    fi;
+  od;
+  return true;
+end);
+
