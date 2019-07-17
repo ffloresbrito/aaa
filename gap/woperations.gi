@@ -346,3 +346,14 @@ function(w, q, T)
   Append(v, common1);
   return v;
 end);
+
+InstallMethod(\^, "for a dens. list and a tdcr.",
+[IsDenseList, IsTransducerOrRTransducer],
+function(word, T)
+  local newword;
+  newword := [0];
+  while Size(newword) - 1 <= TransducerSynchronizingLength(T) do
+    Append(newword, word);
+  od;
+  return TransducerFunction(T, word, TransducerFunction(T, newword, 1)[2])[1];
+end);
