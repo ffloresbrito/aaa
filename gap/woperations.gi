@@ -386,3 +386,17 @@ function(w)
   return true;
 end);
 
+InstallMethod(PrimeNecklaces, "for two positive integers",
+[IsPosInt, IsPosInt],
+function(AlphSize, WordLength)
+  local primewords, w;
+  primewords := [];
+  for w in Tuples([0 .. AlphSize - 1], WordLength) do
+    if IsPrimeWord(w) and
+       ForAll(primewords, x -> not ShiftEquivalent(x, w)) then
+      Add(primewords, w);
+    fi;
+  od;
+  return primewords;
+end);
+

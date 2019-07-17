@@ -22,3 +22,4 @@ DeclareOperation("ImageConeLongestPrefix",
 DeclareOperation("\^", [IsDenseList, IsTransducerOrRTransducer]);
 DeclareOperation("ShiftEquivalent", [IsDenseList, IsDenseList]);
 DeclareOperation("IsPrimeWord", [IsDenseList]);
+DeclareOperation("PrimeNecklaces", [IsPosInt, IsPosInt]);
