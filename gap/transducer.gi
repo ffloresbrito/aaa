@@ -303,3 +303,34 @@ function(Alph, WordLen, f)
   od;
   return Transducer(Alph, Alph, Pi, Lambda);
 end);
+
+InstallMethod(ResizeZeroStringTransducer, "for three two positive integers", [IsPosInt, IsPosInt, IsPosInt],
+function(AlphSize, i, j)
+  local itoj, count, B;
+
+  itoj := function(word)
+    count := 0;
+    if ForAll(word, x -> x = 0) then
+      return [0];
+    elif word[Size(word)] <> 0 then
+      while count < Size(word) - 1 do
+        if word[Size(word)-count - 1] = 0 then
+          count := count + 1;
+        else
+          break;
+        fi;
+      od;
+      if count in [i, j] and word[Size(word)] = 1 then
+        count := i + j - count;
+      fi;
+      return Concatenation(ListWithIdenticalEntries(count, 0),
+                           [word[Size(word)]]);
+    else
+      return [];
+    fi;
+  end;
+
+  B := BlockCodeTransducer(AlphSize, Maximum(i, j) + 1, itoj);
+
+  return TransducerCore(MinimalTransducer(B));
+end);
