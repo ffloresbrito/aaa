@@ -20,3 +20,4 @@ DeclareOperation("GreatestCommonPrefix", [IsDenseList]);
 DeclareOperation("ImageConeLongestPrefix",
                  [IsDenseList, IsPosInt, IsTransducerOrRTransducer]);
 DeclareOperation("\^", [IsDenseList, IsTransducerOrRTransducer]);
+DeclareOperation("ShiftEquivalent", [IsDenseList, IsDenseList]);

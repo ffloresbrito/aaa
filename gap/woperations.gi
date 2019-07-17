@@ -357,3 +357,19 @@ function(word, T)
   od;
   return TransducerFunction(T, word, TransducerFunction(T, newword, 1)[2])[1];
 end);
+
+InstallMethod(ShiftEquivalent, "for two dense lists",
+[IsDenseList, IsDenseList],
+function(v, w)
+  local i;
+  if not Size(v) = Size(w) then
+    return false;
+  fi;
+  for i in [1 .. Size(w)] do
+    if Concatenation(w{[i .. Size(w)]},w{[1 .. i - 1]}) = v then
+      return true;
+    fi;
+  od;
+  return false;
+  
+end);
