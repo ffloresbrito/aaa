@@ -1213,3 +1213,26 @@ function(C)
   return RTransducer(NrInputSymbols(C) - 1, NrInputSymbols(C) - 1,
                     NrInputSymbols(C), NrInputSymbols(C), Pi, Lambda);
 end);
+
+InstallMethod(ActionOnNecklaces, "for a positive integer and a transducer",
+[IsPosInt, IsTransducerOrRTransducer],
+function(necklacesize, T)
+  local X, x, i, j, permutation;
+  if not IsSynchronizingTransducer(T) then
+    return fail;
+  fi;
+  X := PrimeNecklaces(NrInputSymbols(T), necklacesize);
+  permutation := [];
+  for i in [1 .. Size(X)] do
+    x := X[i]^T;
+    for j in [1 .. Size(X)] do
+      if ShiftEquivalent(X[j], x) then
+        Add(permutation, j);
+      fi;
+    od;
+    if not Size(permutation) = i then
+      return fail;
+    fi;
+  od;
+  return PermList(permutation);
+end);
