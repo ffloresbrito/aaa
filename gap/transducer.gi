@@ -334,3 +334,73 @@ function(AlphSize, i, j)
 
   return TransducerCore(MinimalTransducer(B));
 end);
+
+InstallMethod(ResizeZeroStringTransducer, "for three two positive integers", [IsPosInt, IsPosInt, IsPosInt],
+function(AlphSize, i, j)
+  local itoj, count, B;
+
+  itoj := function(word)
+    count := 0;
+    if ForAll(word, x -> x = 0) then
+      return [0];
+    elif word[Size(word)] <> 0 then
+      while count < Size(word) - 1 do
+        if word[Size(word)-count - 1] = 0 then
+          count := count + 1;
+        else
+          break;
+        fi;
+      od;
+      if count in [i, j] and word[Size(word)] = 1 then
+        count := i + j - count;
+      fi;
+      return Concatenation(ListWithIdenticalEntries(count, 0),
+                           [word[Size(word)]]);
+    else
+      return [];
+    fi;
+  end;
+
+  B := BlockCodeTransducer(AlphSize, Maximum(i, j) + 1, itoj);
+
+  return TransducerCore(MinimalTransducer(B));
+end);
+
+InstallMethod(PrimeWordSwapTransducer, "for a positive integer and two dense lists", [IsPosInt, IsDenseList, IsDenseList],
+function(alphsize, v, w)
+  local word1, word2, pair, letterswap, B, len, flag, newword, i;
+
+
+  len := Size(w);
+  if not len = Size(v) then
+    return fail;
+  fi;
+ if not (IsPrimeWord(v) and IsPrimeWord(w)) then
+    return fail;
+  fi;
+  flag := false;
+  for pair in Tuples([1 .. len], 2) do
+    word1 := Concatenation(v{[pair[1] .. len]},v{[1 .. pair[1] - 1]});
+    word2 := Concatenation(w{[pair[2] .. len]},v{[1 .. pair[2] - 1]});
+    if word1 = word2 then
+      return IdentityTransducer(alphsize);
+    fi;
+    if word1{[2 .. len]} = word2{[2 .. len]} then
+      break;
+    fi;
+  od;
+ 
+  letterswap := function(word)
+    if word = Concatenation(word1, word1){[2 .. 2 * len]} then
+      return [word2[1]];
+    fi;
+    if word = Concatenation(word2, word2){[2 .. 2 * len]} then
+      return [word1[1]];
+    fi;
+    return [word[len]];
+  end;
+
+  B := BlockCodeTransducer(alphsize, 2* len -2, letterswap);
+
+  return TransducerCore(MinimalTransducer(B));
+end);

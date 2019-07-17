@@ -41,4 +41,5 @@ DeclareOperation("NrTransducers", [IsPosInt, IsPosInt]);
 DeclareOperation("DeBruijnTransducer", [IsPosInt, IsPosInt]);
 DeclareOperation("BlockCodeTransducer", [IsPosInt, IsPosInt, IsFunction]);
 DeclareOperation("ResizeZeroStringTransducer", [IsPosInt, IsPosInt, IsPosInt]);
-
+DeclareOperation("PrimeWordSwapTransducer", [IsPosInt, IsDenseList,
+                                             IsDenseList]);
