@@ -979,3 +979,10 @@ function(i)
   , 0 ] ] ]));
   return CoreList[i];
 end);
+
+InstallMethod(L2Examples, "for a pos int", [IsPosInt],
+function(i)
+  local pos;
+  pos := [1, 2, 4, 6, 16, 274, 282, 290, 291, 292];
+  return CoreExamples(pos[i]);
+end);
