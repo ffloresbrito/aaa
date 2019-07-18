@@ -1,0 +1,1 @@
+DeclareOperation("CoreExamples", [IsPosInt]);

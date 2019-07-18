@@ -10,6 +10,7 @@
 
 ReadPackage("aaa", "gap/transducer.gi");
 ReadPackage("aaa", "gap/rtransducer.gi");
+ReadPackage("aaa", "gap/examples.gi");
 ReadPackage("aaa", "gap/toperations.gi");
 ReadPackage("aaa", "gap/utils.gi");
 ReadPackage("aaa", "gap/woperations.gi");
