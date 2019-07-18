@@ -990,7 +990,7 @@ function(T)
 end);
 
 InstallMethod(IsSynchronizingTransducer, "for a transducer",
-[IsTransducer], T -> TransducerSynchronizingLength(T)<infinity);
+[IsTransducerOrRTransducer], T -> TransducerSynchronizingLength(T)<infinity);
 
 InstallMethod(IsBisynchronizingTransducer, "for a transducer",
 [IsTransducer],

@@ -29,7 +29,7 @@ DeclareAttribute("IsMinimalTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("CombineEquivalentStates", IsTransducerOrRTransducer);
 DeclareAttribute("MinimalTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsSynchronousTransducer", IsTransducer);
-DeclareAttribute("IsSynchronizingTransducer", IsTransducer);
+DeclareAttribute("IsSynchronizingTransducer", IsTransducerOrRTransducer);
 DeclareAttribute("IsBisynchronizingTransducer", IsTransducer);
 DeclareAttribute("IsLipschitzTransducer", IsTransducer);
 DeclareAttribute("TransducerOrder", IsTransducer);
