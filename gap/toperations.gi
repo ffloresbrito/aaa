@@ -898,12 +898,11 @@ end);
 InstallMethod(IsomorphicInitialTransducers, "for a pair of transducer",
 [IsTransducerOrRTransducer, IsTransducerOrRTransducer],
 function(T1,T2)
-  local D1, D2, perm, Dtemp, i;
+  local D1, D2, perm, Dtemp, i, orderedstates1, orderedstates2, state, target,
+        inaccessiblestates1, inaccessiblestates2;
   if IsTransducer(T1) <> IsTransducer(T2) then
-    ErrorNoReturn("aaa: TransducerOrder: usage,\n",
-                  "the given transducers must be of the same type must",
-                  " be bijective");
-
+    ErrorNoReturn("aaa: IsomorphicInitialTransducers: usage,\n",
+                  "the given transducers must be of the same type");
   fi;
   if not States(T1) = States(T2) then
     return false;
@@ -920,18 +919,53 @@ function(T1,T2)
   if IsRTransducer(T1) and OutputRoots(T1) <> OutputRoots(T2) then
     return false;
   fi;
-  D1 := List([1 .. Size(States(T1))], x -> [OutputFunction(T1)[x], TransitionFunction(T1)[x]]);
-  D2 := List([1 .. Size(States(T2))], x -> [OutputFunction(T2)[x], TransitionFunction(T2)[x]]);
-  for perm in SymmetricGroup(Size(States(T1))) do
-     if 1^perm = 1 then
-       Dtemp := StructuralCopy(List([1 .. Size(States(T1))],x-> D1[x^perm]));
-       for i in [1 .. Size(Dtemp)] do
-         Apply(Dtemp[i][2], x -> x ^ (perm ^ -1));
-       od;
-       if Dtemp = D2 then
-         return true;
-       fi;
-     fi;
+  D1 := List([1 .. Size(States(T1))], x -> [OutputFunction(T1)[x],
+                                            TransitionFunction(T1)[x]]);
+  D2 := List([1 .. Size(States(T2))], x -> [OutputFunction(T2)[x],
+                                            TransitionFunction(T2)[x]]);
+  orderedstates1 := [1];
+  orderedstates2 := [1];
+  for state in orderedstates1 do
+    for target in D1[state][2] do
+      if not target in orderedstates1 then
+        Add(orderedstates1, target);
+      fi;
+    od;
+  od;
+
+  for state in orderedstates2 do
+    for target in D2[state][2] do
+      if not target in orderedstates2 then
+        Add(orderedstates2, target);
+      fi;
+    od;
+  od;
+
+  if Size(orderedstates1) <> Size(orderedstates2) then
+    return false;
+  fi;
+
+  inaccessiblestates1 := ShallowCopy(States(T1));
+  SubtractSet(inaccessiblestates1, orderedstates1);
+
+  inaccessiblestates2 := ShallowCopy(States(T2));
+  SubtractSet(inaccessiblestates2, orderedstates2);
+
+  for i in SymmetricGroup(Size(inaccessiblestates1)) do
+    perm := function(state)
+      if state in orderedstates1 then
+        return orderedstates2[Position(orderedstates1, state)];
+      fi;
+      return inaccessiblestates2[Position(inaccessiblestates1, state)^i];
+    end;
+    perm := PermList(List(States(T1), perm));
+    Dtemp := StructuralCopy(List([1 .. Size(States(T1))],x -> D1[x^(perm^-1)]));
+    for i in [1 .. Size(Dtemp)] do
+      Apply(Dtemp[i][2], x -> x ^ (perm));
+    od;
+    if Dtemp = D2 then
+      return true;
+    fi;
   od;
   return false;
 end);
