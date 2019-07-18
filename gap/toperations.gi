@@ -1270,3 +1270,13 @@ function(necklacesize, T)
   od;
   return PermList(permutation);
 end);
+
+InstallMethod(InOn, "for a Transducer",
+[IsTransducer],
+function(T)
+  if IsCompletableCore(T) then
+    return IsSynchronizingTransducer(CoreCompletion(T)^-1);
+  else
+    return false;
+  fi;
+end);

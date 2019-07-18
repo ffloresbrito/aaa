@@ -40,6 +40,7 @@ DeclareAttribute("ImageAsUnionOfCones", IsTransducer);
 DeclareAttribute("HasClopenImage", IsTransducer);
 DeclareAttribute("IsCompletableCore", IsTransducer);
 DeclareAttribute("CoreCompletion", IsTransducer);
+DeclareAttribute("InOn", IsTransducer);
 DeclareOperation("ActionOnNecklaces", [IsPosInt, IsTransducerOrRTransducer]);
 DeclareOperation("CoreProduct", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducerOrRTransducer,
