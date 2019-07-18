@@ -1280,3 +1280,6 @@ function(T)
     return false;
   fi;
 end);
+
+InstallMethod(InLn, "for a Transducer",
+[IsTransducer], x -> InOn(x) and IsLipschitzTransducer(x));
