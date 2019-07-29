@@ -1284,3 +1284,21 @@ end);
 
 InstallMethod(InLn, "for a Transducer",
 [IsTransducer], x -> InOn(x) and IsLipschitzTransducer(x));
+
+InstallMethod(CanonicalAnnotation, "for a Transducer",
+[IsTransducer],
+function(T)
+  local slen, tout, zerostate, word, annotation;
+  if not InLn(T) then
+    return fail;
+  fi;
+  slen := TransducerSynchronizingLength(T);
+  zerostate := TransducerFunction(T, ListWithIdenticalEntries(slen, 0), 1)[2];
+  annotation := [];
+  annotation[zerostate] := 0;
+  for word in Tuples(InputAlphabet(T), slen) do
+    tout := TransducerFunction(T, word, 1);
+    annotation[tout[2]] := Size(tout[1]) - slen;
+  od;
+  return annotation;
+end);
