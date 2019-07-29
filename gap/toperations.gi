@@ -1173,8 +1173,9 @@ end);
 InstallMethod(IsCompletableCore, "for a transducer",
 [IsTransducer],
 function(T)
-  return not IsDegenerateTransducer(T) and IsCoreTransducer(T)
-         and IsInjectiveTransducer(T) and HasClopenImage(T);
+  return not IsDegenerateTransducer(T)
+         and IsInjectiveTransducer(T) and HasClopenImage(T)
+         and IsCoreTransducer(T);
 end);
 
 InstallMethod(CoreCompletion, "for a transducer",
