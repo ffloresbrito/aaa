@@ -1302,3 +1302,27 @@ function(T)
   od;
   return annotation;
 end);
+
+InstallMethod(LnBlockCodeTransducer, "for a transducer", [IsTransducer],
+function(T)
+  local ann, slen, wlen, f, maxdiff, i, j;
+  if not InLn(T) then
+    return fail;
+  fi;
+  maxdiff := 0;
+  for i in OutputFunction(T) do
+    for j in i do
+      maxdiff := Maximum(maxdiff, AbsoluteValue(Size(j) - 1));
+    od;
+  od;
+  ann := CanonicalAnnotation(T);
+  slen := TransducerSynchronizingLength(T);
+  wlen := slen + maxdiff + Maximum(ann) - Minimum(ann);
+  f := function(word)
+    local writtenword, sstate;
+    sstate := TransducerFunction(T, word{[1 .. slen]}, 1)[2];
+    writtenword := TransducerFunction(T, word{[slen + 1 .. wlen + 1]}, sstate)[1];
+    return [writtenword[Maximum(ann) - ann[sstate] + 1]];
+  end;
+  return BlockCodeTransducer(2, wlen, f);
+end);
