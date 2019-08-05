@@ -51,6 +51,7 @@ DeclareOperation("IsomorphicInitialTransducers", [IsTransducerOrRTransducer,
 DeclareOperation("OmegaEquivalentTransducers", [IsTransducerOrRTransducer,
                                                 IsTransducerOrRTransducer]);
 DeclareOperation("EqualTransducers", [IsTransducer, IsTransducer]);
+DeclareOperation("OnInverse", [IsTransducer]);
 DeclareOperation("IsomorphicTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("\*", [IsTransducerOrRTransducer, IsTransducerOrRTransducer]);
 DeclareOperation("\^", [IsTransducerOrRTransducer, IsInt]);

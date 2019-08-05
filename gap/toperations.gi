@@ -1326,3 +1326,12 @@ function(T)
   end;
   return BlockCodeTransducer(2, wlen, f);
 end);
+
+InstallMethod(OnInverse, "for a Transducer",
+[IsTransducer],
+function(T)
+  if not InOn(T) then
+    return fail;
+  fi;
+  return TransducerCore(MinimalTransducer(CoreCompletion(T)^-1));
+end);
