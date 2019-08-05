@@ -39,7 +39,7 @@ DeclareOperation("TransducerByNumber", [IsPosInt, IsPosInt, IsPosInt]);
 DeclareOperation("NumberByTransducer", [IsPosInt, IsPosInt, IsTransducer]);
 DeclareOperation("NrTransducers", [IsPosInt, IsPosInt]);
 DeclareOperation("DeBruijnTransducer", [IsPosInt, IsPosInt]);
-DeclareOperation("BlockCodeTransducer", [IsPosInt, IsPosInt, IsFunction]);
+DeclareOperation("BlockCodeTransducer", [IsPosInt, IsInt, IsFunction]);
 DeclareOperation("ResizeZeroStringTransducer", [IsPosInt, IsPosInt, IsPosInt]);
 DeclareOperation("PrimeWordSwapTransducer", [IsPosInt, IsDenseList,
                                              IsDenseList]);

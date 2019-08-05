@@ -280,7 +280,7 @@ function(Alph, WordLen)
   return Transducer(Alph, Alph, Pi, Lambda);
 end);
 
-InstallMethod(BlockCodeTransducer, "for a positive integer and a block code function", [IsPosInt, IsPosInt, IsFunction],
+InstallMethod(BlockCodeTransducer, "for a positive integer and a block code function", [IsPosInt, IsInt, IsFunction],
 function(Alph, WordLen, f)
   local StateToLabel, LabelToState, state, letter, target, Pi, Lambda;
   StateToLabel := function(n)
