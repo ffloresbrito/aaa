@@ -404,3 +404,9 @@ function(alphsize, v, w)
 
   return TransducerCore(MinimalTransducer(B));
 end);
+
+InstallMethod(Shift, "for a positive integer",
+[IsPosInt],
+function(n)
+  return BlockCodeTransducer(n, 1, x->[x[1]]);
+end);
