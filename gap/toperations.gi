@@ -1351,3 +1351,25 @@ function(T1, T2)
   fi;
   return T1 + OnInverse(T2);
 end);
+
+InstallMethod(\*, "for an integer and a transducer", [IsInt, IsTransducer],
+function(n, T)
+  local k, t;
+  if not InOn(T) then
+    return fail;
+  fi;
+  if n = 0 then
+    return IdentityTransducer(NrInputSymbols(T));
+  fi;
+  t := CopyTransducerWithInitialState(T, 1);
+  if n < 0 then
+    n := -n;
+    t := OnInverse(t);
+  fi;
+  k := 1;
+  while 2*k <= n do
+    k := 2*k;
+    t := t+t;
+  od;
+  return t + (n-k)*T;
+end);

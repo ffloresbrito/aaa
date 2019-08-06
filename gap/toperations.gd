@@ -58,3 +58,4 @@ DeclareOperation("\^", [IsTransducerOrRTransducer, IsInt]);
 DeclareOperation("\^", [IsTransducer, IsTransducer]);
 DeclareOperation("\+", [IsTransducer, IsTransducer]);
 DeclareOperation("\-", [IsTransducer, IsTransducer]);
+DeclareOperation("\*", [IsInt, IsTransducer]);
