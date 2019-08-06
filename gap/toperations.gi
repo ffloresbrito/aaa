@@ -1335,3 +1335,19 @@ function(T)
   fi;
   return TransducerCore(MinimalTransducer(CoreCompletion(T)^-1));
 end);
+
+InstallMethod(\+, "for a Transducer", [IsTransducer, IsTransducer],
+function(T1,T2)
+  if not InOn(T1) and InOn(T2) then
+    return fail;
+  fi;
+  return CoreProduct(T1, T2);
+end);
+
+InstallMethod(\-, "for a pair of Transducers", [IsTransducer, IsTransducer],
+function(T1, T2)
+  if not InOn(T1) and InOn(T2) then
+    return fail;
+  fi;
+  return T1 + OnInverse(T2);
+end);

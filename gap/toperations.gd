@@ -56,3 +56,5 @@ DeclareOperation("IsomorphicTransducers", [IsTransducer, IsTransducer]);
 DeclareOperation("\*", [IsTransducerOrRTransducer, IsTransducerOrRTransducer]);
 DeclareOperation("\^", [IsTransducerOrRTransducer, IsInt]);
 DeclareOperation("\^", [IsTransducer, IsTransducer]);
+DeclareOperation("\+", [IsTransducer, IsTransducer]);
+DeclareOperation("\-", [IsTransducer, IsTransducer]);
