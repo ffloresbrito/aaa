@@ -1189,7 +1189,7 @@ function(C)
                   "this transducer is not a completable core");
   fi;
 
-  MC := TransducerCore(MinimalTransducer(C));
+  MC := CopyTransducerWithInitialState(C, 1);
   imagecone := ImageAsUnionOfCones(MC)[1];
   preimagecones := [];
   for cone in Set(PreimageConePrefixes(imagecone, 1, MC)) do
@@ -1372,4 +1372,14 @@ function(n, T)
     t := t+t;
   od;
   return t + (n-k)*T;
+end);
+
+InstallMethod(ASProd, "for a pair of transducers",
+[IsTransducer, IsTransducer],
+function(T1, T2)
+  if not (IsSynchronousTransducer(T1) and IsCoreTransducer(T1) and
+          IsSynchronousTransducer(T2) and IsCoreTransducer(T2)) then
+    return fail;
+  fi;
+  return CombineEquivalentStates(RemoveInaccessibleStates(T1*T2));
 end);
