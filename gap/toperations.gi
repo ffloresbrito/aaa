@@ -1383,3 +1383,62 @@ function(T1, T2)
   fi;
   return CombineEquivalentStates(RemoveInaccessibleStates(T1*T2));
 end);
+
+InstallMethod(Onlessthan, "for a pair of transducers",
+[IsTransducer, IsTransducer],
+function(T1,T2)
+  local M1, M2, S1, S2, q1, q2, word, w1, w2, i;
+  if not (InOn(T1) and InOn(T2)) then
+    return fail;
+  fi;
+  if NrInputSymbols(T1) < NrInputSymbols(T2) then
+    return true;
+  elif NrInputSymbols(T2) < NrInputSymbols(T1) then
+    return false;
+  fi;
+  M1 := TransducerCore(MinimalTransducer(T1));
+  M2 := TransducerCore(MinimalTransducer(T2));
+  if IsomorphicTransducers(M1, M2) then
+    return false;
+  fi;
+  S1 := TransducerSynchronizingLength(M1);
+  S2 := TransducerSynchronizingLength(M2);
+  if S1 < S2 then
+    return true;
+  elif S2 < S1 then
+    return false;
+  fi;
+  if NrStates(M1) < NrStates(M2) then
+    return true;
+  elif NrStates(M2) < NrStates(M1) then
+    return false;
+  fi;
+  q1 := TransducerFunction(M1, List([1 .. S1], x -> 0), 1)[2];
+  q2 := TransducerFunction(M2, List([1 .. S2], x -> 0), 1)[2];
+  word := [0];
+  while true do
+    w1 := TransducerFunction(M1, word, q1)[1];
+    w2 := TransducerFunction(M2, word, q2)[1];
+    if Size(w1) < Size(w2) then
+      return true;
+    elif Size(w2) < Size(w1) then
+      return false;
+    fi;
+    if w1 < w2 then
+      return true;
+    elif w2 < w1 then
+      return false;
+    fi;
+    for i in [0 .. Size(word) - 1] do
+      if word[Size(word) - i] <> NrInputSymbols(T1) - 1 then
+        word[Size(word) - i] := word[Size(word) - i] + 1;
+        break;
+      else
+        word[Size(word) - i] := 0;
+      fi;
+    od;
+    if i = Size(word) - 1 and word[1] = 0 then
+      Add(word, 0);
+    fi;
+  od;
+end);

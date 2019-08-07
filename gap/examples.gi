@@ -982,11 +982,14 @@ end);
 
 InstallMethod(L2Examples, "for a pos int", [IsPosInt],
 function(i)
-  local pos;
+  local pos, ord;
   pos := [ 31, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 47, 48, 49,
            52, 53, 54, 56, 57, 59, 1, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15,
            16, 17, 18, 19, 22, 23, 24, 26, 27, 29 ];
-  return (TransducerCore(MinimalTransducer(L24BlockTransducers(pos[i]))));
+  ord := [ 1, 23, 3, 7, 25, 29, 10, 13, 32, 35, 14, 4, 6, 2, 36, 26, 28, 24,
+           11, 8, 5, 15, 16, 9, 12, 30, 33, 27, 37, 31, 38, 34, 21, 18, 19,
+           17, 43, 40, 41, 39, 20, 22, 42, 44 ];
+  return TransducerCore(MinimalTransducer(L24BlockTransducers(pos[ord[i]])));
 end);
 
 
