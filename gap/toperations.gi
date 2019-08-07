@@ -1442,3 +1442,40 @@ function(T1,T2)
     fi;
   od;
 end);
+
+InstallMethod(LnToLnk, "for a transducer and a positive integer",
+[IsTransducer, IsPosInt],
+function(T, k)
+  local blockcode, NewToOld, OldToNew, f, SLen;
+  if not InLn(T) then
+    return fail;
+  fi;
+  if k = 1 then
+    return T;
+  fi;
+  NewToOld := function(n)
+   return List([0 .. (k - 1)], x -> Int(RemInt(n, NrInputSymbols(T) ^ (x + 1))
+                                                / (NrInputSymbols(T) ^ x)));
+  end;
+  OldToNew := function(l)
+    return Sum(List([0 .. Size(l) - 1],
+               y -> l[y + 1] * (NrInputSymbols(T) ^ y)));
+  end;
+  if not IsSynchronousTransducer(T) then
+    blockcode := CombineEquivalentStates(LnBlockCodeTransducer(T));
+  else
+    blockcode := T;
+  fi;
+
+  SLen := TransducerSynchronizingLength(blockcode);
+  f := function(word)
+    local oldin, oldout;
+    oldin := Concatenation(List(word, x -> NewToOld(x)));
+    oldout := TransducerFunction(blockcode,
+                                 oldin{[Size(oldin) - k + 1 .. Size(oldin)]},
+                                 TransducerFunction(blockcode,
+                                       oldin{[1 .. Size(oldin) - k]}, 1)[2])[1];
+    return [OldToNew(oldout)];
+  end;
+  return BlockCodeTransducer(NrInputSymbols(T)^k, Int(SLen/2) + 2, f);
+end);

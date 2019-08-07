@@ -61,3 +61,4 @@ DeclareOperation("\-", [IsTransducer, IsTransducer]);
 DeclareOperation("\*", [IsInt, IsTransducer]);
 DeclareOperation("ASProd", [IsTransducer, IsTransducer]);
 DeclareOperation("Onlessthan", [IsTransducer, IsTransducer]);
+DeclareOperation("LnToLnk", [IsTransducer, IsPosInt]);
