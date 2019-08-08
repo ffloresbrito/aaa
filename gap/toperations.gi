@@ -515,7 +515,7 @@ function(T)
       for y in [1 .. Size(minwords)] do
         if IsPrefix(minwords[y], x) then
           minwords[y] := StructuralCopy(x);
-          break;
+          check := true;
         elif IsPrefix(x, minwords[y]) then
           check := true;
           break;
@@ -526,6 +526,7 @@ function(T)
       fi;
       check := false;
     od;
+    minwords := Set(minwords);
     while not minwords = [[]] do
       Sort(minwords, function(x, y)
                        return Size(x) > Size(y);
@@ -586,7 +587,7 @@ function(T)
       fi;
     od;
     imagetrees[x] := [];
-    for y in prefixcodes[Size(prefixcodes)] do
+    for y in prefixcodes[Position(usefulstates, x)] do
       tyx := TransducerFunction(T, y, x);
       pos := Position(List(imagetrees[x], y -> y[1]), tyx[1]);
       if not pos = fail then
