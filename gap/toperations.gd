@@ -44,6 +44,7 @@ DeclareAttribute("InOn", IsTransducer);
 DeclareAttribute("InLn", IsTransducer);
 DeclareAttribute("CanonicalAnnotation", IsTransducer);
 DeclareAttribute("LnBlockCodeTransducer", IsTransducer);
+DeclareAttribute("OnOrder", IsTransducer);
 DeclareOperation("ActionOnNecklaces", [IsPosInt, IsTransducerOrRTransducer]);
 DeclareOperation("CoreProduct", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducerOrRTransducer,

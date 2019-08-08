@@ -1480,3 +1480,27 @@ function(T, k)
   end;
   return BlockCodeTransducer(NrInputSymbols(T)^k, Int(SLen/2) + 2, f);
 end);
+
+InstallMethod(OnOrder, "for a transducer",
+[IsTransducer],
+function(T)
+  local count, T1, T2, power;
+  count := 0;
+  T1 := T;
+  T2 := T;
+  power := 1;
+  while not IsomorphicTransducers(0*T, T1) do
+    T2 := T1;
+    T1 := T1 + T;
+    power := power + 1;
+    if NrStates(T1) > NrStates(T2) then
+      count := count + 1;
+    else
+      count := 0;
+    fi;
+    if count = 3 then
+      return infinity;
+    fi;
+  od;
+  return power;
+end);
