@@ -64,6 +64,61 @@ function(transducer)
   return str;
 end);
 
+InstallMethod(Draw, "for a Transducer",
+[IsTransducerOrRTransducer], function(T) Splash(DotTransducer(T)); end);
+
+InstallMethod(DrawCore, "for a transducer",
+[IsTransducer],
+function(transducer)
+  local i, j, k, label, m, n, out, st, str, verts;
+
+  verts := States(transducer);
+  out   := TransitionFunction(transducer);
+  m     := NrStates(transducer);
+  str   := "//dot\n";
+
+  label := List(verts, x -> String(x));
+  if IsRTransducer(transducer) then
+    for i in RootStates(transducer) do
+      label[i] := Concatenation("R", label[i]);
+    od;
+  fi;
+  if IsCoreTransducer(transducer) and
+     TransducerSynchronizingLength(transducer) > 0 then
+    for i in States(transducer) do
+      label[i] := "a";
+      for j in StateSynchronizingWords(transducer)[i] do
+        for k in j do
+          Append(label[i], String(k));
+        od;
+        Append(label[i], "a");
+      od;
+    od;
+  fi;
+
+  Append(str, "digraph finite_state_machine{\n");
+  Append(str, "rankdir=LR;\n");
+  Append(str, "node [shape=circle]\n");
+
+  for i in verts do
+    Append(str, Concatenation(label[i], "\n"));
+  od;
+
+  for i in verts do
+    n := 0;
+    for j in out[i] do
+      n := n + 1;
+      st := String(OutputFunction(transducer)[i][n]);
+      RemoveCharacters(st, " [,]");
+      Append(str, Concatenation(label[i], " -> ", label[j]));
+      Append(str, Concatenation(" [label=\"", String(n - 1), "|", st, "\"]"));
+      Append(str, "\n");
+    od;
+  od;
+  Append(str, "}\n");
+  Splash(str);
+end);
+
 ################################################################################
 
 if not IsBound(Splash) then #This function was written by A. Egri-Nagy

@@ -12,3 +12,5 @@
 
 DeclareGlobalFunction("AaaMakeDoc");
 DeclareOperation("DotTransducer", [IsTransducerOrRTransducer]);
+DeclareOperation("Draw", [IsTransducerOrRTransducer]);
+DeclareOperation("DrawCore", [IsTransducer]);
