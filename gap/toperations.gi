@@ -1484,23 +1484,34 @@ end);
 InstallMethod(OnOrder, "for a transducer",
 [IsTransducer],
 function(T)
-  local count, T1, T2, power;
-  count := 0;
+  local T1, power;
   T1 := T;
-  T2 := T;
   power := 1;
+  if Order(ActionOnNecklaces(10, T)) > 1000 then
+    return infinity;
+  fi;
   while not IsomorphicTransducers(0*T, T1) do
-    T2 := T1;
     T1 := T1 + T;
     power := power + 1;
-    if NrStates(T1) > NrStates(T2) then
-      count := count + 1;
-    else
-      count := 0;
-    fi;
-    if count = 3 then
+    if NrStates(T1) > 100 then
       return infinity;
     fi;
   od;
   return power;
+end);
+
+InstallMethod(StateSynchronizingWords, "for a transducer",
+[IsTransducer],
+function(T)
+  local outputs, tuple;
+  if not IsCoreTransducer(T) then
+    return fail;
+  fi;
+  outputs := List(States(T), x-> []);
+
+  for tuple in Tuples(InputAlphabet(T), TransducerSynchronizingLength(T)) do
+    Add(outputs[TransducerFunction(T, tuple, 1)[2]], tuple);
+  od;
+
+  return outputs;
 end);
