@@ -46,6 +46,8 @@ DeclareAttribute("CanonicalAnnotation", IsTransducer);
 DeclareAttribute("LnBlockCodeTransducer", IsTransducer);
 DeclareAttribute("OnOrder", IsTransducer);
 DeclareAttribute("StateSynchronizingWords", IsTransducer);
+DeclareAttribute("MinSyncSync", IsTransducer);
+DeclareAttribute("SynchronousLn", IsTransducer);
 DeclareOperation("ActionOnNecklaces", [IsPosInt, IsTransducerOrRTransducer]);
 DeclareOperation("CoreProduct", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducerOrRTransducer,

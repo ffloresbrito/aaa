@@ -1328,6 +1328,31 @@ function(T)
   return BlockCodeTransducer(2, wlen, f);
 end);
 
+InstallMethod(MinSyncSync, "for a Transducer",
+[IsTransducer],
+function(T)
+   local out, lambda, i, state, letter;
+   if not IsCoreTransducer(T) and IsSynchronousTransducer(T) then
+     return fail;
+   fi;
+   out := CombineEquivalentStates(T);
+   for i in OutputFunction(out) do
+     if Size(Set(i)) > 1 then
+       return out;
+     fi;
+   od;
+   lambda := [];
+   for state in States(out) do
+     Add(lambda, []);
+     for letter in InputAlphabet(T) do
+       Add(lambda[state],
+           OutputFunction(out)[TransitionFunction(out)[state][letter + 1]][1]);
+     od;
+   od;
+   return MinSyncSync(Transducer(NrInputSymbols(out), NrOutputSymbols(out),
+                                 TransitionFunction(out), lambda));
+end);
+
 InstallMethod(OnInverse, "for a Transducer",
 [IsTransducer],
 function(T)
@@ -1514,4 +1539,13 @@ function(T)
   od;
 
   return outputs;
+end);
+
+InstallMethod(SynchronousLn, "for a transducer",
+[IsTransducer],
+function(T)
+  if not InLn(T) then
+    return fail;
+  fi;
+  return MinSyncSync(LnBlockCodeTransducer(T));
 end);
