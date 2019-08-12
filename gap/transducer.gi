@@ -369,8 +369,6 @@ end);
 InstallMethod(PrimeWordSwapTransducer, "for a positive integer and two dense lists", [IsPosInt, IsDenseList, IsDenseList],
 function(alphsize, v, w)
   local word1, word2, pair, letterswap, B, len, flag, newword, i;
-
-
   len := Size(w);
   if not len = Size(v) then
     return fail;
@@ -401,8 +399,8 @@ function(alphsize, v, w)
   end;
 
   B := BlockCodeTransducer(alphsize, 2* len -2, letterswap);
-
-  return TransducerCore(MinimalTransducer(B));
+  SetInLn(B, true);
+  return B;
 end);
 
 InstallMethod(Shift, "for a positive integer",
