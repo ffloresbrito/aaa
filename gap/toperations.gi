@@ -1310,15 +1310,9 @@ function(T)
   if not InLn(T) then
     return fail;
   fi;
-  maxdiff := 0;
-  for i in OutputFunction(T) do
-    for j in i do
-      maxdiff := Maximum(maxdiff, AbsoluteValue(Size(j) - 1));
-    od;
-  od;
   ann := CanonicalAnnotation(T);
   slen := TransducerSynchronizingLength(T);
-  wlen := slen + maxdiff + Maximum(ann) - Minimum(ann);
+  wlen := slen + Maximum(ann) - Minimum(ann);
   f := function(word)
     local writtenword, sstate;
     sstate := TransducerFunction(T, word{[1 .. slen]}, 1)[2];
@@ -1546,6 +1540,9 @@ InstallMethod(SynchronousLn, "for a transducer",
 function(T)
   if not InLn(T) then
     return fail;
+  fi;
+  if IsSynchronousTransducer(T) then
+    return MinSyncSync(T);
   fi;
   return MinSyncSync(LnBlockCodeTransducer(T));
 end);
