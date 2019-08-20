@@ -408,3 +408,218 @@ InstallMethod(Shift, "for a positive integer",
 function(n)
   return BlockCodeTransducer(n, 1, x->[x[1]]);
 end);
+
+InstallMethod(RandomBlockCodeTransducer, "for two positive integers",
+[IsPosInt, IsPosInt],
+function(n, k)
+  local attempts, output;
+  output := fail;
+  attempts := 0;
+  while output = fail do
+    output := RandomBlockCodeTransducerAttempt(n, k);
+    attempts := attempts + 1;
+    Print("\rAttempts: ", attempts);
+  od;
+  return output;
+end);
+
+InstallMethod(RandomBlockCodeTransducerAttempt, "for two positive integers",
+[IsPosInt, IsPosInt],
+function(n, k)
+  local usedwords, newword, outs, i, f, state, j, states, l, sstates, wordtoloopedges, wordtoloopedge, pword, length, flag;
+  outs := [];
+  flag := false;
+  for i in [1 .. n^(k + 1)] do
+  Add(outs, Random([0 .. n - 1]));
+  od;
+  wordtoloopedge := function(word)
+    newword := [word[1]];
+    while Size(newword) < k + 1 do
+      newword := Concatenation(word, newword);
+    od;
+    newword := newword{[Size(newword) - k .. Size(newword)]};
+    return 1 + Sum(List([0 .. Size(newword) - 1], x-> newword[Size(newword) - x]*n^x));
+  end;
+  wordtoloopedges := function(word)
+    states := [];
+    for l in [1 .. Size(word)] do
+      Add(states, wordtoloopedge(Concatenation(word{[l .. Size(word)]}, word{[1 .. l - 1]})));
+    od;
+    return states;
+  end;
+
+  if n = 2 then
+    while not flag do
+      flag := true;
+      for length in [1 .. k + 2] do
+        usedwords := [];
+        for pword in PrimeNecklaces(2, length) do
+          states := wordtoloopedges(pword);
+          sstates := Set(ShallowCopy(states));
+          while not IsPrimeWord(outs{states}) or ForAny(usedwords, x -> ShiftEquivalent(x, outs{states}))do
+            flag := false;
+            for i in [0 .. Size(sstates) - 1] do
+              outs[sstates[Size(sstates) - i]] := 1 - outs[sstates[Size(sstates) - i]];
+              if outs[sstates[Size(sstates) - i]] = 1 then
+                break;
+              fi;
+            od;
+            if outs{states} = ListWithIdenticalEntries(length, 0) then
+              return fail;
+            fi;
+          od;
+          Add(usedwords, ShallowCopy(outs{states}));
+        od;
+      od;
+    od;
+  fi;
+ 
+  f := function(word)
+    return [outs[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
+  end;
+
+  if InOn(BlockCodeTransducer(2, k, f)) then
+    return BlockCodeTransducer(2, k, f);
+  fi;
+  return fail;
+end);
+
+ln := function(n, k, m)
+  local necklaceedges, outslist, outs, edge, edges, fixededges, changeableedges, necklaces, a, usedwords, newword, i, f, state, j, states, l, sstates, wordtoloopedges, wordtoloopedge, pword, length, flag;
+  flag := false;
+  outslist := [];
+  outs := List([1 .. n^(k + 1)], x -> 0);
+  wordtoloopedge := function(word)
+    newword := [word[1]];
+    while Size(newword) < k + 1 do
+      newword := Concatenation(word, newword);
+    od;
+    newword := newword{[Size(newword) - k .. Size(newword)]};
+    return 1 + Sum(List([0 .. Size(newword) - 1], x-> newword[Size(newword) - x]*n^x));
+  end;
+  wordtoloopedges := function(word)
+    states := [];
+    for l in [1 .. Size(word)] do
+      Add(states, wordtoloopedge(Concatenation(word{[l .. Size(word)]}, word{[1 .. l - 1]})));
+    od;
+    return states;
+  end;
+
+  necklaces := List([1 .. m], x-> PrimeNecklaces(n, x));
+  necklaceedges := List(necklaces, x-> List(x, y-> wordtoloopedges(y)));
+
+  if n = 2 then
+    fixededges := [];
+    length := 1;
+    usedwords := [];
+    a := 1;
+    repeat
+      flag := true;
+      while a <= Size(necklaces[length]) do
+        edges := necklaceedges[length][a];
+        changeableedges := Set(ShallowCopy(edges));
+        SubtractSet(changeableedges, Concatenation(fixededges));
+        for edge in [1 .. Size(outs)] do
+          if not edge in Concatenation(changeableedges, Concatenation(fixededges)) then
+            outs[edge] := 0;
+          fi;
+        od;
+        while not IsPrimeWord(outs{edges}) or ForAny(usedwords, x -> ShiftEquivalent(x, outs{edges}))do
+          while ForAll(changeableedges, x-> outs[x] = 1) and fixededges <> [] do 
+            changeableedges := fixededges[Size(fixededges)];
+            while changeableedges = [] do
+              changeableedges := Remove(fixededges);
+              Remove(usedwords);
+              if not a = 1 then
+                a := a - 1;
+              else
+                length := length - 1;
+                if length > 0 then
+                  a := Size(necklaces[length]);
+                fi;
+              fi;
+            od;
+            changeableedges := Remove(fixededges);
+            Remove(usedwords);
+            if not a = 1 then
+              a := a - 1;
+            else
+              length := length - 1;
+              if length > 0 then
+                a := Size(necklaces[length]);
+              else
+                break;
+              fi;
+            fi;
+            flag := false;
+          od;
+          for i in [0 .. Size(changeableedges) - 1] do
+            outs[changeableedges[Size(changeableedges) - i]] := 1 - outs[changeableedges[Size(changeableedges) - i]];
+            if outs[changeableedges[Size(changeableedges) - i]] = 1 then
+              break;
+            fi;
+          od;
+          if not flag then
+            break;
+          fi;
+        od;  
+        if flag then
+          Add(usedwords, ShallowCopy(outs{edges}));
+          Add(fixededges, changeableedges);
+          a := a + 1;
+        else;
+          break;
+        fi;
+      od;
+      if flag then
+        a := 1;
+        length := length + 1;
+      fi;
+      if length > m then
+        Add(outslist, ShallowCopy(outs));
+        repeat
+          changeableedges := fixededges[Size(fixededges)];
+          while changeableedges = [] do
+            changeableedges := Remove(fixededges);
+            Remove(usedwords);
+            if not a = 1 then
+              a := a - 1;
+            else
+              length := length - 1;
+              if length > 0 then
+                a := Size(necklaces[length]);
+              fi;
+            fi;
+          od;
+          changeableedges := Remove(fixededges);
+          Remove(usedwords);
+          if not a = 1 then
+            a := a - 1;
+          else
+            length := length - 1;
+            if length > 0 then
+              a := Size(necklaces[length]);
+            fi;
+          fi;
+        until ForAny(changeableedges, x-> outs[x] = 0) or fixededges = [];
+        if length > 0 then  
+          for i in [0 .. Size(changeableedges) - 1] do
+            outs[changeableedges[Size(changeableedges) - i]] := 1 - outs[changeableedges[Size(changeableedges) - i]];
+            if outs[changeableedges[Size(changeableedges) - i]] = 1 then
+              break;
+            fi;
+          od;
+        fi;
+        flag := false;
+      fi;
+      Print(List(necklaceedges, x-> List(x, y-> outs{y})), "\r");
+    until Size(Set(outslist)) <> Size(outslist);
+  fi;
+
+  Remove(outslist);
+
+  return List(outslist, x-> BlockCodeTransducer(2, k, function(word)
+    return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
+  end));
+end;
+

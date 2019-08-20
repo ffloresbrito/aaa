@@ -44,3 +44,5 @@ DeclareOperation("ResizeZeroStringTransducer", [IsPosInt, IsPosInt, IsPosInt]);
 DeclareOperation("PrimeWordSwapTransducer", [IsPosInt, IsDenseList,
                                              IsDenseList]);
 DeclareOperation("Shift", [IsPosInt]);
+DeclareOperation("RandomBlockCodeTransducer", [IsPosInt, IsPosInt]);
+DeclareOperation("RandomBlockCodeTransducerAttempt", [IsPosInt, IsPosInt]);
