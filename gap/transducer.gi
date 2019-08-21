@@ -424,7 +424,7 @@ function(n, k)
 end);
 
 ln := function(n, k, m)
-  local necklaceedges, outslist, outs, edge, edges, fixededges, changeableedges, necklaces, a, usedwords, newword, i, f, state, j, states, l, sstates, wordtoloopedges, wordtoloopedge, pword, length, goneback;
+  local output, perm, necklaceedges, outslist, outs, edge, edges, fixededges, changeableedges, necklaces, a, usedwords, newword, i, f, state, j, states, l, sstates, wordtoloopedges, wordtoloopedge, pword, length, goneback;
   outslist := [];
   outs := List([1 .. n^(k + 1)], x -> 0);
   wordtoloopedge := function(word)
@@ -451,7 +451,7 @@ ln := function(n, k, m)
   usedwords := [];
   a := 1;
   changeableedges := [];
-  while changeableedges <> [1] or outs[1] <> n-1 do
+  while changeableedges <> [1] do
     while a <= Size(necklaces[length]) do
       goneback := false;
       edges := necklaceedges[length][a];
@@ -488,8 +488,12 @@ ln := function(n, k, m)
             fi;
           fi;
           goneback := true;
-          if changeableedges = [1] and outs[1] = n-1 then
-            return List(outslist, x-> BlockCodeTransducer(n, k, function(word)
+          if changeableedges = [1] then
+            output := [];
+            for perm in SymmetricGroup(n) do
+               Append(output, List(outslist, x-> List(x, y -> (y + 1) ^ perm - 1)));
+            od;
+            return List(output, x-> BlockCodeTransducer(n, k, function(word)
 			return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
 			end));
           fi;
@@ -499,9 +503,13 @@ ln := function(n, k, m)
           if outs[changeableedges[Size(changeableedges) - i]] < n then
             break;
           elif changeableedges = [1] then
-		return List(outslist, x-> BlockCodeTransducer(n, k, function(word)
-			return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
-			end));
+            output := [];
+            for perm in SymmetricGroup(n) do
+               Append(output, List(outslist, x-> List(x, y -> (y + 1) ^ perm - 1)));
+            od;
+            return List(output, x-> BlockCodeTransducer(n, k, function(word)
+                        return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
+                        end));
           else
             outs[changeableedges[Size(changeableedges) - i]] := 0;
           fi;
@@ -550,9 +558,13 @@ ln := function(n, k, m)
         if outs[changeableedges[Size(changeableedges) - i]] < n then
           break;
         elif changeableedges = [1] then
-		return List(outslist, x-> BlockCodeTransducer(n, k, function(word)
-			return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
-			end));
+          output := [];
+          for perm in SymmetricGroup(n) do
+             Append(output, List(outslist, x-> List(x, y -> (y + 1) ^ perm - 1)));
+          od;
+          return List(output, x-> BlockCodeTransducer(n, k, function(word)
+                        return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
+                        end));
         else
           outs[changeableedges[Size(changeableedges) - i]] := 0;
         fi;
@@ -561,9 +573,13 @@ ln := function(n, k, m)
     Print(List(necklaceedges{[1 .. Minimum(5, Size(necklaceedges))]}, x-> List(x, y-> outs{y})), "\r");
   od;
 
-  return List(outslist, x-> BlockCodeTransducer(n, k, function(word)
-    return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
-  end));
+  output := [];
+  for perm in SymmetricGroup(n) do
+    Append(output, List(outslist, x-> List(x, y -> (y + 1) ^ perm - 1)));
+  od;
+  return List(output, x-> BlockCodeTransducer(n, k, function(word)
+                      return [x[1 + Sum(List([0 .. Size(word) - 1], x-> word[Size(word) - x]*n^x))]];
+                      end));
 end;
 
 InstallMethod(AllSynchronousLn, "for two positive integers",
