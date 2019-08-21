@@ -612,7 +612,7 @@ ln := function(n, k, m)
         fi;
         flag := false;
       fi;
-      Print(List(necklaceedges, x-> List(x, y-> outs{y})), "\r");
+      Print(List(necklaceedges{[1 .. 5]}, x-> List(x, y-> outs{y})), "\r");
     until Size(Set(outslist)) <> Size(outslist);
   fi;
 

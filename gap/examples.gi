@@ -992,6 +992,13 @@ function(i)
   return TransducerCore(MinimalTransducer(L24BlockTransducers(pos[ord[i]])));
 end);
 
+#TODO add these:
+#19: [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 3, 6 ], [ 1, 7 ], [ 3, 6 ], [ 3, 4 ] ]
+#[ [ [ 0 ], [  ] ], [ [ 1, 1, 0 ], [ 0 ] ], [ [ 0 ], [ 1 ] ], [ [ 0, 1, 0 ], [ 1, 1, 1 ] ],  [ [  ], [  ] ], [ [ 0 ], [ 1 ] ], [ [ 1, 0 ], [  ] ] ]
+#27: [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 3, 6 ], [ 1, 7 ], [ 3, 6 ], [ 3, 4 ] ]
+#[ [ [ 1 ], [  ] ], [ [ 0, 0, 1 ], [ 1 ] ], [ [ 1 ], [ 0 ] ], [ [ 1, 0, 1 ], [ 0, 0, 0 ] ],  [ [  ], [  ] ], [ [ 1 ], [ 0 ] ], [ [ 0, 1 ], [  ] ] ]
+
+
 InstallMethod(L3Examples, "for a pos int", [IsPosInt],
 function(i)
   local data;
