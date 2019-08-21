@@ -1424,3 +1424,23 @@ function(n)
 
 
 end);
+
+
+InstallMethod(ListToListCode, "for a list",
+[IsDenseList],
+function(L)
+  local str, newstr, elt;
+  str := "    DataList := []";
+  for elt in L do
+    newstr := "";
+    Append(newstr, Concatenation("\n    Add(DataList, ", String(elt), ")"));
+    while Size(newstr)> 75 do
+      Append(str, newstr{[1 .. 70]});
+      newstr := newstr{[71 .. Size(newstr)]};
+      Append(str, "\n\n  ");
+    od;
+    Append(str, newstr);
+    Append(str, ";");
+  od;
+  return str;
+end);
