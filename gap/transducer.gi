@@ -570,7 +570,11 @@ ln := function(n, k, m)
         fi;
       od;
     fi;
-    Print(List(necklaceedges{[1 .. Minimum(5, Size(necklaceedges))]}, x-> List(x, y-> outs{y})), "\r");
+    if n = 2 then
+      Print(List(necklaceedges{[1 .. Minimum(5, Size(necklaceedges))]}, x-> List(x, y-> outs{y})), "\r");
+    elif n = 3 then
+      Print(List(necklaceedges{[1 .. Minimum(3, Size(necklaceedges))]}, x-> List(x, y-> outs{y})), "\r");
+    fi;
   od;
 
   output := [];
