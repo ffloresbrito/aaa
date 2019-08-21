@@ -1319,7 +1319,7 @@ function(T)
     writtenword := TransducerFunction(T, word{[slen + 1 .. wlen + 1]}, sstate)[1];
     return [writtenword[Maximum(ann) - ann[sstate] + 1]];
   end;
-  return BlockCodeTransducer(2, wlen, f);
+  return BlockCodeTransducer(NrInputSymbols(T), wlen, f);
 end);
 
 InstallMethod(MinSyncSync, "for a Transducer",
