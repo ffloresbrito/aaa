@@ -46,3 +46,4 @@ DeclareOperation("PrimeWordSwapTransducer", [IsPosInt, IsDenseList,
 DeclareOperation("Shift", [IsPosInt]);
 DeclareOperation("RandomBlockCodeTransducer", [IsPosInt, IsPosInt]);
 DeclareOperation("RandomBlockCodeTransducerAttempt", [IsPosInt, IsPosInt]);
+DeclareOperation("AllSynchronousLn", [IsPosInt, IsPosInt]);
