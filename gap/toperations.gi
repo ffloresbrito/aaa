@@ -1506,7 +1506,7 @@ function(T)
   local T1, power;
   T1 := T;
   power := 1;
-  if Order(ActionOnNecklaces(10, T)) > 1000 then
+  if NrInputSymbols(T) =2 and Order(ActionOnNecklaces(10, T)) > 100 then
     return infinity;
   fi;
   while not IsomorphicTransducers(0*T, T1) do
