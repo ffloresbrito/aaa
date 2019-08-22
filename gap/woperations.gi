@@ -361,18 +361,26 @@ end);
 InstallMethod(ShiftEquivalent, "for two dense lists",
 [IsDenseList, IsDenseList],
 function(v, w)
-  local i;
+  local i, d, j, flag;
   if not Size(v) = Size(w) then
     return false;
   fi;
-  for i in [1 .. Size(w)] do
-    if Concatenation(w{[i .. Size(w)]},w{[1 .. i - 1]}) = v then
+  d := Concatenation(v, v);
+  for i in [0 .. Size(v) - 1] do
+    flag := true;
+    for j in [1 .. Size(w)] do
+      if not w[j] = d[i + j] then
+        flag := false;
+        break;
+      fi;
+    od;
+    if flag then
       return true;
     fi;
   od;
   return false;
-  
 end);
+
 
 InstallMethod(IsPrimeWord, "for a dense lists",
 [IsDenseList],
