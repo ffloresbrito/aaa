@@ -414,14 +414,6 @@ function(n)
 
 end);
 
-Read("L4");
-
-InstallMethod(L4Examples, "for a pos int",
-[IsPosInt],
-function(n)
-  return Transducer(4, 4, DataList[n][1], DataList[n][2]);
-end);
-
 InstallMethod(ListToListCode, "for a list",
 [IsDenseList],
 function(L)
