@@ -777,25 +777,31 @@ function(T)
   return [constantstates,constantstateoutputs];
 end);
 
-
 InstallMethod(IsDegenerateTransducer, "for a transducer",
 [IsTransducerOrRTransducer],
 function(T)
-	local Out, D, OutNeigh;
+  local D;
+  D := FixedOutputDigraph(T, []);
+  return DigraphHasLoops(D) or DigraphGirth(D) < infinity;
+end);
+
+InstallMethod(FixedOutputDigraph, "for a transducer",
+[IsTransducerOrRTransducer, IsDenseList],
+function(T, word)
+	local Out, OutNeigh;
 	Out := States(T);
 	OutNeigh := function(s)
 		local Output, i;
 		Output := [];
 		for i in [0 .. Size(OutputFunction(T)[s]) - 1] do
-			if TransducerFunction(T,[i],s)[1] = [] then
+			if TransducerFunction(T,[i],s)[1] = word then
 				Add(Output,TransducerFunction(T,[i],s)[2]);
 			fi;
 		od;
 		return Output;
 	end;
 	Apply(Out, OutNeigh);
-	D := Digraph(Out);
-	return DigraphHasLoops(D) or DigraphGirth(D) < infinity;
+	return Digraph(Out);
 end);
 
 QuotientTransducer := function(T,EqR, wantoutputs)
@@ -1545,4 +1551,30 @@ function(T)
     return MinSyncSync(T);
   fi;
   return MinSyncSync(LnBlockCodeTransducer(T));
+end);
+
+InstallMethod(HomeomorphismStates, "for a transducer",
+[IsTransducer],
+function(T)
+  local state, output;
+  output := [];
+  for state in States(T) do
+    if IsBijectiveTransducer(CopyTransducerWithInitialState(T, state)) then
+      Add(output, state);
+    fi;
+  od;
+  return output;
+end);
+
+InstallMethod(InterestingNumbers, "for a transducer",
+[IsTransducer],
+function(T)
+  local words, outputs;
+  outputs := [NrStates(T), TransducerSynchronizingLength(T) + 1, Maximum(List(Concatenation(OutputFunction(T)), x->Size(x)))];
+  Add(outputs, Float(outputs[3]/outputs[1]));
+  words := Tuples(InputAlphabet(T), outputs[2]);
+  Apply(words, x-> Size(x^T));
+  Add(outputs, Minimum(words));
+  Add(outputs, outputs[5]/ outputs[2]);
+  return outputs;
 end);
