@@ -337,7 +337,26 @@ end);
 
 InstallMethod(ResizeZeroStringTransducer, "for three two positive integers", [IsPosInt, IsPosInt, IsPosInt],
 function(AlphSize, i, j)
-  local itoj, count, B;
+  local pi, lambda, itoj, count, B;
+
+  if AlphSize = 2 then
+    if i = j then
+      return L2Examples(1);
+    fi;
+    pi := [[1, 2], [3, 2]];
+    lambda := [[[0], [1]], [[0], [1]]];
+    for count in [1 .. Maximum(i,j) - 1] do
+      Add(pi, [count + 3, 2]);
+      Add(lambda, [[], Concatenation(ListWithIdenticalEntries(count - 1, 0), [1])]);
+    od;
+    Add(pi, [1, 2]);
+    Add(lambda, [ListWithIdenticalEntries(Maximum(i, j), 0), 
+                 Concatenation(ListWithIdenticalEntries(Minimum(i, j) - 1, 0),
+                               [1])]);
+    lambda[2 + Minimum(i, j)][2] :=
+                  Concatenation(ListWithIdenticalEntries(Maximum(i, j) - 1, 0), [1]);
+    return Transducer(2, 2, pi, lambda);
+  fi;
 
   itoj := function(word)
     count := 0;
