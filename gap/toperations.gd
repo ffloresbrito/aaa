@@ -70,3 +70,5 @@ DeclareOperation("HomeomorphismStates", [IsTransducer]);
 DeclareOperation("FixedOutputDigraph",
                  [IsTransducerOrRTransducer, IsDenseList]);
 DeclareOperation("InterestingNumbers", [IsTransducer]);
+DeclareOperation("GyrationValues", [IsTransducer, IsDenseList]);
+DeclareOperation("GyrationAtLevel", [IsTransducer, IsPosInt]);

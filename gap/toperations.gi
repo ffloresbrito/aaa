@@ -1578,3 +1578,46 @@ function(T)
   Add(outputs, outputs[5]/ outputs[2]);
   return outputs;
 end);
+
+InstallMethod(GyrationValues, "for a transducer",
+[IsTransducer, IsDenseList],
+function(T, x)
+  local i_x, r_x, currentword;
+  if not (IsSynchronousTransducer(T) and InOn(T)) then
+	ErrorNoReturn("aaa: GyrationValues: usage,\n",
+                  "the given transducer must be an element",
+                  "of autshift,");
+  fi;
+  if ForAny(x, y -> not y in [0 .. NrInputSymbols(T)]) then
+    ErrorNoReturn("aaa: GyrationValues: usage,\n",
+                  "the given word must be in the alphabet",
+                  "of the given transducer,");
+  fi;
+  i_x:=1;
+  currentword := x^T;
+  while not ShiftEquivalent(x, currentword) do
+    i_x := i_x + 1;
+    currentword := currentword^T;
+  od;
+  r_x := 0;
+  while x <> Concatenation(currentword{[r_x +1 .. Size(x)]}, currentword{[1 .. r_x]}) do
+    r_x := r_x + 1;
+  od;
+  return [i_x, r_x];
+end);
+
+InstallMethod(GyrationAtLevel, "for a transducer",
+[IsTransducer, IsPosInt],
+function(T, l)
+  local gyr_l;
+  if not (IsSynchronousTransducer(T) and InOn(T)) then
+        ErrorNoReturn("aaa: GyrationAtLevel: usage,\n",
+                  "the given transducer must be an element",
+                  "of autshift,");
+  fi;
+  gyr_l := Sum(List(PrimeNecklaces(NrInputSymbols(T), l), x -> GyrationValues(T, x)[2]));
+  while gyr_l >= l do
+    gyr_l := gyr_l - l;
+  od;
+  return gyr_l;
+end);
