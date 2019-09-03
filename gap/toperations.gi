@@ -1407,7 +1407,7 @@ function(T1, T2)
           IsSynchronousTransducer(T2) and IsCoreTransducer(T2)) then
     return fail;
   fi;
-  return CombineEquivalentStates(RemoveInaccessibleStates(T1*T2));
+  return TransducerCore(CombineEquivalentStates(RemoveInaccessibleStates(T1*T2)));
 end);
 
 InstallMethod(Onlessthan, "for a pair of transducers",
