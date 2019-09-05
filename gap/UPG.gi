@@ -86,3 +86,19 @@ function(D)
   return D2;
 end);
 
+InstallMethod(ClopenPartition, "for a digraph",
+[IsDigraph],
+function(D)
+  local Dr, out1, out2;
+  out1 := List(DigraphVertices(D), x -> ImageAsUnionOfCones(D, x));
+  if fail in out1 then
+    return fail;
+  fi;
+  Dr := ReverseEdges(D);
+  out2 := List(DigraphVertices(Dr), x -> ImageAsUnionOfCones(Dr, x));
+  if fail in out2 then
+    return fail;
+  fi;
+  return List(DigraphVertices(D), x -> [out1[x], out2[x]]);
+end);
+
