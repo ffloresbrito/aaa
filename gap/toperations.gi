@@ -489,7 +489,7 @@ InstallMethod(IsSurjectiveTransducer, "for a transducer",
 function(T)
   local usefulstates, prefixcodes, imagetrees, completeblocks, finalimagetree,
   currentblocks, containsantichain, currentword, x, flag, y, minwords, tyx,
-  pos, keys, subtree, check, pos2, prefix, block, state, imagekeys,
+  pos, keys, subtree, check, pos2, prefix, block, state, imagekeys, outroots,
   minword, answer;
 
   if IsDegenerateTransducer(T) then
@@ -497,62 +497,19 @@ function(T)
                   "the given transducer must be nondegenerate ");
     fi;
 
+  if IsRTransducer(T) then
+    outroots := NrOutputRoots(T);
+  else
+    outroots := NrOutputSymbols(T);
+  fi;
+
   imagetrees := States(T);
   completeblocks := [];
   usefulstates := [1];
   prefixcodes := [];
 
-  containsantichain := function(list, n)
-    local currentword, minwords, x, y, check, maxword, children, i, letters;
-    if IsEmpty(list) then
-      return false;
-    fi;
-
-    currentword := [];
-    minwords := [];
-    check := false;
-    for x in list do
-      for y in [1 .. Size(minwords)] do
-        if IsPrefix(minwords[y], x) then
-          minwords[y] := StructuralCopy(x);
-          check := true;
-        elif IsPrefix(x, minwords[y]) then
-          check := true;
-          break;
-        fi;
-      od;
-      if not check then
-        Add(minwords, StructuralCopy(x));
-      fi;
-      check := false;
-    od;
-    minwords := Set(minwords);
-    while not minwords = [[]] do
-      Sort(minwords, function(x, y)
-                       return Size(x) > Size(y);
-                     end);
-      maxword := StructuralCopy(minwords[1]);
-      Remove(maxword);
-      children := [];
-      minwords := Set(minwords);
-      if IsRTransducer(T) and maxword = [] then
-        letters := NrInputRoots(T);
-      else
-        letters := n;
-      fi;
-      for i in [0 .. letters - 1] do
-        Add(children, Concatenation(maxword, [i]));
-      od;
-      if not IsSubset(minwords, children) then
-        return false;
-      else
-        for i in children do
-          RemoveSet(minwords, i);
-        od;
-        AddSet(minwords, maxword);
-      fi;
-    od;
-    return true;
+  containsantichain := function(list, n, r)
+    return IsCompleteAntichain(MinimalWords(list), n, r);
   end;
 
   for x in usefulstates do
@@ -602,7 +559,7 @@ function(T)
   currentblocks := [[[], [[[], [1]]]]];
   keys := [[]];
   while (not IsSubset(completeblocks, List(currentblocks, x -> x[2]))) and
-      containsantichain(keys, NrOutputSymbols(T)) do
+      containsantichain(keys, NrOutputSymbols(T), outroots) do
     for block in currentblocks do
       if not block[2] in completeblocks then
         break;
@@ -664,7 +621,7 @@ function(T)
     keys := List(finalimagetree, x -> x[1]);
   od;
 
-  answer := containsantichain(keys, NrOutputSymbols(T));
+  answer := containsantichain(keys, NrOutputSymbols(T), outroots);
   SetIsSurjectiveTransducer(T, answer);
   return answer;
 end);

@@ -408,3 +408,64 @@ function(AlphSize, WordLength)
   return primewords;
 end);
 
+InstallMethod(MinimalWords, "for a dense list",
+[IsDenseList],
+function(L)
+    local currentword, minwords, x, y, check;
+    currentword := [];
+    minwords := [];
+    check := false;
+    for x in L do
+      for y in [1 .. Size(minwords)] do
+        if IsPrefix(minwords[y], x) then
+          minwords[y] := StructuralCopy(x);
+          check := true;
+        elif IsPrefix(x, minwords[y]) then
+          check := true;
+          break;
+        fi;
+      od;
+      if not check then
+        Add(minwords, StructuralCopy(x));
+      fi;
+      check := false;
+    od;
+    return Set(minwords);
+end);
+
+InstallMethod(IsCompleteAntichain, "for a dense list and two positive integers",
+[IsDenseList, IsPosInt, IsPosInt],
+function(L, n, r)
+  local letters, currentwords, maxword, children, i; 
+  currentwords := StructuralCopy(L);
+
+  while currentwords <> [[]] do
+    if not Size(currentwords) = Size(Set(currentwords)) then
+      return false;
+    fi;
+    Sort(currentwords, function(x, y)
+                     return Size(x) > Size(y);
+                   end);
+    maxword := StructuralCopy(currentwords[1]);
+    Remove(maxword);
+    children := [];
+    if maxword = [] then
+      letters := r;
+    else
+      letters := n;
+    fi;
+    for i in [0 .. letters - 1] do
+      Add(children, Concatenation(maxword, [i]));
+    od;
+    if not IsSubset(currentwords, children) then
+      return false;
+    else
+      for i in children do
+        Remove(currentwords, Position(currentwords, i));
+      od;
+      Add(currentwords, maxword);
+    fi;
+  od;
+  return true;
+end);
+
