@@ -47,3 +47,4 @@ DeclareOperation("Shift", [IsPosInt]);
 DeclareOperation("RandomBlockCodeTransducer", [IsPosInt, IsPosInt]);
 DeclareOperation("RandomBlockCodeTransducerAttempt", [IsPosInt, IsPosInt]);
 DeclareOperation("AllSynchronousLn", [IsPosInt, IsPosInt]);
+DeclareOperation("InfiniteOrderInAbelianisation", [IsPosInt, IsPosInt]);

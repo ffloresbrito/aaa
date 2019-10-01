@@ -1621,3 +1621,27 @@ function(T, l)
   od;
   return gyr_l;
 end);
+
+InstallMethod(LnShayoHomomorphism, "for a transducer",
+[IsTransducer],
+function(T)
+  local n, img;
+  if not InLn(T) then
+    return fail;
+  fi;
+  n := NrInputSymbols(T);
+  img := Size(ImageAsUnionOfCones(T));
+  while IsInt(img/n) do
+    img := Int(img/n);
+  od;
+  return img;
+end);
+
+InstallMethod(OnShayoHomomorphism, "for a transducer",
+[IsTransducer],
+function(T)
+  if not InOn(T) then
+    return fail;
+  fi;
+  return RemInt(Size(ImageAsUnionOfCones(T)), NrInputSymbols(T));
+end);

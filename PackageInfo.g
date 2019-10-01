@@ -112,7 +112,7 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">=4.8.0",
-  NeededOtherPackages := [],
+  NeededOtherPackages := [["digraphs", ">=0.15.0"]],
   SuggestedOtherPackages := [],
   ExternalConditions := []),
 

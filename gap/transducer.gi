@@ -641,3 +641,20 @@ function(n, k)
   return output;
 end);
 
+InstallMethod(InfiniteOrderInAbelianisation, "for two positive integers",
+[IsPosInt, IsPosInt],
+function(m, p)
+  local pi, lambda, n;
+  if not IsPrime(p) then
+    return fail;
+  fi;
+
+  n := m * p;
+
+  pi := List([1 .. m], x -> List([0 .. n - 1], y -> QuoInt(y, p) + 1));
+  lambda := List([1 .. m], x -> List([0 .. n - 1],
+                           y -> [(x - 1) * p + RemInt(y, p)]));
+  
+  return Transducer(n, n, pi, lambda);
+
+end);

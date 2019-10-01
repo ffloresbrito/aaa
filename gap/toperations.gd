@@ -48,6 +48,8 @@ DeclareAttribute("OnOrder", IsTransducer);
 DeclareAttribute("StateSynchronizingWords", IsTransducer);
 DeclareAttribute("MinSyncSync", IsTransducer);
 DeclareAttribute("SynchronousLn", IsTransducer);
+DeclareAttribute("LnShayoHomomorphism", IsTransducer);
+DeclareAttribute("OnShayoHomomorphism", IsTransducer);
 DeclareOperation("ActionOnNecklaces", [IsPosInt, IsTransducerOrRTransducer]);
 DeclareOperation("CoreProduct", [IsTransducer, IsTransducer]);
 DeclareOperation("IsomorphicInitialTransducers", [IsTransducerOrRTransducer,
