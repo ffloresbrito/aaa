@@ -433,6 +433,31 @@ function(L)
     return Set(minwords);
 end);
 
+InstallMethod(MaximalWords, "for a denselist",
+[IsDenseList],
+function(L)
+  local currentword, maxwords, x, y, check;
+    currentword := [];
+    maxwords := [];
+    check := false;
+    for x in L do
+      for y in [1 .. Size(maxwords)] do
+        if IsPrefix(x, maxwords[y]) then
+          maxwords[y] := StructuralCopy(x);
+          check := true;
+        elif IsPrefix(maxwords[y], x) then
+          check := true;
+          break;
+        fi;
+      od;
+      if not check then
+        Add(maxwords, StructuralCopy(x));
+      fi;
+      check := false;
+    od;
+    return Set(maxwords);
+end);
+
 InstallMethod(IsCompleteAntichain, "for a dense list and two positive integers",
 [IsDenseList, IsPosInt, IsPosInt],
 function(L, n, r)

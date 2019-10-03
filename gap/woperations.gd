@@ -24,4 +24,5 @@ DeclareOperation("ShiftEquivalent", [IsDenseList, IsDenseList]);
 DeclareOperation("IsPrimeWord", [IsDenseList]);
 DeclareOperation("PrimeNecklaces", [IsPosInt, IsPosInt]);
 DeclareOperation("MinimalWords", [IsDenseList]);
+DeclareOperation("MaximalWords", [IsDenseList]);
 DeclareOperation("IsCompleteAntichain", [IsDenseList, IsPosInt, IsPosInt]);

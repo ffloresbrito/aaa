@@ -658,3 +658,155 @@ function(m, p)
   return Transducer(n, n, pi, lambda);
 
 end);
+
+InstallMethod(In2V, "for a dense list",
+[IsDenseList],
+function(L)
+  local domprefixes, imgprefixes, isC2partition;
+  if not ForAll(L, x-> Size(x) = 2) then
+    return false;
+  fi;
+  if not ForAll(L, x-> ForAll(x, y -> Size(y) = 2)) then
+    return false;
+  fi;
+  if not ForAll(L, x-> ForAll(x, y -> ForAll(y, z-> ForAll(z, a-> a in [0, 1])))) then
+    return false;
+  fi;
+
+  domprefixes := List(L, x-> x[1]);
+  imgprefixes := List(L, x-> x[2]);
+
+  isC2partition := function(prefixes)
+    local word, wordrpartition, lprefixes, maxwords;
+    lprefixes := List(prefixes, x-> x[1]);
+    maxwords := MaximalWords(lprefixes);
+    if not IsCompleteAntichain(maxwords, 2, 2) then
+      return false;
+    fi;
+    for word in maxwords do
+      wordrpartition := List(Filtered(prefixes, x-> IsPrefix(word, x[1])),
+                             x-> x[2]);
+      if not IsCompleteAntichain(wordrpartition, 2, 2) then
+        return false;
+      fi;
+    od;
+    return true;
+  end;
+  return isC2partition(domprefixes) and isC2partition(imgprefixes);
+end);
+
+BakersList := [[[[0],[]], [[], [0]]], [[[1],[]], [[], [1]]]]; 
+
+InstallMethod(2VtoR4, "for a dense list",
+[IsDenseList],
+function(L)
+  local domprefixes, imgprefixes, n, beginingstates, Pi, Lambda,
+        relabel, relabelword, applyelement, shiftdebruijintransducer,
+        statesno, usedshiftingamounts, usedshiftings, state, y, result,
+        newpart, partstart, newtransitions, shifting;
+  domprefixes := List(L, x-> x[1]);
+  imgprefixes := List(L, x-> x[2]);
+  if not In2V(L) then
+    return fail;
+  fi;
+  relabel := function(l)
+    if IsDenseList(l) then
+      return 2*l[1] + l[2];
+    else
+      return [Int(l/2), l mod 2];
+    fi;
+  end;
+  relabelword := function(w)
+    local output, letter;
+    if IsDenseList(w[1]) then
+       return List([1 .. Size(w[1])], x -> relabel([w[1][x], w[2][x]]));
+    else
+       output := [[], []];
+       for letter in w do
+         Add(output[1], relabel(letter)[1]);
+         Add(output[2], relabel(letter)[2]);
+       od;
+       return output;
+    fi;
+  end;
+  applyelement := function(w)
+    local w2, p;
+    w2 := relabelword(w);
+    p := 1;
+    while true do
+      if IsPrefix(w2[1], domprefixes[p][1]) and
+         IsPrefix(w2[2], domprefixes[p][2]) then
+        w2[1] := Concatenation(imgprefixes[p][1], Minus(w2[1], domprefixes[p][1]));
+        w2[2] := Concatenation(imgprefixes[p][2], Minus(w2[2], domprefixes[p][2]));
+        if Size(w2[1]) <> Size(w2[2]) then
+          w2[1] := w2[1]{[1 .. Minimum(Size(w2[1]), Size(w2[2]))]};
+          w2[2] := w2[2]{[1 .. Minimum(Size(w2[1]), Size(w2[2]))]};
+        fi;
+        return [relabelword(w2), Size(domprefixes[p][1]) + Size(imgprefixes[p][2])
+                               - Size(imgprefixes[p][1]) - Size(domprefixes[p][2])];
+      fi;
+      p := p + 1;
+    od;
+  end;
+
+  shiftdebruijintransducer := function(k)
+    local output;
+    if k = 0 then
+      output := IdentityTransducer(4);
+    fi;
+    if k > 0 then
+      output := BlockCodeTransducer(4, k,
+             w -> [relabel([relabel(w[Size(w)])[1], relabel(w[1])[2]])]);
+    fi;
+    if k < 0 then
+      output := BlockCodeTransducer(4, -k,
+             w -> [relabel([relabel(w[1])[1], relabel(w[Size(w)])[2]])]);
+    fi;
+    return TransducerCore(MinimalTransducer(output));
+  end;
+  n := Maximum(List(L, x -> Size(x[1][1]) + Size(x[2][2]) - Size(x[2][1]) - Size(x[1][2])));
+  n := Maximum(n,  Maximum(List(Concatenation(domprefixes), x-> Size(x)))) + 1; 
+  beginingstates := Concatenation(List([0 .. n], x -> Tuples([0, 1, 2, 3], x)));
+  Pi := [];
+  Lambda := [];
+
+  statesno := Size(beginingstates);
+  usedshiftingamounts := [];
+  usedshiftings := [];
+  for state in beginingstates do
+    if Size(state) < n then
+       Add(Lambda, List([0 .. 3], y -> []));
+       Add(Pi, List([0 .. 3], y -> Position(beginingstates, Concatenation(state, [y]))));
+    fi;
+    if Size(state) = n then
+      Add(Lambda, []);
+      Add(Pi, []);
+      for y in [0 .. 3] do
+        result := applyelement(Concatenation(state, [y]));
+        Add(Lambda[Size(Lambda)], result[1]);
+        if not result[2] in usedshiftingamounts then
+          Add(usedshiftingamounts, result[2]);
+          newpart := shiftdebruijintransducer(result[2]);
+          Add(usedshiftings, [statesno, newpart]);
+          partstart := statesno;
+          statesno := statesno + NrStates(newpart);
+        else
+          partstart := usedshiftings[Position(usedshiftingamounts, result[2])][1];
+          newpart := usedshiftings[Position(usedshiftingamounts, result[2])][2];
+        fi;
+        Add(Pi[Size(Pi)], partstart + TransducerFunction(newpart, Concatenation(state, [y]), 1)[2]);
+      od;
+    fi;
+  od;
+  
+  for shifting in usedshiftings do
+    newtransitions := StructuralCopy(TransitionFunction(shifting[2]));
+    for state in [1 .. Size(newtransitions)] do
+      Apply(newtransitions[state], x -> x + shifting[1]);
+    od;
+    Append(Pi, newtransitions);
+    Append(Lambda, OutputFunction(shifting[2]));
+    
+  od;
+  return Transducer(4, 4, Pi, Lambda);
+end);
