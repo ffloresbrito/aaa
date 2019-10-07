@@ -42,6 +42,7 @@ DeclareAttribute("IsCompletableCore", IsTransducer);
 DeclareAttribute("CoreCompletion", IsTransducer);
 DeclareAttribute("InOn", IsTransducer);
 DeclareAttribute("InLn", IsTransducer);
+DeclareAttribute("SynchronizingCores", IsTransducer);
 DeclareAttribute("CanonicalAnnotation", IsTransducer);
 DeclareAttribute("LnBlockCodeTransducer", IsTransducer);
 DeclareAttribute("OnOrder", IsTransducer);

@@ -50,3 +50,4 @@ DeclareOperation("AllSynchronousLn", [IsPosInt, IsPosInt]);
 DeclareOperation("InfiniteOrderInAbelianisation", [IsPosInt, IsPosInt]);
 DeclareOperation("In2V", [IsDenseList]);
 DeclareOperation("2VtoR4", [IsDenseList]);
+DeclareOperation("4ShiftDeBruijinTransducer", [IsInt]);

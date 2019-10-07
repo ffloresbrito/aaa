@@ -432,3 +432,6 @@ function(L)
   od;
   return str;
 end);
+
+BakersList := [[[[0],[]], [[], [0]]], [[[1],[]], [[], [1]]]];
+BakersMap := MinimalTransducer(2VtoR4(BakersList));
