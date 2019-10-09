@@ -1603,28 +1603,3 @@ function(T)
   return RemInt(Size(ImageAsUnionOfCones(T)), NrInputSymbols(T));
 end);
 
-InstallMethod(SynchronizingCores, "for a transducer",
-[IsTransducer],
-function(T)
-  local state, n, zeroloopstates, output, word;
-  zeroloopstates := Filtered([1 .. NrStates(T)], x -> TransitionFunction(T)[x][1] = x);
-  output := List(zeroloopstates, x -> [x]);
-  n := NrInputSymbols(T);
-  for state in [1 .. Size(output)] do
-    word := [0];
-    while word <> [] do
-      if not TransducerFunction(T, word, output[state][1])[2] in output[state] then
-         Add(output[state], TransducerFunction(T, word, output[state][1])[2]);
-         Add(word, 0);
-      elif word[Size(word)] < n - 1 then
-         word[Size(word)] := word[Size(word)] + 1;
-      else
-         Remove(word);
-         if not word = [] then
-           word[Size(word)] := word[Size(word)] + 1;
-         fi;
-      fi;
-    od;
-  od;
-  return output;
-end);
