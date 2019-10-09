@@ -122,7 +122,7 @@ function(word, state, tducer)
 end);
 
 InstallMethod(PreimageConePrefixes, "for a den. list a pos. int. and a transd.",
-[IsDenseList, IsPosInt, IsTransducerOrRTransducer],
+[IsDenseList, IsPosInt, IsTransducer],
 function(word, state, tducer)
   local word2, x, wordset, pos, words, y, omit, n, newword;
   if IsDegenerateTransducer(tducer) then
@@ -135,18 +135,10 @@ function(word, state, tducer)
   if state > States(tducer) then
     ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
                   "the second argument is not a state of the third argument,");
-  elif (state > 1 or IsTransducer(tducer)) and
-       ForAny(word, x -> not x in OutputAlphabet(tducer)) then
+  elif ForAny(word, x -> not x in OutputAlphabet(tducer)) then
     ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
                   "the first argument contains symbols not in the output ",
                   "alphabet of the\nthird argument,");
-  elif (state = 1 and IsRTransducer(tducer)) and
-       (not word[1] in OutputRoots(tducer) or
-       ForAny(word{[2 .. Size(word)]},
-              x -> not x in OutputAlphabet(tducer))) then
-    ErrorNoReturn("aaa: PreimageConePrefixes: usage,\n",
-                  "the first argument contains invalid symbols ");
-
   elif IsEmpty(word) and not [] in OutputFunction(tducer)[state] then
     return [[]];
   fi;
@@ -253,21 +245,16 @@ function(L)
 end);
 
 InstallMethod(ImageConeLongestPrefix, "for a dens. list a pos. int and a tdcr.",
-[IsDenseList, IsPosInt, IsTransducerOrRTransducer],
+[IsDenseList, IsPosInt, IsTransducer],
 function(w, q, T)
   local tducerf, flag, active, tactive, outputs, retired, v, b, k, y, x, word,
         common, common1;
 
-  if (IsTransducer(T) or q <> 1) and ForAny(w, x -> not x in InputAlphabet(T)) then
+  if ForAny(w, x -> not x in InputAlphabet(T)) then
     ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
                   "the first argument contains symbols not in the input ",
                   "alphabet of the third\n argument,");
-  elif IsRTransducer(T) and q = 1 and w <> [] and
-       (ForAny(w{[2 .. Size(w)]}, x -> not x in InputAlphabet(T)) or
-        not w[1] in InputRoots(T)) then
-    ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
-                  "the given word cannot be read from the start state");
-  elif not q in States(T) then
+ elif not q in States(T) then
     ErrorNoReturn("aaa: ImageConeLongestPrefix: usage,\n",
                   "the second argument is not a state of the third argument,");
   fi;
@@ -282,12 +269,7 @@ function(w, q, T)
   while not flag do
     k := k + 1;
     outputs := [];
-    if IsRTransducer(T) and b = 1 then
-      active := List(Cartesian(InputRoots(T), Tuples(InputAlphabet(T), k - 1)),
-                      x -> Concatenation([x[1]], x[2]));
-    else
-      active := Tuples(InputAlphabet(T), k);
-    fi;
+    active := Tuples(InputAlphabet(T), k);
     for x in active do
       word := TransducerFunction(T, x, b)[1];
       if not word in outputs then
@@ -345,67 +327,6 @@ function(w, q, T)
   od;
   Append(v, common1);
   return v;
-end);
-
-InstallMethod(\^, "for a dens. list and a tdcr.",
-[IsDenseList, IsTransducerOrRTransducer],
-function(word, T)
-  local newword;
-  newword := [0];
-  while Size(newword) - 1 <= TransducerSynchronizingLength(T) do
-    Append(newword, word);
-  od;
-  return TransducerFunction(T, word, TransducerFunction(T, newword, 1)[2])[1];
-end);
-
-InstallMethod(ShiftEquivalent, "for two dense lists",
-[IsDenseList, IsDenseList],
-function(v, w)
-  local i, d, j, flag;
-  if not Size(v) = Size(w) then
-    return false;
-  fi;
-  d := Concatenation(v, v);
-  for i in [0 .. Size(v) - 1] do
-    flag := true;
-    for j in [1 .. Size(w)] do
-      if not w[j] = d[i + j] then
-        flag := false;
-        break;
-      fi;
-    od;
-    if flag then
-      return true;
-    fi;
-  od;
-  return false;
-end);
-
-
-InstallMethod(IsPrimeWord, "for a dense lists",
-[IsDenseList],
-function(w)
-  local i;
-  for i in [2 .. Size(w)] do
-    if Concatenation(w{[i .. Size(w)]},w{[1 .. i - 1]}) = w then
-      return false;
-    fi;
-  od;
-  return true;
-end);
-
-InstallMethod(PrimeNecklaces, "for two positive integers",
-[IsPosInt, IsPosInt],
-function(AlphSize, WordLength)
-  local primewords, w;
-  primewords := [];
-  for w in Tuples([0 .. AlphSize - 1], WordLength) do
-    if IsPrimeWord(w) and
-       ForAll(primewords, x -> not ShiftEquivalent(x, w)) then
-      Add(primewords, w);
-    fi;
-  od;
-  return primewords;
 end);
 
 InstallMethod(MinimalWords, "for a dense list",

@@ -11,6 +11,4 @@
 # This file contains the declaration of the utility functions.
 
 DeclareGlobalFunction("AaaMakeDoc");
-DeclareOperation("DotTransducer", [IsTransducerOrRTransducer]);
-DeclareOperation("Draw", [IsTransducerOrRTransducer]);
-DeclareOperation("DrawCore", [IsTransducer]);
+DeclareOperation("DotTransducer", [IsTransducer]);
