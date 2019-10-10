@@ -6,6 +6,12 @@
 # manual of the "Example" package as well as the comments in its
 # PackageInfo.g file.
 #
+##  <#GAPDoc Label="PKGVERSIONDATA">
+##  <!ENTITY VERSION "0.0.0">
+##  <!ENTITY GAPVERS "4.8.0">
+##  <!ENTITY ARCHIVENAME "aaa-0.0.0">
+##  <!ENTITY COPYRIGHTYEARS "2017-2018">
+##  <#/GAPDoc>
 SetPackageInfo( rec(
 
 PackageName := "aaa",
@@ -98,7 +104,7 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.9",
-  NeededOtherPackages := [ ],
+  NeededOtherPackages := [["Automata", ">= 1.14" ], ["Digraphs", ">= 1.0.0"]],
   SuggestedOtherPackages := [ ],
   ExternalConditions := [ ],
 ),
