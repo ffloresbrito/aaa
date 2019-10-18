@@ -40,6 +40,8 @@ gap> T := Transducer(2, 2, [[2, 3], [2, 3], [2, 3]],
 </ManSection>
 <#/GAPDoc>
 
+
+
 <#GAPDoc Label="TransducerFunction">
 <ManSection>
   <Oper Name = "TransducerFunction" Arg = "T, word, m"/>
